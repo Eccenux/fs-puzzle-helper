@@ -1,1 +1,4 @@
 /_legacy
+/*.svg
+/cut-image/out
+cut-image/raw.jpg
