@@ -8,9 +8,9 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="2685.0623mm"
-   height="928.79333mm"
-   viewBox="0 0 9514.0001 3291"
+   width="10123"
+   height="5000"
+   viewBox="0 0 9490.3127 4687.5001"
    id="svg2"
    version="1.1"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
@@ -146,7 +146,7 @@
          id="tspan3492"
          x="-3815.1833"
          y="4818.3818"
-         style="font-size:275px;line-height:1.2">1. Insert image in the-image layer. Lock layer.</tspan><tspan
+         style="font-size:275px;line-height:1.2">1. Use `cut-image` to create column images. Refresh (revert) SVG.</tspan><tspan
          sodipodi:role="line"
          x="-3815.1833"
          y="5148.3818"
@@ -161,13 +161,14 @@
          x="-3815.1833"
          y="5808.3818"
          id="tspan3494"
-         style="font-size:275px;line-height:1.2">4. Use ALT+D to copy green square. Move square over columns and portal already done.</tspan></text>
+         style="font-size:275px;line-height:1.2">4. Use ALT+D to copy green square. Move square over columns and portals already done.</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="the-image"
-     style="display:inline">
+     style="display:inline"
+	 sodipodi:insensitive="true">
     <image xlink:href="cut-image/out/col_1.jpg"  preserveAspectRatio="xMidYMin" y="0" x="   0"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_2.jpg"  preserveAspectRatio="xMidYMin" y="0" x=" 500"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_3.jpg"  preserveAspectRatio="xMidYMin" y="0" x="1000"  height="5000" width="490" />
@@ -187,26 +188,6 @@
     <image xlink:href="cut-image/out/col_17.jpg" preserveAspectRatio="xMidYMin" y="0" x="8000"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_18.jpg" preserveAspectRatio="xMidYMin" y="0" x="8500"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_19.jpg" preserveAspectRatio="xMidYMin" y="0" x="9000"  height="5000" width="490" />
-
-raw.jpg /crop=(   0,100,490,4000) /convert=.\out\col_1.jpg
-raw.jpg /crop=( 500,100,490,4000) /convert=.\out\col_2.jpg
-raw.jpg /crop=(1000,100,490,4000) /convert=.\out\col_3.jpg
-raw.jpg /crop=(1500,100,490,4000) /convert=.\out\col_4.jpg
-raw.jpg /crop=(2000,100,490,4000) /convert=.\out\col_5.jpg
-raw.jpg /crop=(2500,100,490,4000) /convert=.\out\col_6.jpg
-raw.jpg /crop=(3000,100,490,4000) /convert=.\out\col_7.jpg
-raw.jpg /crop=(3500,100,490,4000) /convert=.\out\col_8.jpg
-raw.jpg /crop=(4000,100,490,4000) /convert=.\out\col_9.jpg
-raw.jpg /crop=(4500,100,490,4000) /convert=.\out\col_10.jpg
-raw.jpg /crop=(5000,100,490,4000) /convert=.\out\col_11.jpg
-raw.jpg /crop=(5500,100,490,4000) /convert=.\out\col_12.jpg
-raw.jpg /crop=(6000,100,490,4000) /convert=.\out\col_13.jpg
-raw.jpg /crop=(6500,100,490,4000) /convert=.\out\col_14.jpg
-raw.jpg /crop=(7000,100,490,4000) /convert=.\out\col_15.jpg
-raw.jpg /crop=(7500,100,490,4000) /convert=.\out\col_16.jpg
-raw.jpg /crop=(8000,100,490,4000) /convert=.\out\col_17.jpg
-raw.jpg /crop=(8500,100,490,4000) /convert=.\out\col_18.jpg
-raw.jpg /crop=(9000,100,490,4000) /convert=.\out\col_19.jpg	
   </g>
   <g
      inkscape:groupmode="layer"
