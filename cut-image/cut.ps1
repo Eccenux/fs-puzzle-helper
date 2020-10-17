@@ -29,6 +29,7 @@ $totalW = $w + $gap
 
 ##
 # cut to columns
+#mkdir -Force .\out\small
 for($colNumber = 1; $colNumber -lt $cols + 1; $colNumber++)
 {
 	$startX=($colNumber - 1) * $totalW
@@ -41,7 +42,7 @@ for($colNumber = 1; $colNumber -lt $cols + 1; $colNumber++)
 
 	# ~half size
 	$resize="/resize_short=200 /aspectratio /resample"
-	$parmeters="$base $resize /convert=.\out\small_col_$colNumber.jpg"
+	$parmeters="$base $resize /convert=.\out\small\col_$colNumber.jpg"
 	& "$irfan" "$parmeters"
 }
 
