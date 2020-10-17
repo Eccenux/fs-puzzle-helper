@@ -44,3 +44,10 @@ for($colNumber = 1; $colNumber -lt $cols + 1; $colNumber++)
 	$parmeters="$base $resize /convert=.\out\small_col_$colNumber.jpg"
 	& "$irfan" "$parmeters"
 }
+
+# single, full size image
+$fullW=($cols - 0) * $totalW
+$base="$sourceImage /crop=(0,$top,$fullW,$h)"
+$parmeters="$base /convert=.\out\all.jpg"
+Write-Output "$parmeters"
+& "$irfan" "$parmeters"

@@ -169,6 +169,7 @@
      inkscape:label="the-image"
      style="display:inline"
 	 sodipodi:insensitive="true">
+	<!--
     <image xlink:href="cut-image/out/col_1.jpg"  preserveAspectRatio="xMidYMin" y="0" x="   0"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_2.jpg"  preserveAspectRatio="xMidYMin" y="0" x=" 500"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_3.jpg"  preserveAspectRatio="xMidYMin" y="0" x="1000"  height="5000" width="490" />
@@ -188,6 +189,13 @@
     <image xlink:href="cut-image/out/col_17.jpg" preserveAspectRatio="xMidYMin" y="0" x="8000"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_18.jpg" preserveAspectRatio="xMidYMin" y="0" x="8500"  height="5000" width="490" />
     <image xlink:href="cut-image/out/col_19.jpg" preserveAspectRatio="xMidYMin" y="0" x="9000"  height="5000" width="490" />
+	-->
+    <image 
+		xlink:href="cut-image/out/all.jpg"
+		preserveAspectRatio="xMidYMin" 
+		style="image-rendering:optimizeSpeed"
+		y="0" x="0" height="5000" width="9500" 
+	/>
   </g>
   <g
      inkscape:groupmode="layer"
