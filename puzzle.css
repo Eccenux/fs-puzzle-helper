@@ -1,0 +1,39 @@
+body {
+	padding: 0;
+	margin: 0;
+	background-color: #ccc;
+
+	font: 12px sans-serif;
+}
+
+main {
+	display: grid;
+	grid-template-columns: 500px 1fr;
+	--col-gap: 3px;
+	--base-gap: 15px;
+	counter-reset: cols;
+}
+#zoomer {
+	height: 100vh;
+	overflow-y: scroll;
+}
+#columns {
+	margin-left: var(--col-gap);
+}
+#columns section {
+	float: left;
+}
+#columns section img {
+	max-height: 90vh;
+}
+
+#columns section.right.first {
+	margin-left: var(--base-gap);
+}
+#columns section.keyword.first {
+	margin-left: var(--base-gap);
+	clear: both;
+}
+#columns section.keyword {
+	margin-top: var(--base-gap);
+}
