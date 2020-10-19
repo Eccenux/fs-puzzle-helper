@@ -47,3 +47,19 @@ main {
 	color: #333;
 	font-style: italic;
 }
+
+/* states */
+.column h2 {
+	cursor: pointer;
+	user-select: none;
+}
+.column h2:hover {
+	color: darkred;
+}
+.column.done {
+	width: 2em;
+	overflow: hidden;
+}
+.column.done img {
+	opacity: .5;
+}

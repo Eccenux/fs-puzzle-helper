@@ -18,29 +18,29 @@
 		</section>
 		<section id="columns">
 			<section>
-				<section class="column left  "><h2>col_1</h2><img src="cut-image/out/col_1.jpg"    /></section>
-				<section class="column left  "><h2>col_2</h2><img src="cut-image/out/col_2.jpg"    /></section>
-				<section class="column left  "><h2>col_3</h2><img src="cut-image/out/col_3.jpg"    /></section>
-				<section class="column left  "><h2>col_4</h2><img src="cut-image/out/col_4.jpg"    /></section>
-				<section class="column left  "><h2>col_5</h2><img src="cut-image/out/col_5.jpg"    /></section>
+				<section class="column left  "><h2>1</h2><img src="cut-image/out/col_1.jpg"    /></section>
+				<section class="column left  "><h2>2</h2><img src="cut-image/out/col_2.jpg"    /></section>
+				<section class="column left  "><h2>3</h2><img src="cut-image/out/col_3.jpg"    /></section>
+				<section class="column left  "><h2>4</h2><img src="cut-image/out/col_4.jpg"    /></section>
+				<section class="column left  "><h2>5</h2><img src="cut-image/out/col_5.jpg"    /></section>
 			</section>
 			<section>
-				<section class="column right "><h2>col_15</h2><img src="cut-image/out/col_15.jpg"  /></section>
-				<section class="column right "><h2>col_16</h2><img src="cut-image/out/col_16.jpg"  /></section>
-				<section class="column right "><h2>col_17</h2><img src="cut-image/out/col_17.jpg"  /></section>
-				<section class="column right "><h2>col_18</h2><img src="cut-image/out/col_18.jpg"  /></section>
-				<section class="column right "><h2>col_19</h2><img src="cut-image/out/col_19.jpg"  /></section>
+				<section class="column right "><h2>15</h2><img src="cut-image/out/col_15.jpg"  /></section>
+				<section class="column right "><h2>16</h2><img src="cut-image/out/col_16.jpg"  /></section>
+				<section class="column right "><h2>17</h2><img src="cut-image/out/col_17.jpg"  /></section>
+				<section class="column right "><h2>18</h2><img src="cut-image/out/col_18.jpg"  /></section>
+				<section class="column right "><h2>19</h2><img src="cut-image/out/col_19.jpg"  /></section>
 			</section>
 			<section>
-				<section class="column keyword"><h2>col_6</h2><img src="cut-image/out/col_6.jpg"   /></section>
-				<section class="column keyword"><h2>col_7</h2><img src="cut-image/out/col_7.jpg"   /></section>
-				<section class="column keyword"><h2>col_8</h2><img src="cut-image/out/col_8.jpg"   /></section>
-				<section class="column keyword"><h2>col_9</h2><img src="cut-image/out/col_9.jpg"   /></section>
-				<section class="column keyword"><h2>col_10</h2><img src="cut-image/out/col_10.jpg" /></section>
-				<section class="column keyword"><h2>col_11</h2><img src="cut-image/out/col_11.jpg" /></section>
-				<section class="column keyword"><h2>col_12</h2><img src="cut-image/out/col_12.jpg" /></section>
-				<section class="column keyword"><h2>col_13</h2><img src="cut-image/out/col_13.jpg" /></section>
-				<section class="column keyword"><h2>col_14</h2><img src="cut-image/out/col_14.jpg" /></section>
+				<section class="column keyword"><h2>6</h2><img src="cut-image/out/col_6.jpg"   /></section>
+				<section class="column keyword"><h2>7</h2><img src="cut-image/out/col_7.jpg"   /></section>
+				<section class="column keyword"><h2>8</h2><img src="cut-image/out/col_8.jpg"   /></section>
+				<section class="column keyword"><h2>9</h2><img src="cut-image/out/col_9.jpg"   /></section>
+				<section class="column keyword"><h2>10</h2><img src="cut-image/out/col_10.jpg" /></section>
+				<section class="column keyword"><h2>11</h2><img src="cut-image/out/col_11.jpg" /></section>
+				<section class="column keyword"><h2>12</h2><img src="cut-image/out/col_12.jpg" /></section>
+				<section class="column keyword"><h2>13</h2><img src="cut-image/out/col_13.jpg" /></section>
+				<section class="column keyword"><h2>14</h2><img src="cut-image/out/col_14.jpg" /></section>
 			</section>
 		</section>
 	</main>
@@ -52,15 +52,22 @@
 				zoomer.src = img.src;
 			};
 		});
-		// hide col
+		// show/hide col
 		document.querySelectorAll('.column h2').forEach(head=>{
 			head.onclick = ()=>{
-				head.parentNode.style.display = "none";
+				//head.parentNode.style.display = "none";
+				//head.parentNode.classList.add('done');
+				head.parentNode.classList.toggle('done');
 			};
+			/*
+			head.ondblclick = ()=>{
+				head.parentNode.classList.remove('done');
+			};
+			*/
 		});
 	</script>
 
-	
+
 	<script>
 		// css: var(--scrollbar-width)
 		document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");		
