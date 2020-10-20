@@ -15,8 +15,11 @@ $h=4000		# height of largest column (for smaller images)
 $top=100	# top bar height
 $w=490		# width of the widest image
 $gap=10		# gap between columns
-$cols=19	# number of columns
-$sourceImage="raw.jpg"
+$cols=2	# number of columns
+$sourceImage="$PSScriptRoot\raw.jpg"
+$outputPath="$PSScriptRoot\..\img-auto-cut"
+
+#Write-Output "[DEBUG] current dir: $PSScriptRoot"
 
 ##
 # Internal settings
@@ -36,19 +39,19 @@ for($colNumber = 1; $colNumber -lt $cols + 1; $colNumber++)
 	$base="$sourceImage /crop=($startX,$top,$w,$h)"
 	
 	# full size
-	$parmeters="$base /convert=.\out\col_$colNumber.jpg"
+	$parmeters="$base /convert=$outputPath\col_$colNumber.jpg"
 	Write-Output "$parmeters"
 	& "$irfan" "$parmeters"
 
 	# ~half size
 	$resize="/resize_short=200 /aspectratio /resample"
-	$parmeters="$base $resize /convert=.\out\small\col_$colNumber.jpg"
+	$parmeters="$base $resize /convert=$outputPath\small\col_$colNumber.jpg"
 	& "$irfan" "$parmeters"
 }
 
 # single, full size image
 $fullW=($cols - 0) * $totalW
 $base="$sourceImage /crop=(0,$top,$fullW,$h)"
-$parmeters="$base /convert=.\out\all.jpg"
+$parmeters="$base /convert=$outputPath\all.jpg"
 Write-Output "$parmeters"
 & "$irfan" "$parmeters"
