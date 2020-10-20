@@ -3,9 +3,25 @@
 ## Cut images to columns
 
 1. Put `raw.jpg` in the folder.
-2. Check height of largest column.
-3. Set `$h` in `cut.ps1` script.
-4. Run ps1 in powershell.
+2. Check height of largest column (without top bar). It should not be larger then 4000 px or you will only see part of it.
+3. Run `cut.ps1` in powershell.
+
+You can also use parameters. If the height is larger then 4000 px, then you will have to provide it:
+```
+.\cut-image\cut.ps1 -h 4100
+```
+You can also provide a smaller height to see a bit bigger images:
+```
+.\cut-image\cut.ps1 -h 3900
+```
+
+You can also provide number of columns in a parameter:
+```
+.\cut-image\cut.ps1 -h 3900 -cols 3
+```
+
+
+Also note that you can run the script from any path. It always uses absolute paths anyway.
 
 ## Prepare spreadsheet
 
@@ -18,7 +34,7 @@
 
 3. Insert url to that sub-folder in "Columns Image Base:".
 
-# Notes
+# Cutting notes
 
 Notes on typical image size and column dimensions.
 

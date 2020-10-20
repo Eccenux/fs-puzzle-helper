@@ -8,14 +8,27 @@
 #>
 
 ##
+# Run-time settings
+##
+# about params syntax: https://stackoverflow.com/a/2157625/333296
+param (
+	# height of largest column without top bar
+	# (do not have to be very accurate)
+	[int]$h = 4000,
+	
+	# number of columns
+	[int]$cols = 19
+)
+
+##
 # Settings
 ##
 $irfan="C:\Program Files (x86)\IrfanView\i_view32.exe"
-$h=4000		# height of largest column (for smaller images)
+# Note! This settings need to be very acurate. Especially widths.
 $top=100	# top bar height
 $w=490		# width of the widest image
 $gap=10		# gap between columns
-$cols=2	# number of columns
+
 $sourceImage="$PSScriptRoot\raw.jpg"
 $outputPath="$PSScriptRoot\..\img-auto-cut"
 
