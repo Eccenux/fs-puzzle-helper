@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			img.parentNode.classList.add('active');
 		};
 	});
+
 	// show/hide col
 	document.querySelectorAll('.column h2').forEach(head=>{
 		head.onclick = ()=>{
@@ -31,4 +32,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 		*/
 	});
+
+	// reset-all
+	document.querySelector('#reset-all').onclick = ()=>{
+		let confirmed = confirm('Reset all columns?');
+		if (confirmed) {
+			columnsState.resetAll();
+		}
+	};
 });

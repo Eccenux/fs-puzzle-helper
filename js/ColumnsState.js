@@ -8,7 +8,7 @@ class ColumnsState {
 		/**
 		 * Storage key.
 		 */
-		this.store = new StateStore('cols-state');
+		this.store = new StateStore('puzzle-cols-state');
 		/**
 		 * Id to element map.
 		 */
@@ -33,7 +33,7 @@ class ColumnsState {
 		els.forEach((column)=>{
 			this.columnMap[column.id] = column;
 		});
-		console.log('init', this.done);
+		//console.log('init', this.done);
 
 		// restore DOM state (add classes)
 		for (let id of this.done) {			
@@ -51,13 +51,28 @@ class ColumnsState {
 	toggleDone(column) {
 		// toggle DOM state
 		let isDone = column.classList.toggle('done');
-		console.log(column.id, isDone);
 		// save state
 		if (isDone) {
 			this.done.add(column.id);
 		} else {
 			this.done.delete(column.id);
 		}
+		this.writeAll();
+	}
+	/**
+	 * Reset state.
+	 */
+	resetAll() {
+		// reset DOM state
+		for (let id of this.done) {			
+			if (!(id in this.columnMap)) {
+				continue;
+			}
+			let column = this.columnMap[id];
+			column.classList.remove('done');
+		}
+		// save state
+		this.done.clear();
 		this.writeAll();
 	}
 

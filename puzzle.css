@@ -7,15 +7,26 @@ body {
 	background-color: #ccc;
 
 	font: 12px sans-serif;
+
+	--col-gap: 3px;
+	--base-gap: 15px;
+	--active-color: rgb(136, 3, 148);
+	--scrollbar-width: 2rem;
 }
 
 main {
 	display: grid;
-	grid-template-columns: 500px 1fr;
-	--col-gap: 3px;
-	--base-gap: 15px;
-	--active-color: rgb(136, 3, 148);
+	grid-template-columns: 600px 1fr;
+	grid-template-rows: 1fr 4em;
+	gap: var(--base-gap);
+	grid-template-areas:
+		"zoomer columns"
+		"zoomer controls"
+	;
 }
+#zoomer { grid-area: zoomer; }
+#columns { grid-area: columns; }
+#controls { grid-area: controls; }
 
 #zoomer {
 	height: calc(100vh - var(--scrollbar-width));
@@ -30,7 +41,6 @@ main {
 }
 #columns > section {
 	display: flex;
-	margin-left: var(--base-gap);
 }
 
 .column {
