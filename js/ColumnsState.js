@@ -34,6 +34,14 @@ class ColumnsState {
 		// todo: restore DOM state (add classes)
 	}
 	/**
+	 * TODO
+	 * @param {Element} column 
+	 */
+	toggleDone(column) {
+		// toggle DOM state
+		// save state
+	}
+	/**
 	 * Reset state properties.
 	 * @private
 	 */
@@ -53,3 +61,5 @@ class ColumnsState {
 		localStorage.setItem(this.stateKey, JSON.stringify(this.state));
 	}
 }
+
+export { ColumnsState }
