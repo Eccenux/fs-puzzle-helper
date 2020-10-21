@@ -27,14 +27,14 @@ class ColumnsViewModel {
 	initZoomer() {
 		let zoomer = document.querySelector('#zoomer img');
 		document.querySelectorAll('.column img').forEach(img=>{
-			img.onclick = ()=>{
+			img.addEventListener('click', ()=>{
 				zoomer.src = img.src;
 				// mark active (current)
 				document.querySelectorAll('#columns .column.active').forEach((prev)=>{
 					prev.classList.remove('active');
 				})
 				img.parentNode.classList.add('active');
-			};
+			});
 		});	
 	}
 
@@ -43,9 +43,9 @@ class ColumnsViewModel {
 	 */
 	initDoneToggle() {
 		document.querySelectorAll('.column h2').forEach(head=>{
-			head.onclick = ()=>{
+			head.addEventListener('click', ()=>{
 				this.state.toggleDone(head.parentNode);
-			};
+			});
 		});
 	}
 
@@ -53,12 +53,12 @@ class ColumnsViewModel {
 	 * Reset all.
 	 */
 	initReset() {
-		document.querySelector('#reset-all').onclick = ()=>{
+		document.querySelector('#reset-all').addEventListener('click', ()=>{
 			let confirmed = confirm('Reset all columns?');
 			if (confirmed) {
-				columnsState.resetAll();
+				this.state.resetAll();
 			}
-		};
+		});
 	}
 }
 
