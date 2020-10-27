@@ -23,6 +23,7 @@ class PortalsViewModel {
 	 * Adding done-marks.
 	 */
 	initDoneMarks() {
+		/*
 		document.querySelectorAll('.column').forEach(column=>{
 			column.addEventListener('contextmenu', function(event) {
 				event.preventDefault();
@@ -30,6 +31,7 @@ class PortalsViewModel {
 				//this.state.toggleDone(head.parentNode);
 			});
 		});
+		*/
 	}
 }
 

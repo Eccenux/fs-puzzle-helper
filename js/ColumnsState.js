@@ -1,4 +1,5 @@
 import {StateStore} from './StateStore.js';
+import {CssVariables} from './CssVariables.js';
 
 /**
  * Basic state operations.
@@ -30,8 +31,10 @@ class ColumnsState {
 		
 		// map ids to elements
 		this.columnMap = {};
+		this.columnCount = 0;
 		els.forEach((column)=>{
 			this.columnMap[column.id] = column;
+			this.columnCount++;
 		});
 		//console.log('init', this.done);
 
@@ -43,6 +46,30 @@ class ColumnsState {
 			let column = this.columnMap[id];
 			column.classList.add('done');
 		}
+
+		// init CSS
+		this.zoomerBaseWidth = parseInt(CssVariables.getRootVar("--zoomer-width").replace('px', ''));
+		this.cssVariables();
+	}
+	cssVariables() {
+		let doneCount = this.done.size;
+		const shown = this.columnCount - doneCount;
+		CssVariables.setRootVar('--columns-shown', shown);
+		CssVariables.setRootVar('--columns-hidden', doneCount);
+		// add more space for zoomer when there is space
+		const zoomTrigger = 7;
+		if (shown < zoomTrigger) {
+			let newWidth = this.zoomerBaseWidth + (zoomTrigger - shown) * 100;
+			CssVariables.setRootVar('--zoomer-width', `${newWidth}px`);
+		} else {
+			CssVariables.setRootVar('--zoomer-width', `${this.zoomerBaseWidth}px`);
+			CssVariables.setRootVar
+		}
+		// debug
+		// //CssVariables.setRootVar('--column-max-width', 'calc((90vw - var(--zoomer-width)) / (var(--columns-shown) + 1))');
+		// console.log('width:', CssVariables.getRootVar("--column-max-width"));
+		// console.log('shown:', CssVariables.getRootVar("--columns-shown"));
+		// console.log('hidden:', CssVariables.getRootVar("--columns-hidden"));
 	}
 	/**
 	 * Toggle state of a column.
@@ -81,6 +108,7 @@ class ColumnsState {
 	 * @private
 	 */
 	writeAll() {
+		this.cssVariables();
 		this.store.write({
 			done: [...this.done],
 		});

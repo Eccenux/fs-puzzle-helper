@@ -7,16 +7,24 @@ body {
 	background-color: #ccc;
 
 	font: 12px sans-serif;
-
+}
+:root {
 	--col-gap: 3px;
 	--base-gap: 15px;
 	--active-color: rgb(136, 3, 148);
 	--scrollbar-width: 2rem;
+
+	--zoomer-width: 500px;
+
+	/* defaults */
+	--columns-shown: 11;
+	--columns-hidden: 0;
+	--column-max-width: calc((100vw - var(--zoomer-width)) / (var(--columns-shown) + 1));
 }
 
 main {
 	display: grid;
-	grid-template-columns: 600px 1fr;
+	grid-template-columns: var(--zoomer-width) 1fr;
 	grid-template-rows: 1fr 4em;
 	gap: var(--base-gap);
 	grid-template-areas:
@@ -47,7 +55,8 @@ main {
 	margin-left: var(--col-gap);
 }
 .column img {
-	max-height: 88vh;
+	max-height: 95vh;
+	max-width: var(--column-max-width);
 }
 
 .column h2 {
