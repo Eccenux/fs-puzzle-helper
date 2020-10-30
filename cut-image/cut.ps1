@@ -17,7 +17,10 @@ param (
 	[int]$h = 4000,
 	
 	# number of columns
-	[int]$cols = 19
+	[int]$cols = 19,
+
+	# top bar height (sometimes 15)
+	[int]$top = 100
 )
 
 ##
@@ -25,7 +28,6 @@ param (
 ##
 $irfan="C:\Program Files (x86)\IrfanView\i_view32.exe"
 # Note! This settings need to be very acurate. Especially widths.
-$top=100	# top bar height
 $w=490		# width of the widest image
 $gap=10		# gap between columns
 
