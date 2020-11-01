@@ -19,17 +19,32 @@ IitcAccentLessSearch = class {
 
 	find(query) {
 		var term = query.term;
+		var termTransformed = this.transform(term);
 		console.log('accent-less search', query);
 
 		$.each(portals, (guid, portal) => {
 			var data = portal.options.data;
-			if (!data.title)
+			if (!data.title) {
 				return;
-	
+			}
+			// skip exact match
 			if (data.title == term) {
+				return;
+			}
+
+			var titleTransformed = this.transform(data.title);
+			if (titleTransformed.indexOf(termTransformed) >= 0) {
 				this.addResult(query, guid, portal);
 			}
 		});
+	}
+
+	/**
+	 * Create string transliterated to accent-less.
+	 * https://stackoverflow.com/a/51874002/333296
+	 */
+	transform(string) {
+		return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 	}
 
 	addResult(query, guid, portal) {
