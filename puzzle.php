@@ -50,12 +50,15 @@
 			<section>
 			<?php
 				$base = "./img-auto-cut/cells/";
+				$rowCounts = array();
 				for ($column=1; $column < 30; $column++) {
 					$files = glob($base . sprintf("/col_%03d_*.jpg", $column));
 					if (empty($files)) {
 						break;
 					}
-					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' <em>('.count($files).')</em></h2>';
+					$rowCounts[$column] = count($files);
+					//echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' <em>('.count($files).')</em></h2>';
+					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.'</h2>';
 					foreach ($files as $file) {
 						echo "<img src='$file' />";
 					}
@@ -66,6 +69,7 @@
 		</section>
 		<section id="controls">
 			<button id="reset-all">reset all</button>
+			<br>No. of portals (per column): <input type="text" value="<?=implode("\t", $rowCounts)?>"/>
 		</section>
 	</main>
 
