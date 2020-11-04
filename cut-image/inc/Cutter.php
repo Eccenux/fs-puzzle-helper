@@ -181,8 +181,10 @@ class Cutter {
 	 */
 	private function rowEnds($column, $colh)
 	{
+		$minHeight = 150;
+
 		// $h without gap
-		$h = $colh - ($this->gap * 2);
+		$h = $colh - $minHeight;
 		if ($h < $this->gap) {
 			return array();
 		}
@@ -191,7 +193,6 @@ class Cutter {
 		$okAvg = 2;			// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
-		$minHeight = 150;
 
 		$img = $this->img;
 
