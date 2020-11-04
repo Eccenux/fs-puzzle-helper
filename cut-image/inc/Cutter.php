@@ -187,8 +187,8 @@ class Cutter {
 			return array();
 		}
 
-		$distance = 8;		// acceptable distance
-		$okAvg = 3;			// acceptable AVG of RGB (checked when minOK is reached)
+		$distance = 6;		// acceptable distance
+		$okAvg = 2;			// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
 
@@ -261,6 +261,13 @@ class Cutter {
 		// prepare output
 		if (!file_exists($this->out)) {
 			mkdir($this->out, 0777, true);
+		}
+
+		// clear dir
+		$files = glob($this->out . '/*.jpg');
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
 		}
 
 		// base props
