@@ -47,8 +47,8 @@ class Cutter {
 		// (start from right with $y = $top+10; could do $x-=10 step)
 		// calculate number of columns from that
 
-		// TODO cut columns loop
-		$this->cols = 1;
+		// cut columns loop
+		//$this->cols = 1;
 		for ($c=1; $c <= $this->cols; $c++) { 
 			$this->cutCol($c);
 		}
@@ -116,6 +116,11 @@ class Cutter {
 
 		// find end of column (height of column)
 		$colh = $this->colHeight($column);
+
+		// skip if column height was not found (probably empty column)
+		if ($colh == $this->h) {
+			return;
+		}
 
 		// find image ends
 		$rowEnds = $this->rowEnds($column, $colh);
@@ -227,6 +232,7 @@ class Cutter {
 	 */
 	private function init()
 	{
+		// prepare input
 		$file = $this->file;
 		$img = imagecreatefromjpeg($file);
 		if ($img === false) {
@@ -234,7 +240,13 @@ class Cutter {
 			return false;
 		}
 		$this->img = $img;
-		
+
+		// prepare output
+		if (!file_exists($this->out)) {
+			mkdir($this->out, 0777, true);
+		}
+
+		// base props
 		$this->w = imagesx($img);
 		$this->h = imagesy($img);
 		return true;

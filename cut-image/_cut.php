@@ -8,5 +8,5 @@ date_default_timezone_set("Europe/Warsaw");
 
 require_once "./inc/Cutter.php";
 
-$cutter = new Cutter("raw.jpg", "./img-auto-cut/cells/");
+$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/");
 $cutter->cut();
