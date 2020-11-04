@@ -139,7 +139,7 @@ class Cutter {
 			$imgW = $this->colw - $this->gap;
 			$endY = $rowEnds[$r-1];
 			$imgH = $endY - $startY + 2;
-			$output = $this->out . "/col_{$column}_{$r}.jpg";
+			$output = $this->out . sprintf("/col_%03d_%03d.jpg", $column, $r);
 			$imgCell = imagecrop($this->img, array(
 				'x'=>$startX, 'y'=>$startY,
 				'width'=>$imgW, 'height'=>$imgH,
