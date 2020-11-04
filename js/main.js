@@ -10,4 +10,10 @@ const portalsViewModel = new PortalsViewModel();
 document.addEventListener("DOMContentLoaded", function() {
 	columnsViewModel.init();
 	portalsViewModel.init();
+
+	document.querySelectorAll('.column img').forEach(img=>{
+		img.addEventListener('dblclick', ()=>{
+			img.classList.toggle('done-cell');
+		});
+	});
 });

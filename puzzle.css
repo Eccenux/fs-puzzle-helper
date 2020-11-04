@@ -97,8 +97,22 @@ main {
 .column.done h2 em {
 	display: none;
 }
-  
+
 .column.active h2 {
 	outline: 3px dotted var(--active-color);
 	outline-offset: -3px;
+}
+
+.column img.done-cell {
+	/*
+	opacity: .8;
+	filter: grayscale(80%);
+	outline: 4px solid green;
+	outline-offset: -4px;
+	*/
+	outline: 200px solid rgba(0,255,0,0.3);
+	outline-offset: -200px;
+	border: 4px solid darkgreen;
+	box-sizing: border-box;
+	border-radius: 5px;
 }
