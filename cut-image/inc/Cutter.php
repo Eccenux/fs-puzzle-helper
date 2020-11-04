@@ -131,7 +131,7 @@ class Cutter {
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "[column=$column] total dt=$timeConsumed\n";
 
-		// crop images to files
+		// crop images to cells
 		$rowEnds[] = $colh;
 		$startY = $this->top;
 		for ($r=1; $r <= count($rowEnds); $r++) { 
@@ -150,6 +150,23 @@ class Cutter {
 			}
 			// next
 			$startY = $endY + $this->gap - 1;
+		}
+
+		// crop images to column
+		// TODO: refactor common parts of crop
+		$rowEnds[] = $colh;
+		$startY = $this->top;
+		$startX = $this->getStartX($column);
+		$imgW = $this->colw - $this->gap;
+		$imgH = $colh - $startY;
+		$output = $this->out . sprintf("../col_%d.jpg", $column);
+		$imgCell = imagecrop($this->img, array(
+			'x'=>$startX, 'y'=>$startY,
+			'width'=>$imgW, 'height'=>$imgH,
+		));
+		if ($imgCell !== FALSE) {
+			imagejpeg($imgCell, $output);
+			imagedestroy($imgCell);
 		}
 	}
 
