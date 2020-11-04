@@ -55,7 +55,7 @@
 					if (empty($files)) {
 						break;
 					}
-					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' ('.count($files).')</h2>';
+					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' <em>('.count($files).')</em></h2>';
 					foreach ($files as $file) {
 						echo "<img src='$file' />";
 					}

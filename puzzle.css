@@ -53,10 +53,14 @@ main {
 
 .column {
 	margin-left: var(--col-gap);
+	max-width: var(--column-max-width);
 }
 .column img {
+	/*
 	max-height: 95vh;
 	max-width: var(--column-max-width);
+	*/
+	max-width: 100%;
 }
 
 .column h2 {
@@ -78,7 +82,7 @@ main {
 }
 
 .column.done {
-	width: 15px;
+	width: 40px;
 	overflow: hidden;
 }
 .column.done img {
@@ -90,7 +94,10 @@ main {
 .column.done h2 {
 	font-size: small;
 }
-
+.column.done h2 em {
+	display: none;
+}
+  
 .column.active h2 {
 	outline: 3px dotted var(--active-color);
 	outline-offset: -3px;
