@@ -109,51 +109,62 @@ class Cutter {
 	 */
 	private function cutCol($column)
 	{
-		$distance = 10;		// aceptable distance
-		$img = $this->img;
-
 		// find end of column (height of column)
 		$colh = $this->colHeight($column);
 
+		// find image end (should confirm by checking 2-3 points on the right)
+		$rowEnds = $this->rowEnds($column, $colh);
+		var_export($rowEnds);
+
+		// TODO crop images to files
+	}
+
+	/**/
+	private function rowEnds($column, $colh)
+	{
+		$distance = 10;		// aceptable distance
+		$img = $this->img;
+		
 		// main probing point
 		$probeX = $this->getProbeX($column);
 
-		/**/
-		// find image end (should confirm by checking 2-3 points on the right)
 		$minOk = 5;
 		$okCount = 0;
 		$candidate = -1;
-		$columnEnds = array();
+		$candidateInfo = '';
+		$rowEnds = array();
 		for ($y = $this->top; $y < $colh; $y++) {
-			$rgb = $this->ih->getRgb($img, $probeX, $y);
-			$diff = $this->ih->getBackDistance($img, $probeX, $y);
 			$ok = $this->ih->checkBackDistance($img, $probeX, $y, $distance);
 			if ($ok) {
-				echo "[y=$y]: ".$rgb->dump()." ".$diff->dump()."; candidate=$candidate [okCount=$okCount]\n";
+				$rgb = $this->ih->getRgb($img, $probeX, $y);
+				$diff = $this->ih->getBackDistance($img, $probeX, $y);
+				$candidateInfo .= "[okCount=$okCount] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 			}
 
 			if (!$ok) {
 				if ($okCount > 0) {
-					echo "rejected\n\n";
+					echo "rejected: $candidate [okCount=$okCount]\n";
 				}
 				$okCount = 0;
 				$candidate = -1;
+				$candidateInfo = '';
 			} else {
 				$okCount++;
 				if ($okCount == 1) {
 					$candidate = $y;
 				} else if ($okCount >= $minOk) {
-					$columnEnds[] = $candidate;
+					$rowEnds[] = $candidate;
+					echo "\n.\n.\n";
+					echo $candidateInfo;
+					echo "accepted: $candidate\n.\n.\n";
 					$okCount = 0;
+					$candidate = -1;
+					$candidateInfo = '';
 					$y += $this->gap;
-					echo "accepted: $candidate\n\n";
 				}
 			}
 		}
-		var_export($columnEnds);
-		// crop image to file
-		// next
-		/**/
+		return $rowEnds;
 	}
 
 	/**
