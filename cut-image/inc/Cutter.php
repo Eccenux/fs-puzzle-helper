@@ -191,6 +191,7 @@ class Cutter {
 		$okAvg = 2;			// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
+		$minHeight = 150;
 
 		$img = $this->img;
 
@@ -201,8 +202,19 @@ class Cutter {
 		$candidate = -1;
 		$candidateInfo = '';
 		$rowEnds = array();
+		$prevY = $this->top;
 		for ($y = $this->top; $y < $h; $y++) {
 			$ok = $this->ih->checkBackDistance($img, $probeX, $y, $distance);
+
+			// reject to small
+			if ($ok) {
+				$rowH = $y - $prevY;
+				if ($rowH < $minHeight) {
+					$ok = false;
+					$reset = true;
+					echo "rejected to small: $candidate [okCount=$okCount]\n";
+				}
+			}
 
 			// debug info & avg check
 			if ($ok) {
@@ -243,6 +255,7 @@ class Cutter {
 					/**/
 					if ($okX) {
 						$rowEnds[] = $candidate;
+						$prevY = $candidate;
 						echo "\n.\n.\n";
 						echo $candidateInfo;
 						echo "accepted: $candidate\n.\n.\n";
