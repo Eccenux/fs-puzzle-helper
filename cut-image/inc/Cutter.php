@@ -189,8 +189,8 @@ class Cutter {
 			return array();
 		}
 
-		$distance = 4;		// acceptable distance
-		$okAvg = 2;			// acceptable AVG of RGB (checked when minOK is reached)
+		$distance = 5;		// acceptable distance
+		$okAvg = 2.5;		// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
 
