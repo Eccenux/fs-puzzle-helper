@@ -187,7 +187,7 @@ class Cutter {
 			return array();
 		}
 
-		$distance = 6;		// acceptable distance
+		$distance = 4;		// acceptable distance
 		$okAvg = 2;			// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
@@ -210,15 +210,14 @@ class Cutter {
 				$diff = $this->ih->getBackDistance($img, $probeX, $y);
 				$candidateInfo .= "[okCount=$okCount] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 			}
+			$reset = false;
 
-			// rejection & reset
+			// rejection
 			if (!$ok) {
 				if ($okCount > 0) {
 					echo "rejected: $candidate [okCount=$okCount]\n";
 				}
-				$okCount = 0;
-				$candidate = -1;
-				$candidateInfo = '';
+				$reset = true;
 
 			// candidate registration & update
 			} else {
@@ -228,15 +227,36 @@ class Cutter {
 
 				// found
 				} else if ($okCount >= $minOk && $diff->avg <= $okAvg) {
-					$rowEnds[] = $candidate;
-					echo "\n.\n.\n";
-					echo $candidateInfo;
-					echo "accepted: $candidate\n.\n.\n";
-					$okCount = 0;
-					$candidate = -1;
-					$candidateInfo = '';
-					$y += $this->gap;
+					// probe over X
+					$okX = true;
+					/**
+					$stepX = 1;
+					$distanceX = 3;
+					$okAvgX = 2;
+					for ($x = $probeX + $stepX; $x < $this->colw; $x+=$stepX) {
+						$ok = $this->ih->checkBackDistance($img, $x, $y, $distanceX);
+						if (!$ok || $diff->avg > $okAvgX) {
+							$okX = false;
+							echo "rejected over X: $candidate [okCount=$okCount]\n";
+						}
+					}
+					/**/
+					if ($okX) {
+						$rowEnds[] = $candidate;
+						echo "\n.\n.\n";
+						echo $candidateInfo;
+						echo "accepted: $candidate\n.\n.\n";
+						$y += $this->gap;
+					}
+					$reset = true;
 				}
+			}
+
+			// reset candidate
+			if ($reset) {
+				$okCount = 0;
+				$candidate = -1;
+				$candidateInfo = '';
 			}
 		}
 		return $rowEnds;
