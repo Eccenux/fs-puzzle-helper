@@ -63,8 +63,11 @@ class Cutter {
 	 * @return int
 	 */
 	private function getProbeX($column) {
-		$probeX = 10 + ($column - 1) * $this->colw;
-		return $probeX;
+		return $this->getStartX($column) + 10;
+	}
+	private function getStartX($column) {
+		$x = ($column - 1) * $this->colw;
+		return $x;
 	}
 
 	/**
@@ -123,7 +126,26 @@ class Cutter {
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "[column=$column] total dt=$timeConsumed\n";
 
-		// TODO crop images to files
+		// crop images to files
+		$rowEnds[] = $colh;
+		$startY = $this->top;
+		for ($r=1; $r <= count($rowEnds); $r++) { 
+			$startX = $this->getStartX($column);
+			$imgW = $this->colw - $this->gap;
+			$endY = $rowEnds[$r-1];
+			$imgH = $endY - $startY + 2;
+			$output = $this->out . "/col_{$column}_{$r}.jpg";
+			$imgCell = imagecrop($this->img, array(
+				'x'=>$startX, 'y'=>$startY,
+				'width'=>$imgW, 'height'=>$imgH,
+			));
+			if ($imgCell !== FALSE) {
+				imagejpeg($imgCell, $output);
+				imagedestroy($imgCell);
+			}
+			// next
+			$startY = $endY + $this->gap - 1;
+		}
 	}
 
 	/**
@@ -133,12 +155,19 @@ class Cutter {
 	 *
 	 * @param int $column
 	 * @param int $colh Calculated height.
-	 * @return array of Y.
+	 * @return array of Y; final row Y will not be returned (if colh was acurate).
 	 */
 	private function rowEnds($column, $colh)
 	{
+		// $h without gap
+		$h = $colh - ($this->gap * 2);
+		if ($h < $this->gap) {
+			return array();
+		}
+
 		$distance = 8;		// acceptable distance
 		$okAvg = 3;			// acceptable AVG of RGB (checked when minOK is reached)
+		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
 
 		$img = $this->img;
@@ -150,7 +179,7 @@ class Cutter {
 		$candidate = -1;
 		$candidateInfo = '';
 		$rowEnds = array();
-		for ($y = $this->top; $y < $colh; $y++) {
+		for ($y = $this->top; $y < $h; $y++) {
 			$ok = $this->ih->checkBackDistance($img, $probeX, $y, $distance);
 
 			// debug info & avg check
