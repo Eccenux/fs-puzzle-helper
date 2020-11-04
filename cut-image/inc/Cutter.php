@@ -83,7 +83,7 @@ class Cutter {
 		// main probing point
 		$probeX = $this->getProbeX($column);
 
-		$distance = 2;		// aceptable color distance
+		$distance = 2;		// acceptable color distance
 		$curTime = microtime(true);
 		$startY = $h - 1;
 		$minY = $this->top;
@@ -109,38 +109,58 @@ class Cutter {
 	 */
 	private function cutCol($column)
 	{
+		$curTime = microtime(true);
+
 		// find end of column (height of column)
 		$colh = $this->colHeight($column);
 
-		// find image end (should confirm by checking 2-3 points on the right)
+		// find image ends
 		$rowEnds = $this->rowEnds($column, $colh);
+
+		// debug
 		var_export($rowEnds);
+		echo "\n";
+		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
+		echo "[column=$column] total dt=$timeConsumed\n";
 
 		// TODO crop images to files
 	}
 
-	/**/
+	/**
+	 * Find row endings for a column.
+	 * 
+	 * TODO maybe I should confirm candidate by checking 2-3 points on the right (changing probeX)
+	 *
+	 * @param int $column
+	 * @param int $colh Calculated height.
+	 * @return array of Y.
+	 */
 	private function rowEnds($column, $colh)
 	{
-		$distance = 10;		// aceptable distance
+		$distance = 8;		// acceptable distance
+		$okAvg = 3;			// acceptable AVG of RGB (checked when minOK is reached)
+		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
+
 		$img = $this->img;
-		
+
 		// main probing point
 		$probeX = $this->getProbeX($column);
 
-		$minOk = 5;
 		$okCount = 0;
 		$candidate = -1;
 		$candidateInfo = '';
 		$rowEnds = array();
 		for ($y = $this->top; $y < $colh; $y++) {
 			$ok = $this->ih->checkBackDistance($img, $probeX, $y, $distance);
+
+			// debug info & avg check
 			if ($ok) {
 				$rgb = $this->ih->getRgb($img, $probeX, $y);
 				$diff = $this->ih->getBackDistance($img, $probeX, $y);
 				$candidateInfo .= "[okCount=$okCount] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 			}
 
+			// rejection & reset
 			if (!$ok) {
 				if ($okCount > 0) {
 					echo "rejected: $candidate [okCount=$okCount]\n";
@@ -148,11 +168,15 @@ class Cutter {
 				$okCount = 0;
 				$candidate = -1;
 				$candidateInfo = '';
+
+			// candidate registration & update
 			} else {
 				$okCount++;
 				if ($okCount == 1) {
 					$candidate = $y;
-				} else if ($okCount >= $minOk) {
+
+				// found
+				} else if ($okCount >= $minOk && $diff->avg <= $okAvg) {
 					$rowEnds[] = $candidate;
 					echo "\n.\n.\n";
 					echo $candidateInfo;
