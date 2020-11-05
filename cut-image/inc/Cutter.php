@@ -239,7 +239,7 @@ class Cutter {
 				if ($rowH < $minHeight) {
 					$ok = false;
 					$reset = true;
-					echo "rejected to small: $candidate [okCount=$okCount]\n";
+					echo "rejected to small: $y [rowH:$rowH < minHeight:$minHeight]\n";
 				}
 			}
 
@@ -271,7 +271,7 @@ class Cutter {
 					$okX = true;
 					for ($probeY = $y-1; $probeY < $y+2; $probeY++) {
 						$stepX = ceil($this->colw / 50);
-						$distanceX = 10;
+						$distanceX = 14;
 						$okAvgX = 7;
 						$colEnd = $this->getStartX($column+1) - $this->gap;
 						for ($x = $probeX; $x < $colEnd; $x+=$stepX) {
