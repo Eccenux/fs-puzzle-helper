@@ -268,35 +268,21 @@ class Cutter {
 				// found
 				} else if ($okCount >= $minOk && $diff->avg <= $okAvg) {
 					// probe over X
-					$okX = true;
-					for ($probeY = $y-1; $probeY < $y+2; $probeY++) {
-						$stepX = ceil($this->colw / 50);
-						$distanceX = 14;
-						$okAvgX = 7;
-						$colEnd = $this->getStartX($column+1) - $this->gap;
-						for ($x = $probeX; $x < $colEnd; $x+=$stepX) {
-							$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distanceX);
-							$diff = $this->ih->getBackDistance($img, $x, $probeY);
-							$dx = $x - $probeX;
-							if (!$ok || $diff->avg > $okAvgX) {
-								$okX = false;
-								$rgb = $this->ih->getRgb($img, $x, $probeY);
-								echo "[overX] candidate=$candidate [$dx, $probeY] ".$rgb->dump()." ".$diff->dump().";\n";
-								echo "rejected over X: $candidate [okCount=$okCount]\n";
-								break;
-							}
-						}
-						if (!$okX) {
-							break;
-						}
-					}
-					/**/
-					if ($okX) {
-						$rowEnds[] = $candidate;
-						$prevY = $candidate;
+					$startY = $y-1;
+					$height = 3;
+					$startX = $probeX;
+					$stepX = ceil($this->colw / 50);
+					$okX = $this->checkOverX($column, $startY, $height, $startX, $stepX);
+
+					if (!$okX) {
+						echo "rejected over X: $candidate [okCount=$okCount]\n";
+					} else {
 						echo "\n.\n.\n";
 						echo $candidateInfo;
 						echo "accepted: $candidate\n.\n.\n";
+
+						$rowEnds[] = $candidate;
+						$prevY = $candidate;
 						$y += $this->gap;
 						$reset = true;
 					}
@@ -311,6 +297,41 @@ class Cutter {
 			}
 		}
 		return $rowEnds;
+	}
+
+	/**
+	 * Check background over X axis (horizontal).
+	 *
+	 * @param int $column
+	 * 
+	 * @param int $startY
+	 * @param int $height Should be small, must be smaller then gap.
+	 * 
+	 * @param int $startX
+	 * @param int $stepX Bigger step, faster computation.
+	 * @return void
+	 */
+	private function checkOverX($column, $startY, $height, $startX, $stepX)
+	{
+		$distanceX = 14;
+		$okAvgX = 7;
+
+		$img = $this->img;
+		$endY = $startY + $height;
+		for ($probeY = $startY; $probeY <= $endY; $probeY++) {
+			$colEnd = $this->getStartX($column+1) - $this->gap;
+			for ($x = $startX; $x < $colEnd; $x+=$stepX) {
+				$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distanceX);
+				$diff = $this->ih->getBackDistance($img, $x, $probeY);
+				if (!$ok || $diff->avg > $okAvgX) {
+					$rgb = $this->ih->getRgb($img, $x, $probeY);
+					$dx = $x - $startX;
+					echo "[overX] [$dx, $probeY] ".$rgb->dump()." ".$diff->dump().";\n";
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
