@@ -13,17 +13,27 @@ class Cutter {
 
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
-	public $colw = 300;
+	public $colw = 500;
 
 	// number of columns
 	public $cols = 25;
 
 	// output path
 	public $out = './';
+	// column images
+	public $outCol = './';
 
-	public function __construct($file, $out) {
+	/**
+	 * Init.
+	 *
+	 * @param string $file Raw (un-cut) image path.
+	 * @param string $out Cell output (HiFi).
+	 * @param string $outCol Columns output (for xls, LowFi).
+	 */
+	public function __construct($file, $out, $outCol) {
 		$this->file = $file;
 		$this->out = $out;
+		$this->outCol = $outCol;
 
 		$r = $g = $b = 50;	// expected background
 		$this->ih = new ImageHelper($r, $g, $b);
@@ -189,7 +199,7 @@ class Cutter {
 		$startX = $this->getStartX($column);
 		$imgW = $this->colw - $this->gap;
 		$imgH = $colh - $startY;
-		$output = $this->out . sprintf("../col_%d.jpg", $column);
+		$output = $this->outCol . sprintf("/col_%d.jpg", $column);
 		$imgCell = imagecrop($this->img, array(
 			'x'=>$startX, 'y'=>$startY,
 			'width'=>$imgW, 'height'=>$imgH,
@@ -360,9 +370,18 @@ class Cutter {
 		if (!file_exists($this->out)) {
 			mkdir($this->out, 0777, true);
 		}
+		if (!file_exists($this->outCol)) {
+			mkdir($this->outCol, 0777, true);
+		}
 
 		// clear dir
 		$files = glob($this->out . '/*.jpg');
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
+		}
+		// column dir
+		$files = glob($this->outCol . '/*.jpg');
 		foreach($files as $file) {
 			if(is_file($file))
 				unlink($file);

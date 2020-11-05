@@ -10,13 +10,13 @@ ini_set("memory_limit", "2048M");
 require_once "./inc/Cutter.php";
 
 $testing = false;
-// $testing = true;
+$testing = true;
 if (!$testing) {
-	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/");
+	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/", "../img-auto-cut/");
 	$cutter->cut();
 } else {
 	// testing
-	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/");
+	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/", "../img-auto-cut/");
 	// $cutter->cut(2);
 	$cutter->cut();
 }

@@ -1,6 +1,6 @@
 /_bkp
 /*.svg
 /cut-image/out
-cut-image/raw.jpg
+/cut-image/*.jpg
 /img-auto-cut
 *.lnk
