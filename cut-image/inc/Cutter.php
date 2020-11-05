@@ -13,10 +13,10 @@ class Cutter {
 
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
-	public $colw = 300;
+	public $colw = 500;
 
 	// number of columns
-	public $cols = 19;
+	public $cols = 11;
 
 	// output path
 	public $out = './';
@@ -50,8 +50,9 @@ class Cutter {
 		// cut columns loop
 		//$this->cols = 1;
 		for ($c=1; $c <= $this->cols; $c++) { 
-			$this->cutCol($c);
+		 	$this->cutCol($c);
 		}
+		//$this->cutCol(2);
 
 		return true;
 	}
@@ -124,6 +125,28 @@ class Cutter {
 
 		// find image ends
 		$rowEnds = $this->rowEnds($column, $colh);
+		/**
+		// fail override
+		if ($column==10) {
+			$rowEnds = array (
+				377,
+				662,
+				1162,
+				//1413,
+				1662,
+				//1855,
+			);
+		} elseif ($column==6) {
+			$rowEnds = array (
+				//389,
+				590,
+				1090,
+				1590,
+				1968,
+				2345,
+			);
+		}
+		/**/
 
 		// debug
 		var_export($rowEnds);
@@ -228,6 +251,7 @@ class Cutter {
 			// rejection
 			if (!$ok) {
 				if ($okCount > 0) {
+					echo "[overY] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 					echo "rejected: $candidate [okCount=$okCount]\n";
 				}
 				$reset = true;
@@ -242,15 +266,25 @@ class Cutter {
 				} else if ($okCount >= $minOk && $diff->avg <= $okAvg) {
 					// probe over X
 					$okX = true;
-					/**
-					$stepX = 1;
-					$distanceX = 3;
-					$okAvgX = 2;
-					for ($x = $probeX + $stepX; $x < $this->colw; $x+=$stepX) {
-						$ok = $this->ih->checkBackDistance($img, $x, $y, $distanceX);
-						if (!$ok || $diff->avg > $okAvgX) {
-							$okX = false;
-							echo "rejected over X: $candidate [okCount=$okCount]\n";
+					for ($probeY = $y-1; $probeY < $y+2; $probeY++) {
+						$stepX = ceil($this->colw / 50);
+						$distanceX = 10;
+						$okAvgX = 7;
+						$colEnd = $this->getStartX($column+1) - $this->gap;
+						for ($x = $probeX; $x < $colEnd; $x+=$stepX) {
+							$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distanceX);
+							$diff = $this->ih->getBackDistance($img, $x, $probeY);
+							$dx = $x - $probeX;
+							if (!$ok || $diff->avg > $okAvgX) {
+								$okX = false;
+								$rgb = $this->ih->getRgb($img, $x, $probeY);
+								echo "[overX] candidate=$candidate [$dx, $probeY] ".$rgb->dump()." ".$diff->dump().";\n";
+								echo "rejected over X: $candidate [okCount=$okCount]\n";
+								break;
+							}
+						}
+						if (!$okX) {
+							break;
 						}
 					}
 					/**/
@@ -261,8 +295,8 @@ class Cutter {
 						echo $candidateInfo;
 						echo "accepted: $candidate\n.\n.\n";
 						$y += $this->gap;
+						$reset = true;
 					}
-					$reset = true;
 				}
 			}
 
