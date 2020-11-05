@@ -207,7 +207,7 @@ class Cutter {
 	 */
 	private function rowEnds($column, $colh)
 	{
-		$minHeight = 150;
+		$minHeight = 50;
 
 		// $h without gap
 		$h = $colh - $minHeight;
@@ -215,7 +215,7 @@ class Cutter {
 			return array();
 		}
 
-		$distance = 5;		// acceptable distance
+		$distance = 8;		// acceptable distance
 		$okAvg = 2.5;		// acceptable AVG of RGB (checked when minOK is reached)
 		// I assume gap is larger then $minOk
 		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
@@ -231,8 +231,9 @@ class Cutter {
 		$rowEnds = array();
 		$prevY = $this->top;
 		for ($y = $this->top; $y < $h; $y++) {
+			$reset = false;
 			$ok = $this->ih->checkBackDistance($img, $probeX, $y, $distance);
-
+			
 			// reject to small
 			if ($ok) {
 				$rowH = $y - $prevY;
@@ -249,12 +250,13 @@ class Cutter {
 				$diff = $this->ih->getBackDistance($img, $probeX, $y);
 				$candidateInfo .= "[okCount=$okCount] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 			}
-			$reset = false;
 
 			// rejection
 			if (!$ok) {
 				if ($okCount > 0) {
-					echo "[overY] candidate=$candidate [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
+					$rgb = $this->ih->getRgb($img, $probeX, $y);
+					$diff = $this->ih->getBackDistance($img, $probeX, $y);
+					echo "[overY] [y=$y] ".$rgb->dump()." ".$diff->dump().";\n";
 					echo "rejected: $candidate [okCount=$okCount]\n";
 				}
 				$reset = true;
@@ -314,7 +316,7 @@ class Cutter {
 	private function checkOverX($column, $startY, $height, $startX, $stepX)
 	{
 		$distanceX = 14;
-		$okAvgX = 7;
+		$okAvgX = 10;
 
 		$img = $this->img;
 		$endY = $startY + $height;
