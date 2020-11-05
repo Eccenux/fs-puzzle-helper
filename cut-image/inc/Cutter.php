@@ -34,7 +34,7 @@ class Cutter {
 	 * 
 	 * @return false on failure.
 	 */
-	public function cut() {
+	public function cut($column = null) {
 		if (!$this->init()) {
 			return false;
 		}
@@ -48,11 +48,14 @@ class Cutter {
 		// calculate number of columns from that
 
 		// cut columns loop
-		//$this->cols = 1;
-		for ($c=1; $c <= $this->cols; $c++) { 
-		 	$this->cutCol($c);
+		if (is_null($column)) {
+			for ($c=1; $c <= $this->cols; $c++) { 
+				$this->cutCol($c);
+			}
+		// just one
+		} else {
+			$this->cutCol($column);
 		}
-		//$this->cutCol(2);
 
 		return true;
 	}
