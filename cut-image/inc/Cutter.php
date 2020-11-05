@@ -145,7 +145,7 @@ class Cutter {
 				'width'=>$imgW, 'height'=>$imgH,
 			));
 			if ($imgCell !== FALSE) {
-				imagejpeg($imgCell, $output);
+				imagejpeg($imgCell, $output, 100);
 				imagedestroy($imgCell);
 			}
 			// next
