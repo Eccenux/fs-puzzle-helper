@@ -13,10 +13,10 @@ class Cutter {
 
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
-	public $colw = 500;
+	public $colw = 300;
 
 	// number of columns
-	public $cols = 11;
+	public $cols = 25;
 
 	// output path
 	public $out = './';
@@ -43,7 +43,11 @@ class Cutter {
 		// TODO find column width; usually 300 or 500
 
 		// TODO find number of columns
-		// find width of the whole image
+		// max based on width of the whole image
+		$maxCols = floor($this->w / $this->colw);
+		if ($this->cols > $maxCols) {
+			$this->cols = $maxCols;
+		}
 		// (start from right with $y = $top+10; could do $x-=10 step)
 		// calculate number of columns from that
 
