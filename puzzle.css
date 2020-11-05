@@ -25,19 +25,23 @@ body {
 main {
 	display: grid;
 	grid-template-columns: var(--zoomer-width) 1fr;
-	grid-template-rows: 1fr 4em;
-	gap: var(--base-gap);
+	grid-template-rows: min-content 1fr;
+	/* gap: var(--base-gap); */
 	grid-template-areas:
 		"zoomer columns"
-		"zoomer controls"
+		"controls columns"
 	;
 }
 #zoomer { grid-area: zoomer; }
 #columns { grid-area: columns; }
 #controls { grid-area: controls; }
 
+#controls {
+	margin: var(--col-gap);
+}
+
 #zoomer {
-	height: calc(100vh - var(--scrollbar-width));
+	/* height: calc(100vh - var(--scrollbar-width)); */
 	overflow-y: auto;
 }
 #zoomer img {
@@ -46,6 +50,7 @@ main {
 
 #columns {
 	display: flex;
+	margin-left: var(--base-gap);
 }
 #columns > section {
 	display: flex;
