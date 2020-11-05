@@ -9,8 +9,14 @@ ini_set("memory_limit", "2048M");
 
 require_once "./inc/Cutter.php";
 
-$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/");
-$cutter->cut();
-// testing
-//$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/");
-//$cutter->cut(2);
+$testing = false;
+// $testing = true;
+if (!$testing) {
+	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/");
+	$cutter->cut();
+} else {
+	// testing
+	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/");
+	// $cutter->cut(2);
+	$cutter->cut();
+}
