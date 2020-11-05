@@ -54,13 +54,14 @@ main {
 .column {
 	margin-left: var(--col-gap);
 	max-width: var(--column-max-width);
+	min-width: 1.5em; /* for done */
 }
 .column img {
 	/*
 	max-height: 95vh;
 	max-width: var(--column-max-width);
 	*/
-	max-width: 100%;
+	width: 100%;
 }
 
 .column h2 {

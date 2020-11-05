@@ -59,11 +59,15 @@ class ColumnsState {
 		// add more space for zoomer when there is space
 		const zoomTrigger = 7;
 		if (shown < zoomTrigger) {
+			let winWidth = window.outerWidth;
+			let zoomerLimit = winWidth * 0.4;
 			let newWidth = this.zoomerBaseWidth + (zoomTrigger - shown) * 100;
+			if (newWidth > zoomerLimit) {
+				newWidth = zoomerLimit;
+			}
 			CssVariables.setRootVar('--zoomer-width', `${newWidth}px`);
 		} else {
 			CssVariables.setRootVar('--zoomer-width', `${this.zoomerBaseWidth}px`);
-			CssVariables.setRootVar
 		}
 		// debug
 		// //CssVariables.setRootVar('--column-max-width', 'calc((90vw - var(--zoomer-width)) / (var(--columns-shown) + 1))');
