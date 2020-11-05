@@ -49,9 +49,14 @@
 			-->
 			<section>
 			<?php
-				$base = "./img-auto-cut/cells/";
+				// params for testing
+				// e.g.: puzzle.php?dir=cells_&column=2
+				$dir = !empty($_GET['dir']) ? $_GET['dir'] : "cells";
+				$startCol = !empty($_GET['column']) ? $_GET['column'] : 1;
+
+				$base = "./img-auto-cut/$dir/";
 				$rowCounts = array();
-				for ($column=1; $column < 30; $column++) {
+				for ($column=$startCol; $column < 30; $column++) {
 					$files = glob($base . sprintf("/col_%03d_*.jpg", $column));
 					if (empty($files)) {
 						break;

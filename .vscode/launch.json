@@ -5,18 +5,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Listen for XDebug",
-			"type": "php",
-			"request": "launch",
-			"port": 9000
-		},
-		{
-			"name": "Launch currently open script",
+			"name": "Launch _cut.php",
 			"type": "php",
 			"request": "launch",
 			"runtimeExecutable": "c:\\Programy\\Serwerowate\\PHP74\\php",
-			"program": "${file}",
-			"cwd": "${fileDirname}",
+			"program": "C:\\_tmpC\\A Puzzle A Day\\cut-image\\_cut.php",
+			"cwd": "C:\\_tmpC\\A Puzzle A Day\\cut-image",
 			"port": 9000
 		}
 	]
