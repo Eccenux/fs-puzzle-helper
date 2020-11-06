@@ -129,4 +129,25 @@ class ImageHelper {
 		}
 		return null;
 	}
+
+	/**
+	 * Find right boundary.
+	 * 
+	 * Note! Higher step => lower accuracy, but greater speed.
+	 *
+	 * @param resource $img Image.
+	 * @param int $probeY Probing point.
+	 * @param int $startX Starting point.
+	 * @return candidate boundary (you might want to use lower step to recalculate with greater accuracy)
+	 */
+	public function findBoundRight($img, $probeY, $startX, $minX, $distance, $step)
+	{
+		for ($x = $startX; $x >= $minX; $x-=$step) {
+			$ok = $this->checkBackDistance($img, $x, $probeY, $distance);
+			if (!$ok) {
+				return $x + $step + 1;
+			}
+		}
+		return null;
+	}
 }

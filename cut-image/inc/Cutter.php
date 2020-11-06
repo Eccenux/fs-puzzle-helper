@@ -18,8 +18,8 @@ class Cutter {
 	public $colw = 1000;
 
 	// number of columns
-	// (will be re-calculated down)
-	public $cols = 25;
+	// (will be re-calculated)
+	public $cols = 50;
 
 	// output path
 	public $out = './';
@@ -65,14 +65,8 @@ class Cutter {
 		// find column width; usually 300 or 500
 		$this->colw = $this->findColW();
 
-		// TODO find number of columns
-		// max based on width of the whole image
-		$maxCols = floor($this->w / $this->colw);
-		if ($this->cols > $maxCols) {
-			$this->cols = $maxCols;
-		}
-		// (start from right with $y = $top+10; could do $x-=10 step)
-		// calculate number of columns from that
+		// find number of columns
+		$this->cols = $this->findColNo();
 
 		// cut columns loop
 		if (is_null($column)) {
@@ -83,6 +77,8 @@ class Cutter {
 		} else {
 			$this->cutCol($column);
 		}
+
+		// TODO all.jpg
 
 		return true;
 	}
@@ -128,7 +124,7 @@ class Cutter {
 			$startY = $top;
 		}
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
-		echo "top = $top (x=$probeX); dt=$timeConsumed\n";
+		echo "top = $top (x=$probeX); dt=$timeConsumed\n.\n";
 		return $top;
 	}
 
@@ -178,7 +174,7 @@ class Cutter {
 		// round e.g. 285 to 300
 		$accuracy = 50;	// 50 means we accept 50, 100, 150 etc
 		$candidate = round($x / $accuracy) * $accuracy;
-		echo "(candidate=$candidate)\n";
+		echo "(candidate=$candidate)\n.\n";
 
 		// go down to make sure
 		$probeX = $candidate - floor($this->gap / 2);
@@ -207,6 +203,41 @@ class Cutter {
 		}
 
 		return $candidate;
+	}
+
+	/**
+	 * Find number of columns.
+	 * 
+	 * @return int number of columns.
+	 */
+	private function findColNo()
+	{
+		$img = $this->img;
+
+		// main probing point
+		$probeY = $this->top + 50;
+
+		$distance = 2;		// acceptable color distance
+		$startX = $this->w - 1;
+		$minX = $this->colw;
+		$step = 200;
+		$bound = $this->ih->findBoundRight($img, $probeY, $startX, $minX, $distance, $step);
+		if (is_null($bound)) {
+			$bound = $this->w;
+		}
+		$info = $this->debugPoint($startX, $probeY, true);
+		echo "boundary with step=$step: $info";
+
+		for ($cols = ceil($bound / $this->colw) + 1; $cols >= 1; $cols--) {
+			echo "cols test: $cols\n";
+			$colh = $this->findColHeight($cols);
+			if ($colh < $this->h) {
+				break;
+			}
+		}
+
+		echo "cols=$cols\n.\n";
+		return $cols;
 	}
 
 	/**
@@ -355,8 +386,6 @@ class Cutter {
 	/**
 	 * Find row endings for a column.
 	 * 
-	 * TODO maybe I should confirm candidate by checking 2-3 points on the right (changing probeX)
-	 *
 	 * @param int $column
 	 * @param int $colh Calculated height.
 	 * @return array of Y; final row Y will not be returned (if colh was acurate).
