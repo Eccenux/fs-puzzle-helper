@@ -65,20 +65,29 @@ class Cutter {
 		// find column width; usually 300 or 500
 		$this->colw = $this->findColW();
 
+		// just one cut
+		if (!is_null($column)) {
+			$this->cutCol($column);
+			return true;
+		}
+
 		// find number of columns
 		$this->cols = $this->findColNo();
 
 		// cut columns loop
-		if (is_null($column)) {
-			for ($c=1; $c <= $this->cols; $c++) { 
-				$this->cutCol($c);
+		$maxh = 0;
+		for ($c=1; $c <= $this->cols; $c++) { 
+			$colh = $this->cutCol($c);
+			if ($maxh < $colh) {
+				$maxh = $colh;
 			}
-		// just one
-		} else {
-			$this->cutCol($column);
 		}
 
-		// TODO all.jpg
+		// all.jpg
+		$this->crop("{$this->outCol}/all.jpg", 100, array(
+			'x'=>0, 'y'=>$this->top,
+			'width'=>$this->colw*$this->cols, 'height'=>$maxh,
+		));
 
 		return true;
 	}
@@ -297,7 +306,7 @@ class Cutter {
 	 * Cut column to images.
 	 *
 	 * @param int $column
-	 * @return void
+	 * @return int Column height (0 if empty).
 	 */
 	private function cutCol($column)
 	{
@@ -308,7 +317,7 @@ class Cutter {
 
 		// skip if column height was not found (probably empty column)
 		if ($colh == $this->h) {
-			return;
+			return 0;
 		}
 
 		// find image ends
@@ -351,36 +360,52 @@ class Cutter {
 			$endY = $rowEnds[$r-1];
 			$imgH = $endY - $startY + 2;
 			$output = $this->out . sprintf("/col_%03d_%03d.jpg", $column, $r);
-			$imgCell = imagecrop($this->img, array(
+			$this->crop($output, 100, array(
 				'x'=>$startX, 'y'=>$startY,
 				'width'=>$imgW, 'height'=>$imgH,
 			));
-			if ($imgCell !== FALSE) {
-				imagejpeg($imgCell, $output, 100);
-				imagedestroy($imgCell);
-			}
 			// next
 			$startY = $endY + $this->gap - 1;
 		}
 
 		// crop images to column
-		// TODO: refactor common parts of crop
 		$rowEnds[] = $colh;
 		$startY = $this->top;
 		$startX = $this->getStartX($column);
 		$imgW = $this->colw - $this->gap;
 		$imgH = $colh - $startY;
 		$output = $this->outCol . sprintf("/col_%d.jpg", $column);
-		$imgCell = imagecrop($this->img, array(
+		$this->crop($output, 75, array(
 			'x'=>$startX, 'y'=>$startY,
 			'width'=>$imgW, 'height'=>$imgH,
-		));
-		if ($imgCell !== FALSE) {
-			$imgSmall = imagescale($imgCell, 200);
-			imagejpeg($imgSmall, $output);
-			imagedestroy($imgCell);
-			imagedestroy($imgSmall);
+		), 200);
+
+		return $colh;
+	}
+
+	/**
+	 * Crop and save image.
+	 *
+	 * @param string $outFile Output file path.
+	 * @param int $quality JPG quality.
+	 * @param array $rect (x,y,width,height).
+	 * @param int $scaledWidth (optional) New width.
+	 * @return boolean false upon failure.
+	 */
+	private function crop($outFile, $quality, $rect, $scaledWidth=false) {
+		$cropped = imagecrop($this->img, $rect);
+		if ($cropped !== false) {
+			if ($scaledWidth === false) {
+				imagejpeg($cropped, $outFile, $quality);
+			} else {
+				$scaled = imagescale($cropped, $scaledWidth);
+				imagejpeg($scaled, $outFile, $quality);
+				imagedestroy($scaled);
+			}
+			imagedestroy($cropped);
+			return true;
 		}
+		return false;
 	}
 
 	/**

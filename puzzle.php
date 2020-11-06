@@ -47,6 +47,7 @@
 		<section id="controls">
 			<button id="reset-all">reset all</button>
 			&nbsp; &bull; &nbsp; No. of portals (per column): <input type="text" value="<?=implode("\t", $rowCounts)?>"/>
+			<p>&nbsp; &bull; &nbsp;<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
 		</section>
 	</main>
 
