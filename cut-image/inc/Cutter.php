@@ -64,7 +64,6 @@ class Cutter {
 
 		// find column width; usually 300 or 500
 		$this->colw = $this->findColW();
-		die();
 
 		// TODO find number of columns
 		// max based on width of the whole image
@@ -172,12 +171,63 @@ class Cutter {
 				break;
 			}
 		}
-
 		if ($x == $maxX) {
 			die("[ERROR] Unable to find column width!");
 		}
-		
-		return $x;
+
+		// round e.g. 285 to 300
+		$accuracy = 50;	// 50 means we accept 50, 100, 150 etc
+		$candidate = round($x / $accuracy) * $accuracy;
+		echo "(candidate=$candidate)\n";
+
+		// go down to make sure
+		$probeX = $candidate - floor($this->gap / 2);
+		$startY = $probeY;
+		$maxY = floor($this->h / 2);
+		$step = 10;
+		// Note! due to JPG distortions this need to be a loose check
+		// But it is also highly unlikely that at half-height you wouldn't get some pixel higly off the scale
+		$distance = 25;
+		$boundY = $this->ih->findBoundTop($img, $probeX, $startY, $maxY, $distance, $step);
+		if (!is_null($boundY)) {
+			$next = $candidate + $accuracy;
+			$info = $this->debugPoint($probeX, $boundY + $step, true);
+			if ($next < $maxX) {
+				echo "[WARNING] Unexpected boundary found at y=$boundY. Restarting at different X: $next.\n";
+				echo "boundary: $info.\n";
+				$candidate = $this->findColW($next);
+			} else {
+				echo "[ERROR] Unexpected boundary found at y=$boundY. Unable to check next X.\n";
+				echo "boundary: $info.\n";
+				die();
+			}
+		} else {
+			$this->debugPoint($probeX, $startY);
+			$this->debugPoint($probeX, $maxY);
+		}
+
+		return $candidate;
+	}
+
+	/**
+	 * Debug image point.
+	 * 
+	 * Note that this a bit computation heavy.
+	 *
+	 * @param int $x
+	 * @param int $y
+	 * @param boolean $return Default is to echo info.
+	 * @return string|void Info string.
+	 */
+	private function debugPoint($x, $y, $return = false)
+	{
+		$rgb = $this->ih->getRgb($this->img, $x, $y);
+		$diff = $this->ih->getBackDistance($this->img, $x, $y);
+		$info = "[x=$x, y=$y] ".$rgb->dump()." ".$diff->dump()."\n";
+		if ($return) {
+			return $info;
+		}
+		echo $info;
 	}
 
 	/**
