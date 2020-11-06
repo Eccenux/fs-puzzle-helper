@@ -14,7 +14,8 @@ class Cutter {
 
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
-	public $colw = 500;
+	// (will be re-calculated down)
+	public $colw = 1000;
 
 	// number of columns
 	// (will be re-calculated down)
@@ -61,7 +62,9 @@ class Cutter {
 		// find top boundary; top bar height (usually 15 or 100)
 		$this->top = $this->findTop();
 
-		// TODO find column width; usually 300 or 500
+		// find column width; usually 300 or 500
+		$this->colw = $this->findColW();
+		die();
 
 		// TODO find number of columns
 		// max based on width of the whole image
@@ -128,6 +131,53 @@ class Cutter {
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "top = $top (x=$probeX); dt=$timeConsumed\n";
 		return $top;
+	}
+
+	/**
+	 * Find columns width.
+	 * 
+	 * usually 300 or 500
+	 * note $imgw = $colw - $gap;
+	 * 
+	 * @param integer $startX StartX, should start with < min cell-img.w
+	 * @return void
+	 */
+	private function findColW($startX = 90)
+	{
+		$img = $this->img;
+
+		//$startX = 90;	// 90 < min cell-img.w
+		$probeY = $this->top + 50;	// 50 < min cell-img.h
+		$maxX = $this->colw;
+
+		// initial state = in cell img
+		$step = floor($this->gap / 2) + 1;
+		$distance = 10;
+		for ($x = $startX; $x <= $maxX; $x+=$step) {
+			$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
+			// going out of cell
+			if ($ok) {
+				echo "(x=$x); out\n";
+				break;
+			}
+		}
+
+		// out of cell img (in a gap, which might be wide)
+		$distance = 2;
+		for (; $x <= $maxX; $x++) {
+			$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
+			// going out in cell
+			if (!$ok) {
+				echo "(x=$x); in again\n";
+				break;
+			}
+		}
+
+		if ($x == $maxX) {
+			die("[ERROR] Unable to find column width!");
+		}
+		
+		return $x;
 	}
 
 	/**
