@@ -89,14 +89,14 @@ class ImageHelper {
 	}
 
 	/**
-	 * Find bottom boundary Check RBG distance at given point.
+	 * Find bottom boundary.
 	 * 
 	 * Note! Higher step => lower accuracy, but greater speed.
 	 *
 	 * @param resource $img Image.
 	 * @param int $probeX Probing point.
 	 * @param int $startY Starting point.
-	 * @return RgbDistance
+	 * @return candidate boundary (you might want to use lower step to recalculate with greater accuracy)
 	 */
 	public function findBoundBottom($img, $probeX, $startY, $minY, $distance, $step)
 	{
@@ -104,6 +104,27 @@ class ImageHelper {
 			$ok = $this->checkBackDistance($img, $probeX, $y, $distance);
 			if (!$ok) {
 				return $y + $step + 1;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Find top boundary.
+	 * 
+	 * Note! Higher step => lower accuracy, but greater speed.
+	 *
+	 * @param resource $img Image.
+	 * @param int $probeX Probing point.
+	 * @param int $startY Starting point.
+	 * @return candidate boundary (you might want to use lower step to recalculate with greater accuracy)
+	 */
+	public function findBoundTop($img, $probeX, $startY, $maxY, $distance, $step)
+	{
+		for ($y = $startY; $y <= $maxY; $y+=$step) {
+			$ok = $this->checkBackDistance($img, $probeX, $y, $distance);
+			if (!$ok) {
+				return $y - $step;
 			}
 		}
 		return null;

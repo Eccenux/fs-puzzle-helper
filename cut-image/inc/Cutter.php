@@ -9,6 +9,7 @@ class Cutter {
 	public $gap = 10;
 
 	// top boundary; top bar height (usually 15 or 100)
+	// (will be re-calculated)
 	public $top = 100;
 
 	// column width; usually 300 or 500
@@ -16,12 +17,20 @@ class Cutter {
 	public $colw = 500;
 
 	// number of columns
+	// (will be re-calculated down)
 	public $cols = 25;
 
 	// output path
 	public $out = './';
 	// column images
 	public $outCol = './';
+
+	/**
+	 * Helper for background/color operations.
+	 *
+	 * @var ImageHelper
+	 */
+	private $ih;
 
 	/**
 	 * Init.
@@ -49,7 +58,9 @@ class Cutter {
 			return false;
 		}
 
-		// TODO find top boundary; top bar height (usually 15 or 100)
+		// find top boundary; top bar height (usually 15 or 100)
+		$this->top = $this->findTop();
+
 		// TODO find column width; usually 300 or 500
 
 		// TODO find number of columns
@@ -89,14 +100,43 @@ class Cutter {
 	}
 
 	/**
+	 * Find top bar height.
+	 * 
+	 * @return int position of image from top.
+	 */
+	private function findTop()
+	{
+		$h = $this->h;
+		$img = $this->img;
+
+		// main probing point
+		$probeX = $this->gap + 1;
+
+		$distance = 2;		// acceptable color distance
+		$curTime = microtime(true);
+		$startY = 0;
+		$maxY = $h-1;
+		$steps = array(10, 3, 1);
+		foreach ($steps as $step) {
+			$top = $this->ih->findBoundTop($img, $probeX, $startY, $maxY, $distance, $step);
+			if (is_null($top)) {
+				$top = $h;
+				break;
+			}
+			$startY = $top;
+		}
+		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
+		echo "top = $top (x=$probeX); dt=$timeConsumed\n";
+		return $top;
+	}
+
+	/**
 	 * Find column height.
 	 * 
-	 * $r = $g = $b = 50;	// expected background
-	 *
 	 * @param int $column
 	 * @return int height
 	 */
-	private function colHeight($column)
+	private function findColHeight($column)
 	{
 		$h = $this->h;
 		$img = $this->img;
@@ -133,7 +173,7 @@ class Cutter {
 		$curTime = microtime(true);
 
 		// find end of column (height of column)
-		$colh = $this->colHeight($column);
+		$colh = $this->findColHeight($column);
 
 		// skip if column height was not found (probably empty column)
 		if ($colh == $this->h) {
