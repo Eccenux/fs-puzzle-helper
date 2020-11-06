@@ -10,5 +10,11 @@
 			"path": "D:\\_Tworczosc\\Grafika\\Ingress\\IITC\\ingress-mission-fs-puzzle-helper"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"search.exclude": {
+			"**/_bkp": true,
+			"**/_legacy": true,
+			"**/img-auto-cut": true,
+		}
+	}
 }
