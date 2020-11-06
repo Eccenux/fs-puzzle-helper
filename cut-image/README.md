@@ -1,6 +1,17 @@
 # Usage
 
-## Cut images to columns
+## Auto-cut image
+
+1. Put `raw.jpg` in the folder.
+2. Just run `php ./_cut.php` (PHP 5.5 or higher).
+
+The script should calculate everything (column count, widhts etc). It will create cells, columns, and `all.jpg`.
+
+## Alternative cut (ps)
+
+PowerShell and IrfanView is required here.
+
+Fallback alternative to PHP. Will NOT create cells though. Just columns and `all.jpg`.
 
 1. Put `raw.jpg` in the folder.
 2. Check height of largest column (without top bar). It should not be larger then 4000 px or you will only see part of it.
@@ -20,19 +31,7 @@ You can also provide number of columns in a parameter:
 .\cut-image\cut.ps1 -h 3900 -cols 3
 ```
 
-
 Also note that you can run the script from any path. It always uses absolute paths anyway.
-
-## Prepare spreadsheet
-
-1. Put images in sub-folder of:
-	```
-	\\\Secure FTP\nux@nazwa.pl\f.enux.pl\ingress\fs-puzzle\
-	```
-
-2. Copy [A Puzzle A Day #TPL](https://docs.google.com/spreadsheets/d/1Js5tlD7yPFcJAPxgboq4IcakCWzjpl3JQyeEFeXnObc/edit#gid=1760313402) to new sheet.
-
-3. Insert url to that sub-folder in "Columns Image Base:".
 
 # Cutting notes
 
