@@ -4,7 +4,7 @@
 */
 date_default_timezone_set("Europe/Warsaw");
 
-$file = "raw.jpg";
+$file = "../raw.jpg";
 
 $img = imagecreatefromjpeg($file);
 
