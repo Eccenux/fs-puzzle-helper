@@ -122,3 +122,9 @@ main {
 	box-sizing: border-box;
 	border-radius: 5px;
 }
+
+.column img.zoomer-list {
+	border: 4px solid orange;
+	box-sizing: border-box;
+	border-radius: 5px;
+}

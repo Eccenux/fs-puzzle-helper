@@ -37,7 +37,8 @@
 					//echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' <em>('.count($files).')</em></h2>';
 					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.'</h2>';
 					foreach ($files as $file) {
-						echo "<img src='$file' />";
+						$id = preg_replace('#\.\w+$#', '', basename($file));
+						echo "<img src='$file' id='cell_{$id}' />";
 					}
 					echo '</section>';
 				}
