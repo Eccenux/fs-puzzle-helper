@@ -123,8 +123,29 @@ main {
 	border-radius: 5px;
 }
 
+/* zoomer list related (multi-zoom) */
 .column img.zoomer-list {
 	border: 4px solid orange;
 	box-sizing: border-box;
 	border-radius: 5px;
+}
+#zoomer-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 5px;
+}
+#zoomer-list img {
+	object-fit: cover;
+	border: 1px solid orange;
+	width: 100%;
+	height: 100%;
+}
+#zoomer.small #zoomer-list {
+	grid-template-columns: repeat(5, 1fr);
+}
+#zoomer.medium #zoomer-list {
+	grid-template-columns: repeat(3, 1fr);
+}
+#zoomer.big #zoomer-list {
+	grid-template-columns: 1fr;
 }

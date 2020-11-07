@@ -15,7 +15,7 @@
 </head>
 <body>
 	<main>
-		<section id="zoomer">
+		<section id="zoomer" class="medium">
 			<img src="img-auto-cut/cells/col_001_001.jpg" />
 			<section id="zoomer-controls" style="display: none;">
 				<button class="resize" data-class="small">small</button>
