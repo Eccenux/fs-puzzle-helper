@@ -94,9 +94,9 @@ class ZoomerViewModel {
 		} else {
 			img.classList.add('zoomer-list');
 			this.idList.add(id);
-			let nel = document.createElement('img');
+			let nel = document.createElement('figure');
+			nel.innerHTML = `<img src='${img.src}'><figcaption>${img.title}</figcaption>`;
 			nel.className = `list ${id}`;
-			nel.src = img.src;
 			this.listContainer.appendChild(nel);
 		}
 	}

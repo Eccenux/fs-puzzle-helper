@@ -46,7 +46,8 @@
 					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.'</h2>';
 					foreach ($files as $file) {
 						$id = preg_replace('#\.\w+$#', '', basename($file));
-						echo "<img src='$file' id='cell_{$id}' />";
+						$title = preg_replace('#.+?0*([0-9]+).+?0*([0-9]+).*#', 'col $1, row $2', $id);
+						echo "<img src='$file' id='cell_{$id}' title='{$title}' />";
 					}
 					echo '</section>';
 				}

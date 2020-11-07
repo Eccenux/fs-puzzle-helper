@@ -149,3 +149,16 @@ main {
 #zoomer.big #zoomer-list {
 	grid-template-columns: 1fr;
 }
+#zoomer-controls {
+	margin-bottom: var(--col-gap);
+}
+#zoomer-list figure {
+    display: flex;
+	flex-flow: column;
+	margin: 0;
+	padding: 0;
+}
+#zoomer-list figcaption {
+	text-align: center;
+	padding: .1em 0 .2em;
+}
