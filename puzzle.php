@@ -17,6 +17,14 @@
 	<main>
 		<section id="zoomer">
 			<img src="img-auto-cut/cells/col_001_001.jpg" />
+			<section id="zoomer-controls" style="display: none;">
+				<button class="resize" data-class="small">small</button>
+				<button class="resize" data-class="medium">medium</button>
+				<button class="resize" data-class="big">big</button>
+				<button class="clear">clear</button>
+			</section>
+			<section id="zoomer-list">
+			</section>
 		</section>
 		<section id="columns">
 			<section>
