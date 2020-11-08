@@ -143,17 +143,19 @@ main {
 	gap: 5px;
 }
 #zoomer-list img {
-	object-fit: cover;
+	object-fit: contain;
+	background-color: rgb(50,50,50);
 	border: 1px solid orange;
 	width: 100%;
 	height: 100%;
 }
 #zoomer.small #zoomer-list {
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 }
-#zoomer.medium #zoomer-list {
-	grid-template-columns: repeat(3, 1fr);
-}
+#zoomer.medium5 #zoomer-list {	grid-template-columns: repeat(5, 1fr); }
+#zoomer.medium4 #zoomer-list {	grid-template-columns: repeat(4, 1fr); }
+#zoomer.medium3 #zoomer-list {	grid-template-columns: repeat(3, 1fr); }
+#zoomer.medium2 #zoomer-list {	grid-template-columns: repeat(2, 1fr); }
 #zoomer.big #zoomer-list {
 	grid-template-columns: 1fr;
 }

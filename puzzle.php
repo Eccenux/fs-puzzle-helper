@@ -15,12 +15,15 @@
 </head>
 <body>
 	<main>
-		<section id="zoomer" class="medium">
+		<section id="zoomer" class="medium3">
 			<img src="img-auto-cut/cells/col_001_001.jpg" />
 			<section id="zoomer-controls" style="display: none;">
-				<button class="resize" data-class="small">small</button>
-				<button class="resize" data-class="medium">medium</button>
-				<button class="resize" data-class="big">big</button>
+				<button class="resize" data-class="small">small (6)</button>
+				<button class="resize" data-class="medium5">5</button>
+				<button class="resize" data-class="medium4">4</button>
+				<button class="resize" data-class="medium3">3</button>
+				<button class="resize" data-class="medium2">2</button>
+				<button class="resize" data-class="big">big (1)</button>
 				<button class="clear">clear</button>
 			</section>
 			<section id="zoomer-list">

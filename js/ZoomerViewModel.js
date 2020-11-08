@@ -106,10 +106,12 @@ class ZoomerViewModel {
 	 * @param {Element} container Controls container.
 	 */
 	initResize(container) {
-		container.querySelectorAll('.resize').forEach(button => {
+		const resizers = container.querySelectorAll('.resize');
+		const classes = [...resizers].map(el=>el.getAttribute('data-class'));
+		resizers.forEach(button => {
 			button.addEventListener('click', ()=>{
 				let resizeClass = button.getAttribute('data-class');
-				this.mainContainer.classList.remove('small', 'medium', 'big');
+				this.mainContainer.classList.remove(...classes);
 				this.mainContainer.classList.add(resizeClass);
 			});
 		})
