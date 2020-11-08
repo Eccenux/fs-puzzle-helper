@@ -15,18 +15,26 @@
 </head>
 <body>
 	<main>
+		<section id="main-controls">
+			<button id="reset-all">reset all</button>
+			&bull;
+			<button id="toggle-zoomer">toggle zoomer</button>
+			&bull;
+			<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
+		</section>
 		<section id="zoomer" class="medium3">
 			<figure class="main">
 				<img src="img-auto-cut/cells/col_001_001.jpg" />
 				<figcaption></figcaption>
 			</figure>
-			<section id="zoomer-controls" style="display: none;">
+			<section id="zoomer-list-controls" style="display: none;">
 				<button class="resize" data-class="small">small (6)</button>
 				<button class="resize" data-class="medium5">5</button>
 				<button class="resize" data-class="medium4">4</button>
 				<button class="resize" data-class="medium3">3</button>
 				<button class="resize" data-class="medium2">2</button>
 				<button class="resize" data-class="big">big (1)</button>
+				&bull;
 				<button class="clear">clear</button>
 			</section>
 			<section id="zoomer-list">
@@ -61,9 +69,7 @@
 			</section>
 		</section>
 		<section id="controls">
-			<button id="reset-all">reset all</button>
-			&nbsp; &bull; &nbsp; No. of portals (per column): <input type="text" value="<?=implode("\t", $rowCounts)?>"/>
-			<p>&nbsp; &bull; &nbsp;<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
+			No. of portals (per column): <input type="text" value="<?=implode("\t", $rowCounts)?>"/>
 		</section>
 	</main>
 

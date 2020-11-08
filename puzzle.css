@@ -25,16 +25,28 @@ body {
 main {
 	display: grid;
 	grid-template-columns: var(--zoomer-width) 1fr;
-	grid-template-rows: min-content 1fr;
+	grid-template-rows: min-content min-content 1fr;
 	/* gap: var(--base-gap); */
 	grid-template-areas:
+		"main-controls columns"
 		"zoomer columns"
 		"controls columns"
 	;
 }
+#main-controls { grid-area: main-controls; }
 #zoomer { grid-area: zoomer; }
 #columns { grid-area: columns; }
 #controls { grid-area: controls; }
+.hidden-zoomer main {
+	grid-template-areas:
+		"main-controls"
+		"columns"
+		"controls"
+	;
+}
+.hidden-zoomer #zoomer {
+	display: none;
+}
 
 #controls {
 	margin: var(--col-gap);
@@ -159,7 +171,7 @@ main {
 #zoomer.big #zoomer-list {
 	grid-template-columns: 1fr;
 }
-#zoomer-controls {
+#zoomer-list-controls {
 	margin-bottom: var(--col-gap);
 }
 #zoomer figure {

@@ -25,11 +25,23 @@ class ZoomerViewModel {
 		this.mainContainer = document.querySelector('#zoomer');
 		this.listContainer = document.querySelector('#zoomer-list');
 		this.initZoom();
-		let controls = document.querySelector('#zoomer-controls');
-		this.initClear(controls);
-		this.initResize(controls);
-		this.controls = controls;
-		this.controls.style.display = 'none';
+
+		document.querySelector('#toggle-zoomer').addEventListener('click', ()=>{
+			document.body.classList.toggle('hidden-zoomer');
+		});
+
+		this.initList();
+	}
+
+	/**
+	 * Init list elements.
+	 */
+	initList() {
+		let controls = document.querySelector('#zoomer-list-controls');
+		this.initListClear(controls);
+		this.initListResize(controls);
+		this.listControls = controls;
+		this.listControls.style.display = 'none';
 	}
 
 	/**
@@ -49,14 +61,14 @@ class ZoomerViewModel {
 				} else {
 					// add/remove from list
 					mainFig.style.display = 'none';
-					this.zoomerToggle(img);
+					this.cellToggle(img);
 				}
 
 				// visibility of controls
 				if (this.idList.size < 1) {
-					this.controls.style.display = 'none';
+					this.listControls.style.display = 'none';
 				} else {
-					this.controls.style.display = '';
+					this.listControls.style.display = '';
 				}
 			});
 		});	
@@ -66,10 +78,10 @@ class ZoomerViewModel {
 	 * Init list clear.
 	 * @param {Element} container Controls container.
 	 */
-	initClear(container) {
+	initListClear(container) {
 		container.querySelector('.clear').addEventListener('click', ()=>{
 			this.idList.clear();
-			this.controls.style.display = 'none';
+			this.listControls.style.display = 'none';
 			this.listContainer.querySelectorAll(`.list`).forEach(element => {
 				this.listContainer.removeChild(element);
 			});
@@ -83,7 +95,7 @@ class ZoomerViewModel {
 	 * Append or remove image from zoomer list.
 	 * @param {Element} img Column image.
 	 */
-	zoomerToggle(img) {
+	cellToggle(img) {
 		const id = img.id;
 		if (this.idList.has(id)) {
 			this.idList.delete(id);
@@ -108,7 +120,7 @@ class ZoomerViewModel {
 	 * Init resizing buttons.
 	 * @param {Element} container Controls container.
 	 */
-	initResize(container) {
+	initListResize(container) {
 		const resizers = container.querySelectorAll('.resize');
 		const classes = [...resizers].map(el=>el.getAttribute('data-class'));
 		resizers.forEach(button => {
