@@ -59,7 +59,7 @@ main {
 .column {
 	margin-left: var(--col-gap);
 	max-width: var(--column-max-width);
-	min-width: 1.5em; /* for done */
+	min-width: 8em;
 }
 .column img {
 	/*
@@ -88,13 +88,14 @@ main {
 	background-image: url(img/eye-no.svg);
 	background-repeat: no-repeat;
 	background-size: 1em;
-	background-position: -5px center;
+	background-position: 90% center;
 }
 .column.done h2:hover {
 	background-image: none;
 }
 
 .column.done {
+	min-width: 1.5em;
 	width: 40px;
 	overflow: hidden;
 }
