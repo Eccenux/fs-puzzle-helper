@@ -36,16 +36,19 @@ class ZoomerViewModel {
 	 * Enlarge image.
 	 */
 	initZoom() {
-		let mainImg = document.querySelector('#zoomer img');
+		let mainFig = document.querySelector('#zoomer .main');
+		let mainImg = mainFig.querySelector('img');
+		let mainCaption = document.querySelector('figcaption');
 		document.querySelectorAll('.column img').forEach(img=>{
 			img.addEventListener('click', (e)=>{
 				if (!e.ctrlKey) {
 					// single/main image show
 					mainImg.src = img.src;
-					mainImg.style.display = '';
+					mainCaption.textContent = img.title;
+					mainFig.style.display = '';
 				} else {
 					// add/remove from list
-					mainImg.style.display = 'none';
+					mainFig.style.display = 'none';
 					this.zoomerToggle(img);
 				}
 

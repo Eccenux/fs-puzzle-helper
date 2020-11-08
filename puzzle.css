@@ -162,13 +162,13 @@ main {
 #zoomer-controls {
 	margin-bottom: var(--col-gap);
 }
-#zoomer-list figure {
+#zoomer figure {
     display: flex;
 	flex-flow: column;
 	margin: 0;
 	padding: 0;
 }
-#zoomer-list figcaption {
+#zoomer figcaption {
 	text-align: center;
 	padding: .1em 0 .2em;
 }

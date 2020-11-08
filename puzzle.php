@@ -16,7 +16,10 @@
 <body>
 	<main>
 		<section id="zoomer" class="medium3">
-			<img src="img-auto-cut/cells/col_001_001.jpg" />
+			<figure class="main">
+				<img src="img-auto-cut/cells/col_001_001.jpg" />
+				<figcaption></figcaption>
+			</figure>
 			<section id="zoomer-controls" style="display: none;">
 				<button class="resize" data-class="small">small (6)</button>
 				<button class="resize" data-class="medium5">5</button>
