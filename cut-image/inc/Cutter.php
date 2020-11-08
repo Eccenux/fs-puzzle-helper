@@ -283,6 +283,9 @@ class Cutter {
 
 		// main probing point
 		$probeX = $this->getProbeX($column);
+		if ($probeX >= $this->w) {
+			return $h;
+		}
 
 		$distance = 2;		// acceptable color distance
 		$curTime = microtime(true);
