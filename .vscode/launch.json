@@ -9,8 +9,8 @@
 			"type": "php",
 			"request": "launch",
 			"runtimeExecutable": "c:\\Programy\\Serwerowate\\PHP74\\php",
-			"program": "C:\\_tmpC\\A Puzzle A Day\\cut-image\\_cut.php",
-			"cwd": "C:\\_tmpC\\A Puzzle A Day\\cut-image",
+			"program": "${workspaceFolder}/cut-image/_cut.php",
+			"cwd": "${workspaceFolder}/cut-image",
 			"port": 9000
 		}
 	]
