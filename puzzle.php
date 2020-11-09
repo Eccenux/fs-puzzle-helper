@@ -10,6 +10,13 @@
 
 	<link rel="stylesheet" type="text/css" href="puzzle.css">
 	<link rel="icon" href="img/icon.svg" sizes="any" type="image/svg+xml">
+	<link rel="shortcut icon" href="img/icon.svg" sizes="any" type="image/svg+xml">
+
+	<!--
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	-->
+	
 
 	<script src="js/main.js" type="module"></script>
 </head>
