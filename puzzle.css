@@ -42,11 +42,12 @@ main {
 		"main-controls"
 		"columns"
 		"controls"
+		"zoomer"
 	;
 }
-.hidden-zoomer #zoomer {
+/* .hidden-zoomer #zoomer {
 	display: none;
-}
+} */
 
 #controls {
 	margin: var(--col-gap);
