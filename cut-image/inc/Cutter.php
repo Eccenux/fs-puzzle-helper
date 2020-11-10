@@ -52,6 +52,10 @@ class Cutter {
 	/**
 	 * Cut raw jpg file.
 	 * 
+	 * @param int $column Column number or...
+	 * 	null (default) => cut all
+	 * 	-1 => just calculate top and width and exit
+	 * 	>0 => cut only one column (1st => 1)
 	 * @return false on failure.
 	 */
 	public function cut($column = null) {
@@ -64,6 +68,10 @@ class Cutter {
 
 		// find column width; usually 300 or 500
 		$this->colw = $this->findColW();
+		// exit (tests)
+		if ($column === -1) {
+			return false;
+		}
 
 		// just one cut
 		if (!is_null($column)) {
@@ -144,7 +152,9 @@ class Cutter {
 	 * note $imgw = $colw - $gap;
 	 * 
 	 * @param integer $startX StartX, should start with < min cell-img.w
-	 * @return void
+	 * @return integer 1st column width
+	 * For now only return first column width.
+	 * The algorithm can however be used to calculate all widths.
 	 */
 	private function findColW($startX = 90)
 	{
@@ -152,66 +162,99 @@ class Cutter {
 
 		//$startX = 90;	// 90 < min cell-img.w
 		$probeY = $this->top + 50;	// 50 < min cell-img.h
-		$maxX = $this->colw;
+		$probeY2 = floor($this->h * 0.2);
+		$probeY3 = floor($this->h * 0.4);
+		//$maxX = $this->colw;
+		$maxX = $this->w - 1;
 
 		// initial state = in cell img
-		$step = floor($this->gap / 2) + 1;
-		$distance = 10;
-		for ($x = $startX; $x <= $maxX; $x+=$step) {
-			$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
-			// going out of cell
-			if ($ok) {
-				echo "(x=$x); out\n";
-				break;
-			}
-		}
-
-		// out of cell img (in a gap, which might be wide)
-		$distance = 2;
-		for (; $x <= $maxX; $x++) {
-			$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
-			// going out in cell
-			if (!$ok) {
-				echo "(x=$x); in again\n";
-				break;
-			}
-		}
-		if ($x == $maxX) {
-			die("[ERROR] Unable to find column width!");
-		}
-
-		// round e.g. 285 to 300
-		$accuracy = 50;	// 50 means we accept 50, 100, 150 etc
-		$candidate = round($x / $accuracy) * $accuracy;
-		echo "(candidate=$candidate)\n.\n";
-
-		// go down to make sure
-		$probeX = $candidate - floor($this->gap / 2);
-		$startY = $probeY;
-		$maxY = floor($this->h / 2);
-		$step = 10;
+		$stepInCell = floor($this->gap / 2) + 1;
+		$stepInGap = 1;
 		// Note! due to JPG distortions this need to be a loose check
-		// But it is also highly unlikely that at half-height you wouldn't get some pixel higly off the scale
+		// But it is also highly unlikely that going down you wouldn't get some pixel higly off the scale
 		$distance = 25;
-		$boundY = $this->ih->findBoundTop($img, $probeX, $startY, $maxY, $distance, $step);
-		if (!is_null($boundY)) {
-			$next = $candidate + $accuracy;
-			$info = $this->debugPoint($probeX, $boundY + $step, true);
-			if ($next < $maxX) {
-				echo "[WARNING] Unexpected boundary found at y=$boundY. Restarting at different X: $next.\n";
-				echo "boundary: $info.\n";
-				$candidate = $this->findColW($next);
-			} else {
-				echo "[ERROR] Unexpected boundary found at y=$boundY. Unable to check next X.\n";
-				echo "boundary: $info.\n";
-				die();
-			}
-		} else {
-			$this->debugPoint($probeX, $startY);
-			$this->debugPoint($probeX, $maxY);
-		}
+		$candidates = array();
+		for ($x = $startX; $x <= $maxX; $x += $stepInCell) {
+			$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
 
-		return $candidate;
+			// quick re-check
+			if ($ok) {
+				$ok = $this->ih->checkBackDistance($img, $x, $probeY2, $distance);
+				if ($ok) {
+					$ok = $this->ih->checkBackDistance($img, $x, $probeY3, $distance);
+				}
+			}
+
+			// going out of cell?
+			if ($ok) {
+				echo "(x=$x); gap?\n";
+				$gapLength = 0;
+				$noMoreColumns = false;
+				$gapStart = $x;
+
+				// verify && find exact border
+				while ($this->isColumnGap($x, $distance)) {
+					$gapLength++;
+					$x += $stepInGap;
+					if ($x > $maxX) {	// total img end
+						break;
+					}
+					if (!empty($candidates) && $gapLength > $candidates[0]) {	// gap is too wide => there are no more columns
+						$noMoreColumns = true;
+						break;
+					}
+					$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distance);
+					if (!$ok) {			// column ended
+						break;
+					}
+					echo "(x=$x); gap\n";
+				}
+
+				if ($gapLength > 3) {
+					if (!$noMoreColumns) {
+						echo "(x=$x); column end (gap=$gapLength)\n";
+						$candidates[] = $x;
+					} else {
+						echo "(x=$x); no more columns (gap=$gapLength; start=$gapStart)\n";
+						$candidates[] = $gapStart;
+						break;
+					}
+
+					// end early
+					if (count($candidates) > 1) {
+						echo "candidates: ".implode(', ', $candidates);
+						if ($candidates[0] * 2 != $candidates[1]) {
+							die ("\n[ERROR] Column width candidates do not match! Try manualy setting `colw` (instead of calling `findColW`)\n");
+						}
+						return $candidates[0];
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Verify that X is a column gap.
+	 *
+	 * @param int $x
+	 * @param int $distance
+	 * @return boolean
+	 */
+	private function isColumnGap($x, $distance)
+	{
+		$img = $this->img;
+
+		$probeY = $this->top + 50;	// 50 < min cell-img.h
+
+		$probeX = $x;
+		$startY = $probeY;
+		$maxY = floor($this->h * 0.66);
+		$stepY = $this->gap;
+		$boundY = $this->ih->findBoundTop($img, $probeX, $startY, $maxY, $distance, $stepY);
+		if (is_null($boundY)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

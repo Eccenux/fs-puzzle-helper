@@ -16,7 +16,16 @@ if (!$testing) {
 	$cutter->cut();
 } else {
 	// testing
-	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/", "../img-auto-cut/");
-	// $cutter->cut(2);
-	$cutter->cut();
+
+	// $cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/", "../img-auto-cut/");
+	// // $cutter->cut(2);
+	// $cutter->cut();
+
+	$files = glob("*.jpg");
+	foreach ($files as $file) {
+		echo "\n.\n.\n[TEST] file: $file\n";
+		$cutter = new Cutter($file, "../img-auto-cut/cells_/", "../img-auto-cut/");
+		$cutter->cut(-1);
+	}
+	
 }
