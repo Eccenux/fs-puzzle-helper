@@ -459,11 +459,21 @@ class Cutter {
 	 * 
 	 * @param int $column
 	 * @param int $colh Calculated height.
+	 * @param array $options Algorithm options override.
 	 * @return array of Y; final row Y will not be returned (if colh was acurate).
 	 */
-	private function rowEnds($column, $colh)
+	private function rowEnds($column, $colh, $options = array())
 	{
-		$minHeight = 50;
+		$defaultOptions = array(
+			'minHeight' => 50,		// min row height (lower then smallest row)
+			'distance' => 10,		// acceptable distance for candidate search
+			'okAvg' => 2.5,			// acceptable AVG of RGB (checked when minOK is reached)
+			'minOk' => 4,			// minimum valid points (more will be checked if okAvg was not reached)
+									// Note! This should be true: minOk < gap
+		);
+		$options = array_merge($defaultOptions, $options);
+
+		$minHeight = $options['minHeight'];
 
 		// $h without gap
 		$h = $colh - $minHeight;
@@ -471,10 +481,9 @@ class Cutter {
 			return array();
 		}
 
-		$distance = 10;		// acceptable distance
-		$okAvg = 2.5;		// acceptable AVG of RGB (checked when minOK is reached)
-		// I assume gap is larger then $minOk
-		$minOk = 4;			// minimum valid points (more will be checked if okAvg was not reached)
+		$distance = $options['distance'];
+		$okAvg = $options['okAvg'];
+		$minOk = $options['minOk'];
 
 		$img = $this->img;
 
