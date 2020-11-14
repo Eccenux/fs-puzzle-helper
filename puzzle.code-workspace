@@ -15,6 +15,7 @@
 			"**/_bkp": true,
 			"**/_legacy": true,
 			"**/img-auto-cut": true,
+			"**/logs": true,
 		}
 	}
 }
