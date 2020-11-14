@@ -1,5 +1,6 @@
 <?php
 require_once './inc/ImageHelper.php';
+require_once './inc/Logger.php';
 
 /**
  * FS puzzle image cutter.
@@ -25,6 +26,10 @@ class Cutter {
 	public $out = './';
 	// column images
 	public $outCol = './';
+	// base logs path
+	public $outLogBase = './logs/';
+	// sub dir
+	private $outLogCurrent = '';
 
 	/**
 	 * Helper for background/color operations.
@@ -45,8 +50,14 @@ class Cutter {
 		$this->out = $out;
 		$this->outCol = $outCol;
 
+		$this->outLogCurrent = date("Y-m-d\TH.i.s") . '--' . basename($file);
+
 		$r = $g = $b = 50;	// expected background
 		$this->ih = new ImageHelper($r, $g, $b);
+	}
+
+	private function getLogPath() {
+		return $this->outLogBase . $this->outLogCurrent . '/';
 	}
 
 	/**
@@ -160,6 +171,9 @@ class Cutter {
 	{
 		$img = $this->img;
 
+		$logger = new Logger($this->getLogPath(), 'colw');
+		ob_start();
+
 		//$startX = 90;	// 90 < min cell-img.w
 		$probeY = $this->top + 50;	// 50 < min cell-img.h
 		$probeY2 = floor($this->h * 0.2);
@@ -220,17 +234,29 @@ class Cutter {
 						break;
 					}
 
-					// end early
+					// end early (only check 2 cols)
 					if (count($candidates) > 1) {
-						echo "candidates: ".implode(', ', $candidates);
-						if ($candidates[0] * 2 != $candidates[1]) {
-							die ("\n[ERROR] Column width candidates do not match! Try manualy setting `colw` (instead of calling `findColW`)\n");
-						}
-						return $candidates[0];
+						break;
 					}
 				}
 			}
 		}
+
+		if (!empty($candidates)) {
+			echo "candidates: ".implode(', ', $candidates);
+		}
+
+		// end logging
+		$logger->log(ob_get_clean());
+
+		// verify candidates
+		if (count($candidates) > 1) {
+			if ($candidates[0] * 2 != $candidates[1]) {
+				die ("\n[ERROR] Column width candidates do not match! Try manualy setting `colw` (instead of calling `findColW`)\n");
+			}
+			return $candidates[0];
+		}
+		die ("\n[ERROR] Unable to calculate column width! Try manualy setting `colw` (instead of calling `findColW`)\n");
 	}
 
 	/**

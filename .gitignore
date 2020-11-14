@@ -4,3 +4,4 @@
 /cut-image/*.jpg
 /img-auto-cut
 *.lnk
+/cut-image/logs
