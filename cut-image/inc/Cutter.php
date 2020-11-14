@@ -132,6 +132,9 @@ class Cutter {
 	 */
 	private function findTop()
 	{
+		$logger = new Logger($this->getLogPath(), 'top');
+		ob_start();
+
 		$h = $this->h;
 		$img = $this->img;
 
@@ -153,6 +156,7 @@ class Cutter {
 		}
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "top = $top (x=$probeX); dt=$timeConsumed\n.\n";
+		$logger->log(ob_get_clean());
 		return $top;
 	}
 
@@ -290,6 +294,9 @@ class Cutter {
 	 */
 	private function findColNo()
 	{
+		$logger = new Logger($this->getLogPath(), 'col_count');
+		ob_start();
+
 		$img = $this->img;
 
 		// main probing point
@@ -315,6 +322,8 @@ class Cutter {
 		}
 
 		echo "cols=$cols\n.\n";
+
+		$logger->log(ob_get_clean());
 		return $cols;
 	}
 
@@ -382,10 +391,15 @@ class Cutter {
 	 */
 	private function cutCol($column)
 	{
+		$logger = new Logger($this->getLogPath(), sprintf("col_cut_%03d", $column));
+
 		$curTime = microtime(true);
 
 		// find end of column (height of column)
+		ob_start();
+		echo "\n[findColHeight]";
 		$colh = $this->findColHeight($column);
+		$logger->log(ob_get_clean());
 
 		// skip if column height was not found (probably empty column)
 		if ($colh == $this->h) {
@@ -393,7 +407,10 @@ class Cutter {
 		}
 
 		// find image ends
+		ob_start();
+		echo "\n[rowEnds]";
 		$rowEnds = $this->rowEnds($column, $colh);
+		$logger->log(ob_get_clean());
 		/**
 		// fail override
 		if ($column==10) {
@@ -418,10 +435,13 @@ class Cutter {
 		/**/
 
 		// debug
+		ob_start();
+		echo "\n[summary]\n";
 		var_export($rowEnds);
 		echo "\n";
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "[column=$column] total dt=$timeConsumed\n";
+		$logger->log(ob_get_clean());
 
 		// crop images to cells
 		$rowEnds[] = $colh;
