@@ -406,6 +406,7 @@ class Cutter {
 		$meta = new ColumnMeta($column);
 
 		$logger = new Logger($this->getLogPath(), sprintf("col_cut_%03d", $column));
+		$dtLogger = new Logger($this->getLogPath(), "dt_col_cut");
 
 		$curTime = microtime(true);
 
@@ -456,7 +457,7 @@ class Cutter {
 		var_export($rowEnds);
 		echo "\n";
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
-		echo "[column=$column] total dt=$timeConsumed\n";
+		$dtLogger->log("[column=$column] total dt=$timeConsumed\n");
 		$logger->log(ob_get_clean());
 
 		// crop images to cells
