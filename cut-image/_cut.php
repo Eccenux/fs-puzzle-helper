@@ -12,10 +12,17 @@ require_once "./inc/Cutter.php";
 $testing = false;
 // $testing = true;
 if (!$testing) {
-	$cutter = new Cutter("raw.jpg", "../img-auto-cut/cells/", "../img-auto-cut/");
+	$dir = './input';
+	$files = scandir($dir, SCANDIR_SORT_DESCENDING);
+	$newest_file = $dir .'/'. $files[0];
+	echo "Cutting: $newest_file\n";
+
+	$cutter = new Cutter($newest_file, "../img-auto-cut/cells/", "../img-auto-cut/");
 	$cutter->cut();
+
 } else {
 	// testing
+	echo "\nWARNING! Running in test mode!\n";
 
 	// $cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/", "../img-auto-cut/");
 	// // $cutter->cut(2);
@@ -28,4 +35,7 @@ if (!$testing) {
 		$cutter->cut(-1);
 	}
 	
+	echo "\nWARNING! Running in test mode!\n";
 }
+
+echo "\nDone\n";
