@@ -1,12 +1,14 @@
 <?php
 require_once './inc/ImageHelper.php';
 require_once './inc/Logger.php';
+require_once './inc/ColumnMeta.php';
+require_once './inc/CutMeta.php';
 
 /**
  * FS puzzle image cutter.
  */
 class Cutter {
-	// gap between columns
+	// gap between columns (and rows)
 	public $gap = 10;
 
 	// top boundary; top bar height (usually 15 or 100)
@@ -74,11 +76,14 @@ class Cutter {
 			return false;
 		}
 
+		$cutMeta = new CutMeta();
+		$cutMeta->gap = $this->gap;
+
 		// find top boundary; top bar height (usually 15 or 100)
-		$this->top = $this->findTop();
+		$cutMeta->top = $this->top = $this->findTop();
 
 		// find column width; usually 300 or 500
-		$this->colw = $this->findColW();
+		$cutMeta->colWidth = $this->colw = $this->findColW();
 		// exit (tests)
 		if ($column === -1) {
 			return false;
@@ -91,14 +96,15 @@ class Cutter {
 		}
 
 		// find number of columns
-		$this->cols = $this->findColNo();
+		$cutMeta->colCount = $this->cols = $this->findColNo();
 
 		// cut columns loop
 		$maxh = 0;
 		for ($c=1; $c <= $this->cols; $c++) { 
-			$colh = $this->cutCol($c);
-			if ($maxh < $colh) {
-				$maxh = $colh;
+			$col = $this->cutCol($c);
+			$cutMeta->add($col);
+			if ($maxh < $col->h) {
+				$maxh = $col->h;
 			}
 		}
 
@@ -107,6 +113,12 @@ class Cutter {
 			'x'=>0, 'y'=>$this->top,
 			'width'=>$this->colw*$this->cols, 'height'=>$maxh,
 		));
+
+		// cut info
+		$fullSummary = $cutMeta->summary(true);
+		$logger = new Logger($this->getLogPath(), '_summary');
+		$logger->log($fullSummary);
+		echo $cutMeta->summary();
 
 		return true;
 	}
@@ -387,10 +399,12 @@ class Cutter {
 	 * Cut column to images.
 	 *
 	 * @param int $column
-	 * @return int Column height (0 if empty).
+	 * @return ColumnMeta Column meta (height 0 if empty).
 	 */
 	private function cutCol($column)
 	{
+		$meta = new ColumnMeta($column);
+
 		$logger = new Logger($this->getLogPath(), sprintf("col_cut_%03d", $column));
 
 		$curTime = microtime(true);
@@ -403,13 +417,15 @@ class Cutter {
 
 		// skip if column height was not found (probably empty column)
 		if ($colh == $this->h) {
-			return 0;
+			return $meta;
 		}
+		$meta->h = $colh;
 
 		// find image ends
 		ob_start();
 		echo "\n[rowEnds]";
 		$rowEnds = $this->rowEnds($column, $colh);
+		$meta->rowEnds = $rowEnds;
 		$logger->log(ob_get_clean());
 		/**
 		// fail override
@@ -472,7 +488,7 @@ class Cutter {
 			'width'=>$imgW, 'height'=>$imgH,
 		), 200);
 
-		return $colh;
+		return $meta;
 	}
 
 	/**
