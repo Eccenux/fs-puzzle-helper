@@ -14,6 +14,9 @@ $testing = false;
 if (!$testing) {
 	$dir = './input';
 	$files = scandir($dir, SCANDIR_SORT_DESCENDING);
+	if (empty($files)) {
+		die('[ERROR] No files in input dir.');
+	}
 	$newest_file = $dir .'/'. $files[0];
 	echo "Cutting: $newest_file\n";
 
