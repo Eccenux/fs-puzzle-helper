@@ -8,16 +8,17 @@ date_default_timezone_set("Europe/Warsaw");
 ini_set("memory_limit", "2048M");
 
 require_once "./inc/Cutter.php";
+require_once "./inc/FileHelper.php";
 
 $testing = false;
 // $testing = true;
 if (!$testing) {
-	$dir = './input';
-	$files = scandir($dir, SCANDIR_SORT_DESCENDING);
+	$dir = './input/*.jpg';
+	$files = FileHelper::filesByTime($dir);
 	if (empty($files)) {
 		die('[ERROR] No files in input dir.');
 	}
-	$newest_file = $dir .'/'. $files[0];
+	$newest_file = array_pop($files);
 	echo "Cutting: $newest_file\n";
 
 	$cutter = new Cutter($newest_file, "../img-auto-cut/cells/", "../img-auto-cut/");
