@@ -142,6 +142,17 @@ main {
 	border: 4px solid darkgreen;
 	box-sizing: border-box;
 	border-radius: 5px;
+	width: 33%;
+}
+
+/* view all mode (temporary reset of done state) */
+.view-all .column img.done-cell {
+	width: 100%;
+}
+.view-all .column.done {
+	min-width: inherit;
+	width: auto;
+	overflow: auto;
 }
 
 /* zoomer list related (multi-zoom) */

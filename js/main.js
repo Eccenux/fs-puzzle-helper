@@ -19,4 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			img.classList.toggle('done-cell');
 		});
 	});
+
+	document.querySelector('#toggle-view-all').addEventListener('click', ()=>{
+		document.body.classList.toggle('view-all');
+	});
 });

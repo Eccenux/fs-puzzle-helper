@@ -23,9 +23,11 @@
 <body>
 	<main>
 		<section id="main-controls">
-			<button id="reset-all">reset all</button>
+			<button id="reset-all" title="toggle all columns state">reset all</button>
 			&bull;
 			<button id="toggle-zoomer">toggle zoomer</button>
+			&bull;
+			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
 			&bull;
 			<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
 		</section>
