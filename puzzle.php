@@ -86,5 +86,12 @@
 		// css: var(--scrollbar-width)
 		//document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");		
 	</script>
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$('#zoomer-list').sortable();
+		$('#zoomer-list').disableSelection();
+	</script>
 </body>
 </html>

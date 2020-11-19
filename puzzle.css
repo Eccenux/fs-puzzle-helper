@@ -38,6 +38,7 @@ main {
 #columns { grid-area: columns; }
 #controls { grid-area: controls; }
 .hidden-zoomer main {
+	grid-template-columns: 1fr;
 	grid-template-areas:
 		"main-controls"
 		"columns"
