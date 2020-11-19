@@ -24,3 +24,18 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.body.classList.toggle('view-all');
 	});
 });
+
+/**
+// Save portals state (simple on/off state)
+doneCells = [...document.querySelectorAll('.done-cell')]
+	.map(el=>el.id)
+;
+localStorage.setItem('temp-portal-done', JSON.stringify(doneCells));
+
+// Load portals stare
+doneCells = JSON.parse(localStorage.getItem('temp-portal-done'));
+doneCells
+	.map(id=>document.getElementById(id))
+	.forEach(el=>{el.classList.add('done-cell')})
+;
+*/
