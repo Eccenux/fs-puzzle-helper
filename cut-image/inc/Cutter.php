@@ -594,6 +594,13 @@ class Cutter {
 				$okCount++;
 				if ($okCount == 1) {
 					$candidate = $y;
+				
+				// too large for a gap
+				} else if ($okCount >= $this->gap + 2) {
+					echo "\n";
+					$this->debugPoint($probeX, $y);
+					echo "rejected too large gap: $candidate [okCount=$okCount]\n";
+					$reset = true;
 
 				// found
 				} else if ($okCount >= $minOk && $diff->avg <= $okAvg) {
@@ -602,6 +609,10 @@ class Cutter {
 					$height = 3;
 					$startX = $probeX;
 					$stepX = ceil($this->colw / 50);
+					// change Y if close to edge
+					if ($okCount >= $this->gap - 1) {
+						$startY = $candidate + floor($this->gap / 2);
+					}
 					$okX = $this->checkOverX($column, $startY, $height, $startX, $stepX);
 
 					if (!$okX) {
