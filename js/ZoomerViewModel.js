@@ -1,3 +1,5 @@
+import {EventsHelper} from './EventsHelper.js';
+
 /**
  * Zoomer view handler.
  */
@@ -135,6 +137,14 @@ class ZoomerViewModel {
 			nel.innerHTML = `<img src='${img.src}'><figcaption>${img.title}</figcaption>`;
 			nel.className = `list ${id}`;
 			this.listContainer.appendChild(nel);
+
+			// allow zoom-in from list
+			nel.setAttribute('data-id', id);
+			EventsHelper.clickDraggable(nel, () => {
+				let id = nel.getAttribute('data-id');
+				let img = document.getElementById(id);
+				this.cellLoad(img);
+			});
 		}
 	}
 
