@@ -22,27 +22,68 @@ class PortalsViewModel {
 	}
 
 	/**
+	 * Change done state (both in DOM and storage).
+	 * 
+	 * Note! This is async.
+	 * 
+	 * @param {Element} img Cell-image.
+	 * @param {boolean} done Done / not done.
+	 */
+	changeDoneState(img, done) {
+		if (done) {
+			img.classList.add('done-cell');
+		} else {
+			img.classList.remove('done-cell');
+		}
+		this.saveDoneState(img, done);
+	}
+
+	/**
 	 * Adding done-marks.
+	 * @private
 	 */
 	initDoneMarks() {
 		document.querySelectorAll('.column img').forEach(img=>{
 			img.addEventListener('dblclick', ()=>{
 				let done = img.classList.toggle('done-cell');
-				// async save
-				setTimeout(() => {
-					if (done) {
-						let cell = PortalCell.fromImage(img);
-						this.state.setDone(cell);
-					} else {
-						this.state.setUnDone(img.id);
-					}
-				});
+				this.saveDoneState(img, done);
 			});
 		});
 	}
 
 	/**
+	 * Save done state for cell.
+	 * 
+	 * Note! This is async.
+	 * @private
+	 * @param {Element} img Cell-image.
+	 * @param {boolean} done Done / not done.
+	 */
+	saveDoneState(img, done) {
+		// async save
+		setTimeout(() => {
+			if (done) {
+				let cell = PortalCell.fromImage(img);
+				this.state.setDone(cell);
+			} else {
+				this.state.setUnDone(img.id);
+			}
+		});
+	}
+
+	/**
+	 * Get portal model.
+	 * @param {Element} img Cell-image.
+	 */
+	getPortal(img) {
+		let cell = PortalCell.fromImage(img);
+		let portal = this.state.getPortal(cell);
+		return portal;
+	}
+
+	/**
 	 * State loader.
+	 * @private
 	 */
 	load() {
 		this.state.init();
@@ -57,6 +98,7 @@ class PortalsViewModel {
 
 	/**
 	 * Reset all.
+	 * @private
 	 */
 	initReset() {
 		document.querySelector('#reset-all').addEventListener('click', ()=>{

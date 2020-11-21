@@ -37,6 +37,7 @@ class ZoomerViewModel {
 
 	/**
 	 * Init list elements.
+	 * @private
 	 */
 	initList() {
 		let controls = document.querySelector('#zoomer-list-controls');
@@ -48,11 +49,13 @@ class ZoomerViewModel {
 
 	/**
 	 * Enlarge image.
+	 * @private
 	 */
 	initZoom() {
-		this.mainFig = document.querySelector('#zoomer .main');
-		this.mainImg = this.mainFig.querySelector('img');
-		this.mainCaption = document.querySelector('figcaption');
+		this.mainSection = document.querySelector('#zoomer .main');
+		this.mainImg = this.mainSection.querySelector('img');
+		this.mainCaption = this.mainSection.querySelector('figcaption');
+		this.initForm();
 		document.querySelectorAll('.column img').forEach(img=>{
 			img.addEventListener('click', (e)=>{
 				if (!e.ctrlKey) {
@@ -60,7 +63,7 @@ class ZoomerViewModel {
 					this.cellLoad(img);
 				} else {
 					// add/remove from list
-					this.mainFig.style.display = 'none';
+					this.mainSection.style.display = 'none';
 					this.cellToggle(img);
 				}
 
@@ -75,31 +78,39 @@ class ZoomerViewModel {
 	}
 
 	/**
+	 * Init main edit form.
+	 */
+	initForm() {
+		this.mainForm = this.mainSection.querySelector('#cell-form');
+		this.mainFields = {
+			done: this.mainForm.querySelector('[name="done"]'),
+		}
+		this.mainFields.done.addEventListener('change', ()=>{
+			if (this.mainForm._zoomerImg instanceof Element) {
+				let done = this.mainFields.done.checked;
+				app.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, done);
+			}
+		});
+	}
+
+	/**
 	 * Load cell image to main view.
+	 * @private
 	 */
 	cellLoad(img) {
 		this.mainImg.src = img.src;
 		this.mainCaption.textContent = img.title;
-		this.mainFig.style.display = '';
-
-		// maybe later
-		// containment don't work well when layout change
-		// aspectRatio is not automatically update (would have to recalculate)
-		/**
-		//$('#zoomer .main img').resizable("destroy");
-		$('#zoomer .main img').resizable({
-			aspectRatio: true,
-			containment: "#zoomer",
-			minHeight: 150,
-			minWidth: 200,
-			//handles: "e, se",
-			handles: "w, e",
-		});
-		/**/
+		this.mainSection.style.display = '';
+		this.mainForm.style.display = '';
+		this.mainForm._zoomerImg = img;
+		let portal = app.portalsViewModel.getPortal(img);
+		this.mainFields.done.checked = portal.done;
+		$(this.mainFields.done).checkboxradio("refresh");
 	}
 
 	/**
 	 * Init list clear.
+	 * @private
 	 * @param {Element} container Controls container.
 	 */
 	initListClear(container) {
@@ -117,6 +128,7 @@ class ZoomerViewModel {
 
 	/**
 	 * Append or remove image from zoomer list.
+	 * @private
 	 * @param {Element} img Column image.
 	 */
 	cellToggle(img) {
@@ -150,6 +162,7 @@ class ZoomerViewModel {
 
 	/**
 	 * Init resizing buttons.
+	 * @private
 	 * @param {Element} container Controls container.
 	 */
 	initListResize(container) {

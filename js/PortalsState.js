@@ -41,16 +41,29 @@ class PortalsState {
 		;
 	}
 	/**
+	 * Find portal by ID.
+	 * 
+	 * @private
+	 * @param {String} id Cell id.
+	 */
+	findPortal(id) {
+		let existingPortals = this.portals
+			.filter(portal=>portal.id === id)
+		;
+		if (existingPortals.length) {
+			return existingPortals[0];
+		}
+		return null;
+	}
+
+	/**
 	 * Set as done.
+	 * @param {PortalCell} cell 
 	 */
 	setDone(cell) {
-		let existingPortals = this.portals
-			.filter(portal=>portal.id === cell.id)
-		;
 		// set or create
-		let portal;
-		if (existingPortals.length) {
-			portal = existingPortals.pop();
+		let portal = this.findPortal(cell.id);
+		if (portal !== null) {
 			portal.done = true;
 		} else {
 			portal = new Portal(cell, true);
@@ -61,17 +74,24 @@ class PortalsState {
 	/**
 	 * UnSet done state.
 	 */
-	setUnDone(cell) {
-		let existingPortals = this.portals
-			.filter(portal=>portal.id === id)
-		;
-		// set or create
-		let portal;
-		if (existingPortals.length) {
-			portal = existingPortals.pop();
-		} else {
+	setUnDone(id) {
+		let portal = this.findPortal(id);
+		if (portal !== null) {
+			portal.done = false;
+		}
+		this.writeAll();
+	}
+	/**
+	 * Get portal.
+	 * @param {PortalCell} cell 
+	 */
+	getPortal(cell) {
+		// use or create
+		let portal = this.findPortal(cell.id);
+		if (portal === null) {
 			portal = new Portal(cell);
 		}
+		return portal;
 	}
 
 	/**

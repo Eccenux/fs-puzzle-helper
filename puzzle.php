@@ -32,10 +32,15 @@
 			<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
 		</section>
 		<section id="zoomer" class="medium3">
-			<figure class="main">
-				<img src="img-auto-cut/cells/col_001_001.jpg" />
-				<figcaption></figcaption>
-			</figure>
+			<section class="main">
+				<figure>
+					<img src="img-auto-cut/cells/col_001_001.jpg" />
+					<figcaption></figcaption>
+				</figure>
+				<div id="cell-form" style="display: none;">
+					<label>Done <input type="checkbox" name="done"></label>
+				</div>
+			</section>
 			<section id="zoomer-list-controls" style="display: none;">
 				<button class="resize" data-class="small">small (6)</button>
 				<button class="resize" data-class="medium5">5</button>
@@ -94,16 +99,7 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
-		/**
-		$('#zoomer .main img').resizable( "destroy" );
-		$('#zoomer .main img').resizable({
-			//aspectRatio: true,
-			minHeight: 150,
-			minWidth: 200,
-			//handles: "e, se",
-			handles: "e",
-		});
-		/**/
+		$("input[type=checkbox]").checkboxradio();
 		$('#zoomer-list').sortable();
 		$('#zoomer-list').disableSelection();
 	</script>
