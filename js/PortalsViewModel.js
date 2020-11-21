@@ -1,5 +1,5 @@
-//import {PortalsState} from './PortalsState.js';
-import {StateStore} from './StateStore.js';
+import {PortalsState} from './PortalsState.js';
+import {PortalCell} from './PortalCell.js';
 
 /**
  * Portals view handler.
@@ -9,15 +9,13 @@ class PortalsViewModel {
 		/**
 		 * State manager.
 		 */
-		//this.state = new PortalsState();
-		this.store = new StateStore();
+		this.state = new PortalsState();
 	}
 	/**
 	 * Init interactions.
 	 * @param {String} PortalsSelector CSS selector for all Portals.
 	 */
 	init() {
-		//this.state.init('.column');
 		this.load();
 		this.initDoneMarks();
 		this.initReset();
@@ -29,20 +27,27 @@ class PortalsViewModel {
 	initDoneMarks() {
 		document.querySelectorAll('.column img').forEach(img=>{
 			img.addEventListener('dblclick', ()=>{
-				img.classList.toggle('done-cell');
-				// store state
-				let doneCells = [...document.querySelectorAll('.done-cell')].map(el=>el.id);
-				this.store.write(doneCells);
+				let done = img.classList.toggle('done-cell');
+				// async save
+				setTimeout(() => {
+					if (done) {
+						let cell = PortalCell.fromImage(img);
+						this.state.setDone(cell);
+					} else {
+						this.state.setUnDone(img.id);
+					}
+				});
 			});
 		});
 	}
 
 	/**
-	 * Simplified state loader.
+	 * State loader.
 	 */
 	load() {
-		let doneCells = this.store.read();
-		if (doneCells && Array.isArray(doneCells)) {
+		this.state.init();
+		let doneCells = this.state.getDoneIds();
+		if (doneCells.length) {
 			doneCells
 				.map(id=>document.getElementById(id))
 				.forEach(el=>{el.classList.add('done-cell')})
@@ -57,7 +62,7 @@ class PortalsViewModel {
 		document.querySelector('#reset-all').addEventListener('click', ()=>{
 			let confirmed = confirm('Reset all portals?');
 			if (confirmed) {
-				this.store.write(null);
+				this.state.resetAll();
 				document.querySelectorAll('.done-cell')
 					.forEach(el=>{el.classList.remove('done-cell')})
 				;

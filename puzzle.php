@@ -69,8 +69,12 @@
 					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.'</h2>';
 					foreach ($files as $file) {
 						$id = preg_replace('#\.\w+$#', '', basename($file));
-						$title = preg_replace('#.+?0*([0-9]+).+?0*([0-9]+).*#', 'col $1, row $2', $id);
-						echo "<img src='$file' id='cell_{$id}' title='{$title}' />";
+						if (preg_match('#.+?0*([0-9]+).+?0*([0-9]+).*#', $id, $matches)) {
+							$col = $matches[1];
+							$row = $matches[2];
+							$title = "col $col, row $row";
+							echo "<img src='$file' id='cell_{$id}' title='{$title}' data-col='$col' data-row='$row' />";
+						}
 					}
 					echo '</section>';
 				}

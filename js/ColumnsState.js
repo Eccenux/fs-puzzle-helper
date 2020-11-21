@@ -3,6 +3,8 @@ import {CssVariables} from './CssVariables.js';
 
 /**
  * Basic state operations.
+ * 
+ * @todo This state is a bit too much like viewmodel... Should probably remove elements operations.
  */
 class ColumnsState {
 	constructor() {
