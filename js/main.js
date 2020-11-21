@@ -9,6 +9,7 @@ const columnsViewModel = new ColumnsViewModel();
 const portalsViewModel = new PortalsViewModel();
 const zoomerViewModel = new ZoomerViewModel();
 
+// init on load
 document.addEventListener("DOMContentLoaded", function() {
 	columnsViewModel.init();
 	portalsViewModel.init();
@@ -18,3 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.body.classList.toggle('view-all');
 	});
 });
+
+// expose app
+const app = {
+	columnsViewModel,
+	portalsViewModel,
+	zoomerViewModel,
+};
+window.app = app;
