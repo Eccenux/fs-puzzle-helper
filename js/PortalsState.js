@@ -93,6 +93,24 @@ class PortalsState {
 		}
 		return portal;
 	}
+	/**
+	 * Set full portal state.
+	 * @param {Portal} portal Modified portal data.
+	 */
+	setPortal(portal) {
+		let portalIndex = -1;
+		for (let index = 0; index < this.portals.length; index++) {
+			if (this.portals[index].id === portal.id) {
+				portalIndex = index;
+			}
+		}
+		if (portalIndex < 0) {
+			this.portals.push(portal);
+		} else {
+			this.portals.splice(portalIndex, 1, portal);
+		}
+		this.writeAll();
+	}
 
 	/**
 	 * Write state to storage.
@@ -112,8 +130,7 @@ class PortalsState {
 	readAll() {
 		let state = this.store.read();
 		if (state != null && 'portals' in state && Array.isArray(state.portals)) {
-			// TODO: should probably re-write to Portal class.
-			this.portals = state.portals;
+			this.portals = state.portals.map(p=>Portal.create(p));
 		} else {
 			this.portals = [];
 		}

@@ -44,6 +44,23 @@ class Portal {
 	}
 
 	/**
+	 * Create new portal from dummped data.
+	 * @param {Portal} obj Dummped data with at least similar props.
+	 */
+	static create(obj) {
+		if (!(obj && 'col' in obj && 'row' in obj && 'id' in obj)) {
+			console.error('Portal data is invalid', obj);
+			return null;
+		}
+		let portal = new Portal(obj);
+		portal.title = obj.title;
+		portal.notes = obj.notes;
+		portal.discoverer = obj.discoverer;
+		portal.setLocation(obj._l.lat, obj._l.lon);
+		return portal;
+	}
+
+	/**
 	 * Set location for portal.
 	 * @param {String} latitude Latitude string.
 	 * @param {String} longitude Longitude string.
@@ -58,11 +75,10 @@ class Portal {
 	 * 
 	 * Example (nickname is optional):
 	 * `Директорский Дом	eccenux	https://intel.ingress.com/intel?ll=55.922126,37.809053&z=17&pll=55.922126,37.809053`
-	 * @param {String} nick Player nickname (use empty string for unknown).
 	 */
-	puzzleData(nick) {
+	puzzleData() {
 		let url = this.getUrl();
-		return `${this.title}\t${nick}\t${url}`;
+		return `${this.title}\t${this.discoverer}\t${url}`;
 	}
 
 	/**

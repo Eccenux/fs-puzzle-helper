@@ -13,11 +13,14 @@ const zoomerViewModel = new ZoomerViewModel();
 document.addEventListener("DOMContentLoaded", function() {
 	columnsViewModel.init();
 	portalsViewModel.init();
-	zoomerViewModel.init();
+	zoomerViewModel.init(portalsViewModel);
 
 	document.querySelector('#toggle-view-all').addEventListener('click', ()=>{
 		document.body.classList.toggle('view-all');
 	});
+
+	// load first cell
+	$('#cell_col_001_001').click();
 });
 
 // expose app

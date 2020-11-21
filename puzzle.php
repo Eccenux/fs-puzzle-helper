@@ -38,8 +38,16 @@
 					<img src="img-auto-cut/cells/col_001_001.jpg" />
 					<figcaption></figcaption>
 				</figure>
-				<div id="cell-form" style="display: none;">
-					<label>Done <input type="checkbox" name="done"></label>
+				<div id="cell-form" class="form" style="display: none;">
+					<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
+					<p class="text">
+						<label for="zoomer_field_puzzle" title="FS puzzle format">FS puzzle: 📋</label>
+						<input  id="zoomer_field_puzzle" name="puzzle" type="text" value="">
+					</p>
+					<p class="text">
+						<label for="zoomer_field_notes">Notes:</label>
+						<input  id="zoomer_field_notes" name="notes" type="text" value="">
+					</p>
 				</div>
 			</section>
 			<section id="zoomer-list-controls" style="display: none;">
@@ -88,7 +96,10 @@
 			</section>
 		</section>
 		<section id="controls">
-			No. of portals (per column): <input type="text" value="<?=implode("\t", $rowCounts)?>"/>
+			<p class="text">
+				<label>No. of portals (per column):</label>
+				<input type="text" value="<?=implode("\t", $rowCounts)?>"/>
+			</p>
 		</section>
 	</main>
 

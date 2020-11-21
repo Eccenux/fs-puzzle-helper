@@ -85,10 +85,10 @@ main {
 #zoomer img {
 	width: 100%;
 }
-.main {
+#zoomer .main {
 	position: relative;
 }
-.zoomer-hide {
+#zoomer .zoomer-hide {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -98,10 +98,27 @@ main {
 	background: transparent;
 	text-shadow: #FFF 0 0 5px,#FFF 0 0 15px,#FFF 0 0 15px;
 }
-.zoomer-hide:hover {
+#zoomer .zoomer-hide:hover {
 	background: rgba(255,255,255,0.4);
 	box-shadow: #000 2px 2px 3px;
 }
+#cell-form > p:first-child {
+	margin-top: 0;
+}
+/* forms */
+.form {
+	margin: 0 var(--col-gap);
+}
+.text {
+	display: flex;
+}
+.text input {
+	flex: 1 1 auto;
+}
+.text label {
+	padding: .4em;
+}
+  
 
 /* columns */
 #columns {

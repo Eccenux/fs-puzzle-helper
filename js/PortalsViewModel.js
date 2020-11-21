@@ -39,6 +39,20 @@ class PortalsViewModel {
 	}
 
 	/**
+	 * Apply portal changes.
+	 * 
+	 * Note! This is async.
+	 * 
+	 * @param {Portal} portal Modified portal data.
+	 */
+	changePortalState(portal) {
+		// async save
+		setTimeout(() => {
+			this.state.setPortal(portal);
+		});
+	}
+
+	/**
 	 * Adding done-marks.
 	 * @private
 	 */

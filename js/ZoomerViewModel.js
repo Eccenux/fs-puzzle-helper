@@ -1,4 +1,6 @@
 import {EventsHelper} from './EventsHelper.js';
+import { Portal } from './Portal.js';
+import { PortalsViewModel } from './PortalsViewModel.js';
 
 /**
  * Zoomer view handler.
@@ -17,13 +19,16 @@ class ZoomerViewModel {
 		 * Id set of the img list.
 		 */
 		this.idList = new Set();
+
+		this.portalsViewModel = null;
 	}
 
 	/**
 	 * Init interactions.
-	 * @param {String} columnsSelector CSS selector for all columns.
+	 * @param {PortalsViewModel} portalsViewModel VM for portal ops.
 	 */
-	init() {
+	init(portalsViewModel) {
+		this.portalsViewModel = portalsViewModel;
 		this.mainContainer = document.querySelector('#zoomer');
 		this.listContainer = document.querySelector('#zoomer-list');
 		this.initZoom();
@@ -45,7 +50,7 @@ class ZoomerViewModel {
 		this.initListResize(controls);
 		this.listControls = controls;
 		this.listControls.style.display = 'none';
-		
+
 		document.querySelector('.zoomer-hide').addEventListener('click', ()=>{
 			this.mainSection.style.display = 'none';
 		});
@@ -88,11 +93,20 @@ class ZoomerViewModel {
 		this.mainForm = this.mainSection.querySelector('#cell-form');
 		this.mainFields = {
 			done: this.mainForm.querySelector('[name="done"]'),
+			puzzle: this.mainForm.querySelector('[name="puzzle"]'),
+			notes: this.mainForm.querySelector('[name="notes"]'),
 		}
 		this.mainFields.done.addEventListener('change', ()=>{
 			if (this.mainForm._zoomerImg instanceof Element) {
 				let done = this.mainFields.done.checked;
-				app.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, done);
+				this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, done);
+			}
+		});
+		this.mainFields.notes.addEventListener('change', ()=>{
+			if (this.mainForm._portal instanceof Portal) {
+				let portal = this.mainForm._portal;
+				portal.notes = this.mainFields.notes.value;
+				this.portalsViewModel.changePortalState(portal);
 			}
 		});
 	}
@@ -102,14 +116,19 @@ class ZoomerViewModel {
 	 * @private
 	 */
 	cellLoad(img) {
+		let portal = this.portalsViewModel.getPortal(img);
+		// fill display data
 		this.mainImg.src = img.src;
 		this.mainCaption.textContent = img.title;
 		this.mainSection.style.display = '';
 		this.mainForm.style.display = '';
+		// fill fields
 		this.mainForm._zoomerImg = img;
-		let portal = app.portalsViewModel.getPortal(img);
+		this.mainForm._portal = portal;
 		this.mainFields.done.checked = portal.done;
 		$(this.mainFields.done).checkboxradio("refresh");
+		this.mainFields.puzzle.value = portal.puzzleData();
+		this.mainFields.notes.value = portal.notes;
 	}
 
 	/**
