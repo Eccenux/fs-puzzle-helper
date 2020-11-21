@@ -4,3 +4,4 @@
 *.lnk
 /cut-image/logs
 /cut-image/input
+/node_modules
