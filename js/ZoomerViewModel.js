@@ -1,6 +1,7 @@
 import {EventsHelper} from './EventsHelper.js';
 import { Portal } from './Portal.js';
 import { PortalsViewModel } from './PortalsViewModel.js';
+import { ClipboardHelper } from './ClipboardHelper.js';
 
 /**
  * Zoomer view handler.
@@ -96,6 +97,8 @@ class ZoomerViewModel {
 			puzzle: this.mainForm.querySelector('[name="puzzle"]'),
 			notes: this.mainForm.querySelector('[name="notes"]'),
 		}
+
+		// changes
 		this.mainFields.done.addEventListener('change', ()=>{
 			if (this.mainForm._zoomerImg instanceof Element) {
 				let done = this.mainFields.done.checked;
@@ -124,6 +127,14 @@ class ZoomerViewModel {
 				}
 			}
 		});
+		
+		// extras
+		this.mainForm.querySelector('[for="zoomer_field_puzzle"')
+			.addEventListener('click', ()=>{
+				ClipboardHelper.copyTextField(this.mainFields.puzzle);
+				console.log('copied');
+			})
+		;
 	}
 
 	/**
@@ -132,19 +143,25 @@ class ZoomerViewModel {
 	 */
 	cellLoad(img) {
 		let portal = this.portalsViewModel.getPortal(img);
+		
 		// fill display data
 		this.mainImg.src = img.src;
 		this.mainCaption.textContent = img.title;
 		this.mainSection.style.display = '';
 		this.mainForm.style.display = '';
-		// fill fields
+
+		// prep internals
 		this.mainForm._zoomerImg = img;
 		this.mainForm._portal = portal;
+
+		// init fields
 		this.mainFields.done.checked = portal.done;
 		$(this.mainFields.done).checkboxradio("refresh");
+
 		this.mainFields.puzzle.value = portal.puzzleData();
 		this.mainFields.puzzle.setCustomValidity('');
 		this.mainFields.puzzle.reportValidity();
+
 		this.mainFields.notes.value = portal.notes;
 	}
 
