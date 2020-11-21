@@ -72,11 +72,12 @@ main {
 	display: none;
 } */
 
-
+/* extra controls */
 #controls {
 	margin: var(--col-gap);
 }
 
+/* zoomer - main area */
 #zoomer {
 	/* height: calc(100vh - var(--scrollbar-width)); */
 	overflow-y: auto;
@@ -84,7 +85,25 @@ main {
 #zoomer img {
 	width: 100%;
 }
+.main {
+	position: relative;
+}
+.zoomer-hide {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0 .5em;
+	margin: 0;
+	border-color: transparent;
+	background: transparent;
+	text-shadow: #FFF 0 0 5px,#FFF 0 0 15px,#FFF 0 0 15px;
+}
+.zoomer-hide:hover {
+	background: rgba(255,255,255,0.4);
+	box-shadow: #000 2px 2px 3px;
+}
 
+/* columns */
 #columns {
 	display: flex;
 	margin-left: var(--base-gap);

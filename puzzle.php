@@ -33,6 +33,7 @@
 		</section>
 		<section id="zoomer" class="medium3">
 			<section class="main">
+				<button class="zoomer-hide" title="close zoomer">✕</button>
 				<figure>
 					<img src="img-auto-cut/cells/col_001_001.jpg" />
 					<figcaption></figcaption>

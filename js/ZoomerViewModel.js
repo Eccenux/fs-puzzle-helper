@@ -45,6 +45,10 @@ class ZoomerViewModel {
 		this.initListResize(controls);
 		this.listControls = controls;
 		this.listControls.style.display = 'none';
+		
+		document.querySelector('.zoomer-hide').addEventListener('click', ()=>{
+			this.mainSection.style.display = 'none';
+		});
 	}
 
 	/**
