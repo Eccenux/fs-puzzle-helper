@@ -16,7 +16,7 @@
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	-->
-	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 	<script src="js/main.js" type="module"></script>
 </head>
@@ -94,6 +94,16 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
+		/**
+		$('#zoomer .main img').resizable( "destroy" );
+		$('#zoomer .main img').resizable({
+			//aspectRatio: true,
+			minHeight: 150,
+			minWidth: 200,
+			//handles: "e, se",
+			handles: "e",
+		});
+		/**/
 		$('#zoomer-list').sortable();
 		$('#zoomer-list').disableSelection();
 	</script>

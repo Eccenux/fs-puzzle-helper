@@ -48,19 +48,17 @@ class ZoomerViewModel {
 	 * Enlarge image.
 	 */
 	initZoom() {
-		let mainFig = document.querySelector('#zoomer .main');
-		let mainImg = mainFig.querySelector('img');
-		let mainCaption = document.querySelector('figcaption');
+		this.mainFig = document.querySelector('#zoomer .main');
+		this.mainImg = this.mainFig.querySelector('img');
+		this.mainCaption = document.querySelector('figcaption');
 		document.querySelectorAll('.column img').forEach(img=>{
 			img.addEventListener('click', (e)=>{
 				if (!e.ctrlKey) {
 					// single/main image show
-					mainImg.src = img.src;
-					mainCaption.textContent = img.title;
-					mainFig.style.display = '';
+					this.cellLoad(img);
 				} else {
 					// add/remove from list
-					mainFig.style.display = 'none';
+					this.mainFig.style.display = 'none';
 					this.cellToggle(img);
 				}
 
@@ -72,6 +70,30 @@ class ZoomerViewModel {
 				}
 			});
 		});	
+	}
+
+	/**
+	 * Load cell image to main view.
+	 */
+	cellLoad(img) {
+		this.mainImg.src = img.src;
+		this.mainCaption.textContent = img.title;
+		this.mainFig.style.display = '';
+
+		// maybe later
+		// containment don't work well when layout change
+		// aspectRatio is not automatically update (would have to recalculate)
+		/**
+		//$('#zoomer .main img').resizable("destroy");
+		$('#zoomer .main img').resizable({
+			aspectRatio: true,
+			containment: "#zoomer",
+			minHeight: 150,
+			minWidth: 200,
+			//handles: "e, se",
+			handles: "w, e",
+		});
+		/**/
 	}
 
 	/**
