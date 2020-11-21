@@ -80,12 +80,47 @@ class Portal {
 		let url = this.getUrl();
 		return `${this.title}\t${this.discoverer}\t${url}`;
 	}
+	/**
+	 * Parse and set puzzle data.
+	 * @param {String} value New value.
+	 * @returns false upon error.
+	 */
+	setPuzzleData(value) {
+		let data = this.parsePuzzleData(value);
+		if (data === null) {
+			return false;
+		}
+		this.title = data.title;
+		this.discoverer = data.discoverer;
+		this._l.lat = data.lat;
+		this._l.lon = data.lon;
+		return true;
+	}
+
+	/**
+	 * Parse and set puzzle data.
+	 * @private
+	 * @param {String} value New value.
+	 * @returns null upon error or {title, discoverer, lat, lon}.
+	 */
+	parsePuzzleData(value) {
+		let data = null;
+		value.replace(/^(.+)\t(.+?)\t(.+)$/, (a, title, discoverer, url) => {
+			url.replace(/^http.+[^a-z]pll=([0-9.\-+]+),([0-9.\-+]+)/i, (a, lat, lon) => {
+				data = {title, discoverer, lat, lon};
+			});
+		});
+		return data;
+	}
 
 	/**
 	 * Get portal URL.
 	 */
 	getUrl() {
 		let ll = this.getLatLon();
+		if (ll === ',') {
+			return '';
+		}
 		return `${baseUrl}?ll=${ll}&z=17&pll=${ll}`;
 	}
 

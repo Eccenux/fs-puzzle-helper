@@ -109,6 +109,21 @@ class ZoomerViewModel {
 				this.portalsViewModel.changePortalState(portal);
 			}
 		});
+		this.mainFields.puzzle.addEventListener('change', ()=>{
+			if (this.mainForm._portal instanceof Portal) {
+				let portal = this.mainForm._portal;
+				const input = this.mainFields.puzzle;
+				let valid = portal.setPuzzleData(input.value);
+				if (!valid) {
+					input.setCustomValidity('The text is invalid! Use FS helper.');
+					input.reportValidity();
+				} else {
+					input.setCustomValidity('');
+					input.reportValidity();
+					this.portalsViewModel.changePortalState(portal);
+				}
+			}
+		});
 	}
 
 	/**
@@ -128,6 +143,8 @@ class ZoomerViewModel {
 		this.mainFields.done.checked = portal.done;
 		$(this.mainFields.done).checkboxradio("refresh");
 		this.mainFields.puzzle.value = portal.puzzleData();
+		this.mainFields.puzzle.setCustomValidity('');
+		this.mainFields.puzzle.reportValidity();
 		this.mainFields.notes.value = portal.notes;
 	}
 
