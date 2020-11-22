@@ -45,6 +45,22 @@
 </head>
 <body>
 	<main>
+		<!-- passcode base info -->
+		<section id="passcode-info">
+			<div class="form">
+				<p class="text">
+					<label for="passcode_field_url" title="Puzzle image">Image:</label>
+					<input  id="passcode_field_url" name="url" type="url" value="">
+				</p>
+				<p class="text">
+					<label for="passcode_field_code">Code:</label>
+					<input  id="passcode_field_code" name="code" type="text" value="">
+				</p>
+			</div>
+			<div class="map">
+				<div id="main-char-map" class="char-map"></div>
+			</div>
+		</section>
 		<!-- passcode to columns (chars and graphs) -->
 		<section id="passcode-columns">
 			<table>
@@ -54,7 +70,7 @@
 						<th class="passcode-col-no"><?=$column?></td>
 					<?php } ?>
 				</tr>
-				<tr>
+				<tr style="display: none;">
 					<th>Format</th>
 					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
 						<td class="passcode-col-format">
@@ -73,7 +89,9 @@
 				<tr>
 					<th>Map</th>
 					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-map"></td>
+						<td class="passcode-col-map">
+							<button data-col="<?=$column?>" title="Show map for column">👁‍</button>
+						</td>
 					<?php } ?>
 				</tr>
 			</table>

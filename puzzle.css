@@ -285,10 +285,31 @@ main {
 	background-color: whitesmoke;
 }
 
+/* Passcode data */
 #passcode-columns {
 	margin-bottom: var(--base-gap);
 	margin-left: var(--base-gap);
 }
+#passcode-columns button,
 #passcode-columns input {
 	width: 2em;
+}
+#passcode-columns button {
+	padding: 0;
+}
+
+#passcode-info label {
+	min-width: 5em;
+}
+#passcode-info {
+	display: flex;
+}
+#passcode-info .form {
+	flex: 1 1 auto;
+}
+  
+.char-map {
+	width:100px;
+	height:100px;
+	border: 1px solid black;
 }
