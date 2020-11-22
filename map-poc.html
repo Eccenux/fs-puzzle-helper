@@ -30,23 +30,69 @@
 		[34.04, -118.2]
 	];
 	/**/
-	var latlngs = `
+	var latlngs = locationLinesToPoly(`
 		-23.572346,-46.631896
 		-23.573012,-46.641306
 		-23.579248,-46.640747
 		-23.578702,-46.635149
 		-23.580247,-46.641658
 		-23.587087,-46.640688
-	`
-	.trim()
-	.split('\n')
-	.map(l=>l.trim())
-	.map(l=>l.split(','))
+	`);
 	/**/
 	
 	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 	// zoom the map to the polyline
 	map.fitBounds(polyline.getBounds());
+
+	/**
+	 * Locations separated by new line to array.
+	 * Removes spaces around new lines.
+	 */
+	function locationLinesToPoly(locationLines) {
+		latlngs = locationLines
+		.trim()
+		.split('\n')
+		.map(l=>l.trim())
+		.filter(l=>l.length)
+		.map(l=>l.split(','))
+		return latlngs;
+	}
+	
+	/**
+	 * Update PoC.
+	 */
+	function updateMap(map, locationLines) {
+		// transform
+		var latlngs = locationLinesToPoly(locationLines);
+		
+		// remove previous
+		map.eachLayer(function (layer) {
+			map.removeLayer(layer);
+		});
+		
+		// add
+		var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+		// zoom the map to the polyline
+		map.fitBounds(polyline.getBounds());
+	}
+	</script>
+
+	<h2>New data test</h2>
+	<textarea id="newdata" style="width:100%; height: 10em">
+			-23.568953,-46.63979
+
+			-23.569527,-46.632537
+
+			-23.588147,-46.634304
+	</textarea>
+	<button id="drawnew">draw</button>
+	
+	<script>
+		var newdata = document.querySelector('#newdata');
+		var drawnew = document.querySelector('#drawnew');
+		drawnew.onclick = function() {
+			updateMap(map, newdata.value);
+		};
 	</script>
 </body>
 </html>
