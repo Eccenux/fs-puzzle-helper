@@ -115,5 +115,71 @@
 		$('#zoomer-list').sortable();
 		$('#zoomer-list').disableSelection();
 	</script>
+
+	<!-- experimental/prototypes -->
+	<aside>
+		<h2>Dump to xls via list</h2>
+		<button id="portallist-run">dump to list</button> (reverse order)
+		<div id="portallist-out"></div>
+		<script>
+			(function() {
+				let out = document.querySelector('#portallist-out');
+				let dump = document.querySelector('#portallist-run');
+				dump.onclick = function() {
+					let container = document.createElement('ul');
+					container.style.cssText = 'margin:0;padding:0';
+					if (out.firstChild) {
+						out.removeChild(out.firstChild)
+					}
+					app.portalsViewModel.state.portals
+						.map(p=>{
+							return {
+								col: p.col,
+								row: p.row,
+								data: p.puzzleData(),
+							}
+						})
+						.reverse()
+						.forEach(p => {
+							let nel = document.createElement('li');
+							nel.className = 'text';
+							nel.innerHTML = `
+								<label>${p.col}, ${p.row}</label>
+								<input value="${p.data}" onclick="this.select();">
+							`;
+							container.appendChild(nel);
+						});
+					;
+					out.appendChild(container);
+				};
+			})();
+		</script>
+	</aside>
+	<aside>
+		<h2>Dump to xls via textarea</h2>
+		<button id="portaldump-run">dump</button>
+		<textarea id="portaldump-out" style="width: 100%;"></textarea>
+		<script>
+			(function() {
+				let textarea = document.querySelector('#portaldump-out');
+				let dump = document.querySelector('#portaldump-run');
+				dump.onclick = function() {
+					let portals = app.portalsViewModel.state.portals
+						.map(p=>{
+							return {
+								col: p.col,
+								row: p.row,
+								data: p.puzzleData(),
+							}
+						})
+						.map((p)=>`${p.col}, ${p.row}\n${p.data}`)
+					;
+					textarea.value = portals.join('\n');
+				};
+			})();
+		</script>
+	</aside>
+
+
 </body>
 </html>
