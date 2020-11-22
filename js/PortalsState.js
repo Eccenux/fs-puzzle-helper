@@ -107,7 +107,9 @@ class PortalsState {
 		if (portalIndex < 0) {
 			this.portals.push(portal);
 		} else {
-			this.portals.splice(portalIndex, 1, portal);
+			//this.portals.splice(portalIndex, 1, portal);
+			this.portals.splice(portalIndex, 1);
+			this.portals.push(portal);
 		}
 		this.writeAll();
 	}
