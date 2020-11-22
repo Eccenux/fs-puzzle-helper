@@ -267,3 +267,18 @@ main {
 	text-align: center;
 	padding: .1em 0 .2em;
 }
+
+/* dump table */
+.dump-table {
+	margin:0; padding:0;
+	width:100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+.dump-table th,
+.dump-table td {
+	border: 1px solid black;
+}
+.dump-table th {
+	background-color: whitesmoke;
+}

@@ -118,8 +118,8 @@
 	</script>
 
 	<!-- experimental/prototypes -->
-	<aside>
-		<h2>Dump to xls via list</h2>
+	<aside style="padding:5px">
+		<h2>Portals dump</h2>
 		<button id="portallist-run">dump to list</button> (reverse order)
 		<div id="portallist-out"></div>
 		<script>
@@ -127,8 +127,16 @@
 				let out = document.querySelector('#portallist-out');
 				let dump = document.querySelector('#portallist-run');
 				dump.onclick = function() {
-					let container = document.createElement('ul');
-					container.style.cssText = 'margin:0;padding:0';
+					let container = document.createElement('table');
+					container.className = 'dump-table';
+					container.innerHTML = `<thead>
+						<tr>
+							<th style="width:3em">Cell</th>
+							<th style="width:25em">FS puzzle</th>
+							<th>Notes</th>
+						</tr>
+					</thead><tbody></tbody>`;
+					let containerBody = container.querySelector('tbody');
 					if (out.firstChild) {
 						out.removeChild(out.firstChild)
 					}
@@ -137,45 +145,25 @@
 							return {
 								col: p.col,
 								row: p.row,
+								notes: p.notes,
 								data: p.puzzleData(),
 							}
 						})
 						.reverse()
 						.forEach(p => {
-							let nel = document.createElement('li');
-							nel.className = 'text';
+							let nel = document.createElement('tr');
+							//nel.className = 'text';
 							nel.innerHTML = `
-								<label>${p.col}, ${p.row}</label>
-								<input value="${p.data}" onclick="this.select();">
+								<tr>
+									<td>${p.col}, ${p.row}</td>
+									<td><input value="${p.data}" onclick="this.select();" style="width:100%"></td>
+									<td>${p.notes}</td>
+								</tr>
 							`;
-							container.appendChild(nel);
+							containerBody.appendChild(nel);
 						});
 					;
 					out.appendChild(container);
-				};
-			})();
-		</script>
-	</aside>
-	<aside>
-		<h2>Dump to xls via textarea</h2>
-		<button id="portaldump-run">dump</button>
-		<textarea id="portaldump-out" style="width: 100%;"></textarea>
-		<script>
-			(function() {
-				let textarea = document.querySelector('#portaldump-out');
-				let dump = document.querySelector('#portaldump-run');
-				dump.onclick = function() {
-					let portals = app.portalsViewModel.state.portals
-						.map(p=>{
-							return {
-								col: p.col,
-								row: p.row,
-								data: p.puzzleData(),
-							}
-						})
-						.map((p)=>`${p.col}, ${p.row}\n${p.data}`)
-					;
-					textarea.value = portals.join('\n');
 				};
 			})();
 		</script>
