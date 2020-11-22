@@ -28,14 +28,17 @@ class PortalsViewModel {
 	 * 
 	 * @param {Element} img Cell-image.
 	 * @param {boolean} done Done / not done.
+	 * @param {boolean} skipSave Skip save (use only if state was already stored).
 	 */
-	changeDoneState(img, done) {
+	changeDoneState(img, done, skipSave) {
 		if (done) {
 			img.classList.add('done-cell');
 		} else {
 			img.classList.remove('done-cell');
 		}
-		this.saveDoneState(img, done);
+		if (!skipSave) {
+			this.saveDoneState(img, done);
+		}
 	}
 
 	/**

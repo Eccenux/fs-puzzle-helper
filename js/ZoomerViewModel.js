@@ -115,6 +115,7 @@ class ZoomerViewModel {
 		this.mainFields.puzzle.addEventListener('change', ()=>{
 			if (this.mainForm._portal instanceof Portal) {
 				let portal = this.mainForm._portal;
+				let wasDone = portal.done;
 				const input = this.mainFields.puzzle;
 				let valid = portal.setPuzzleData(input.value);
 				if (!valid) {
@@ -123,7 +124,11 @@ class ZoomerViewModel {
 				} else {
 					input.setCustomValidity('');
 					input.reportValidity();
+					portal.done = true;	// valid are also done
 					this.portalsViewModel.changePortalState(portal);
+					if (!wasDone) {
+						this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, true, true);
+					}
 				}
 			}
 		});
