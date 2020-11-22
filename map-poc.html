@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Test map</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="copyright" content="Maciej Jaros">
+
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+	<script src="leaflet/leaflet.js"></script>
+</head>
+<body>
+    <!-- content -->
+    <div id="map" style="width:100px; height:100px; border: 1px solid black"></div>
+	<script>
+	var map = L.map('map', {
+		center: [51.505, -0.09],
+		zoom: 13,
+		attributionControl: false,
+		zoomControl: false,
+	});
+	console.log('map: ', map);
+	
+	/**
+	var latlngs = [
+		[45.51, -122.68],
+		[37.77, -122.43],
+		[34.04, -118.2]
+	];
+	/**/
+	var latlngs = `
+		-23.572346,-46.631896
+		-23.573012,-46.641306
+		-23.579248,-46.640747
+		-23.578702,-46.635149
+		-23.580247,-46.641658
+		-23.587087,-46.640688
+	`
+	.trim()
+	.split('\n')
+	.map(l=>l.trim())
+	.map(l=>l.split(','))
+	/**/
+	
+	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+	// zoom the map to the polyline
+	map.fitBounds(polyline.getBounds());
+	</script>
+</body>
+</html>
