@@ -53,6 +53,7 @@ class Portal {
 			return null;
 		}
 		let portal = new Portal(obj);
+		portal.done = obj.done;
 		portal.title = obj.title;
 		portal.notes = obj.notes;
 		portal.discoverer = obj.discoverer;
@@ -78,7 +79,11 @@ class Portal {
 	 */
 	puzzleData() {
 		let url = this.getUrl();
-		return `${this.title}\t${this.discoverer}\t${url}`;
+		let data = `${this.title}\t${this.discoverer}\t${url}`;
+		if (data === '\t\t') {
+			return '';
+		}
+		return data;
 	}
 	/**
 	 * Parse and set puzzle data.
