@@ -129,11 +129,10 @@ class ZoomerViewModel {
 				} else {
 					input.setCustomValidity('');
 					input.reportValidity();
-					portal.done = true;	// valid are also done
 					this.portalsViewModel.changePortalState(portal);
-					if (!wasDone) {
-						this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, true, true);
-						this.updateDoneField(true);
+					if (wasDone != portal.done) {
+						this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, portal.done, true);
+						this.updateDoneField(portal.done);
 					}
 				}
 			}

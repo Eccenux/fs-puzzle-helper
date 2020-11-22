@@ -91,14 +91,24 @@ class Portal {
 	 * @returns false upon error.
 	 */
 	setPuzzleData(value) {
-		let data = this.parsePuzzleData(value);
-		if (data === null) {
-			return false;
+		// parse when there is any data
+		if (value.trim().length) {
+			let data = this.parsePuzzleData(value);
+			if (data === null) {
+				return false;
+			}
+			this.title = data.title;
+			this.discoverer = data.discoverer;
+			this._l.lat = data.lat;
+			this._l.lon = data.lon;
+			this.done = true;
+		} else {
+			this.title  = '';
+			this.discoverer  = '';
+			this._l.lat  = '';
+			this._l.lon  = '';
+			this.done = false;
 		}
-		this.title = data.title;
-		this.discoverer = data.discoverer;
-		this._l.lat = data.lat;
-		this._l.lon = data.lon;
 		return true;
 	}
 
@@ -123,7 +133,7 @@ class Portal {
 	 */
 	getUrl() {
 		let ll = this.getLatLon();
-		if (ll === ',') {
+		if (ll.length <= 1) {
 			return '';
 		}
 		return `${baseUrl}?ll=${ll}&z=17&pll=${ll}`;
@@ -133,7 +143,11 @@ class Portal {
 	 * Get typical lat-lon combo.
 	 */
 	getLatLon() {
-		return `${this._l.lat},${this._l.lon}`;
+		const ll = `${this._l.lat},${this._l.lon}`;
+		if (ll === ',') {
+			return '';
+		}
+		return ll;
 	}
 
 }
