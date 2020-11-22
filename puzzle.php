@@ -1,3 +1,26 @@
+<?php
+	date_default_timezone_set('Europe/Warsaw');
+
+	// params for testing
+	// e.g.: puzzle.php?dir=cells_&column=2
+	$dir = !empty($_GET['dir']) ? $_GET['dir'] : "cells";
+	$startCol = !empty($_GET['column']) ? $_GET['column'] : 1;
+
+	// prepare file lists and counts
+	$base = "./img-auto-cut/$dir/";
+	$colCount = 0;
+	$rowFiles = array();
+	$rowCounts = array();
+	for ($column=$startCol; $column < 30; $column++) {
+		$files = glob($base . sprintf("/col_%03d_*.jpg", $column));
+		if (empty($files)) {
+			break;
+		}
+		$colCount++;
+		$rowCounts[$column] = count($files);
+		$rowFiles[$column] = $files;
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +45,40 @@
 </head>
 <body>
 	<main>
+		<!-- passcode to columns (chars and graphs) -->
+		<section id="passcode-columns">
+			<table>
+				<tr>
+					<th>Column</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<th class="passcode-col-no"><?=$column?></td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<th>Format</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<td class="passcode-col-format">
+							<input data-col="<?=$column?>" name="char" type="text" value="">
+						</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<th>Char</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<td class="passcode-col-char">
+							<input data-col="<?=$column?>" name="char" type="text" value="">
+						</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<th>Map</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<td class="passcode-col-map"></td>
+					<?php } ?>
+				</tr>
+			</table>
+		</section>
+
 		<section id="main-controls">
 			<button id="reset-all" title="toggle all columns state">reset all</button>
 			&bull;
@@ -67,19 +124,8 @@
 		<section id="columns">
 			<section>
 			<?php
-				// params for testing
-				// e.g.: puzzle.php?dir=cells_&column=2
-				$dir = !empty($_GET['dir']) ? $_GET['dir'] : "cells";
-				$startCol = !empty($_GET['column']) ? $_GET['column'] : 1;
-
-				$base = "./img-auto-cut/$dir/";
-				$rowCounts = array();
-				for ($column=$startCol; $column < 30; $column++) {
-					$files = glob($base . sprintf("/col_%03d_*.jpg", $column));
-					if (empty($files)) {
-						break;
-					}
-					$rowCounts[$column] = count($files);
+				for ($column=$startCol; $column <= $colCount; $column++) {
+					$files = $rowFiles[$column];
 					//echo '<section class="column" id="col_'.$column.'"><h2>'.$column.' <em>('.count($files).')</em></h2>';
 					echo '<section class="column" id="col_'.$column.'"><h2>'.$column.'</h2>';
 					foreach ($files as $file) {

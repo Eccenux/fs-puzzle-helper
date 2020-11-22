@@ -28,11 +28,13 @@ main {
 	grid-template-rows: min-content min-content 1fr;
 	/* gap: var(--base-gap); */
 	grid-template-areas:
+		". passcode-columns"
 		"main-controls columns"
 		"zoomer columns"
 		"controls columns"
 	;
 }
+#passcode-columns { grid-area: passcode-columns; }
 #main-controls { grid-area: main-controls; }
 #zoomer { grid-area: zoomer; }
 #columns { grid-area: columns; }
@@ -281,4 +283,12 @@ main {
 }
 .dump-table th {
 	background-color: whitesmoke;
+}
+
+#passcode-columns {
+	margin-bottom: var(--base-gap);
+	margin-left: var(--base-gap);
+}
+#passcode-columns input {
+	width: 2em;
 }
