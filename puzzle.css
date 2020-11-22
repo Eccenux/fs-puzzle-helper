@@ -38,6 +38,17 @@ main {
 #columns { grid-area: columns; }
 #controls { grid-area: controls; }
 
+/* right side zoomer layout */
+.right-zoomer main {
+	grid-template-columns: 1fr var(--zoomer-width);
+	grid-template-areas:
+		"columns main-controls"
+		"columns zoomer"
+		"columns controls"
+	;
+	gap: var(--base-gap)
+}
+
 /* prominent columns layout */
 .hidden-zoomer main {
 	grid-template-columns: 1fr;

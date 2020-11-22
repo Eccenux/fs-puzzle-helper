@@ -35,7 +35,12 @@ class ZoomerViewModel {
 		this.initZoom();
 
 		document.querySelector('#toggle-zoomer').addEventListener('click', ()=>{
+			document.body.classList.remove('right-zoomer');
 			document.body.classList.toggle('hidden-zoomer');
+		});
+		document.querySelector('#toggle-right-zoomer').addEventListener('click', ()=>{
+			document.body.classList.remove('hidden-zoomer');
+			document.body.classList.toggle('right-zoomer');
 		});
 
 		this.initList();

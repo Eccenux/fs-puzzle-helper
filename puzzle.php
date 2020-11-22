@@ -25,7 +25,8 @@
 		<section id="main-controls">
 			<button id="reset-all" title="toggle all columns state">reset all</button>
 			&bull;
-			<button id="toggle-zoomer">toggle zoomer</button>
+			<button id="toggle-zoomer">toggle bottom zoomer</button>
+			<button id="toggle-right-zoomer">toggle right zoomer</button>
 			&bull;
 			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
 			&bull;
