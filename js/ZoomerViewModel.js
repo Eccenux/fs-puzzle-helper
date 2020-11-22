@@ -133,6 +133,7 @@ class ZoomerViewModel {
 					this.portalsViewModel.changePortalState(portal);
 					if (!wasDone) {
 						this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, true, true);
+						this.updateDoneField(true);
 					}
 				}
 			}
@@ -145,6 +146,24 @@ class ZoomerViewModel {
 				console.log('copied');
 			})
 		;
+	}
+
+	/**
+	 * Update done field for CURRENT portal.
+	 * @param {boolean} done 
+	 */
+	updateDoneField(done) {
+		this.mainFields.done.checked = done;
+		$(this.mainFields.done).checkboxradio("refresh");
+	}
+	/**
+	 * Update puzzle field for CURRENT portal.
+	 * @param {Portal} portal.
+	 */
+	updatePuzzleField(portal) {
+		this.mainFields.puzzle.value = portal.puzzleData();
+		this.mainFields.puzzle.setCustomValidity('');
+		this.mainFields.puzzle.reportValidity();
 	}
 
 	/**
@@ -165,13 +184,8 @@ class ZoomerViewModel {
 		this.mainForm._portal = portal;
 
 		// init fields
-		this.mainFields.done.checked = portal.done;
-		$(this.mainFields.done).checkboxradio("refresh");
-
-		this.mainFields.puzzle.value = portal.puzzleData();
-		this.mainFields.puzzle.setCustomValidity('');
-		this.mainFields.puzzle.reportValidity();
-
+		this.updateDoneField(portal.done);
+		this.updatePuzzleField(portal);
 		this.mainFields.notes.value = portal.notes;
 	}
 
