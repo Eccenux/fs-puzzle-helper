@@ -182,6 +182,13 @@
 	</script>
 
 	<!-- experimental/prototypes -->
+
+	<!-- leaflet as es5 -->
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+	<script src="leaflet/leaflet.js"></script>
+	<script src="js/ColumnsMap.js"></script>
+
+	<!-- dumps -->
 	<aside style="padding:5px">
 		<h2>Portals dump</h2>
 		<button id="portallist-run">dump to list</button> (reverse order)
