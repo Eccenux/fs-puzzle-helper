@@ -108,6 +108,7 @@ class PortalsViewModel {
 		if (doneCells.length) {
 			doneCells
 				.map(id=>document.getElementById(id))
+				.filter(el=>el instanceof Element)
 				.forEach(el=>{el.classList.add('done-cell')})
 			;
 		}
