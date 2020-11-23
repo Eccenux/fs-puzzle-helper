@@ -26,8 +26,8 @@ function updateMap(map, locationLines) {
 		map.removeLayer(layer);
 	});
 
-	if (latlngs.length) {
-		// add
+	if (latlngs.length > 1) {
+		// add layers
 		var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 		var radius = 5;
 		var first = latlngs.shift();
@@ -35,6 +35,7 @@ function updateMap(map, locationLines) {
 		latlngs.forEach((latLng)=>{
 			L.circleMarker(latLng, {color: 'black', radius}).addTo(map);
 		});
+
 		// zoom the map to the polyline
 		map.fitBounds(polyline.getBounds());
 	}
