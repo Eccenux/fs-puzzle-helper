@@ -79,6 +79,16 @@
 						<th class="passcode-col-no"><?=$column?></td>
 					<?php } ?>
 				</tr>
+				<?php if (empty($gsId)) { ?>
+				<tr>
+					<th>Char</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<td class="passcode-col-char">
+							<input data-col="<?=$column?>" name="char" type="text" value="">
+						</td>
+					<?php } ?>
+				</tr>
+				<?php } ?>
 				<tr>
 					<th>Map</th>
 					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
