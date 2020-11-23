@@ -29,6 +29,12 @@ function updateMap(map, locationLines) {
 	if (latlngs.length) {
 		// add
 		var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+		var radius = 5;
+		var first = latlngs.shift();
+		L.circleMarker(first, {color: 'green', radius}).addTo(map);
+		latlngs.forEach((latLng)=>{
+			L.circleMarker(latLng, {color: 'black', radius}).addTo(map);
+		});
 		// zoom the map to the polyline
 		map.fitBounds(polyline.getBounds());
 	}
