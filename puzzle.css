@@ -28,12 +28,13 @@ main {
 	grid-template-rows: min-content min-content 1fr;
 	/* gap: var(--base-gap); */
 	grid-template-areas:
-		". passcode-columns"
+		"passcode-info passcode-columns"
 		"main-controls columns"
 		"zoomer columns"
 		"controls columns"
 	;
 }
+#passcode-info { grid-area: passcode-info; }
 #passcode-columns { grid-area: passcode-columns; }
 #main-controls { grid-area: main-controls; }
 #zoomer { grid-area: zoomer; }
@@ -44,21 +45,31 @@ main {
 .right-zoomer main {
 	grid-template-columns: 1fr var(--zoomer-width);
 	grid-template-areas:
+		"passcode-columns passcode-info"
 		"columns main-controls"
 		"columns zoomer"
 		"columns controls"
 	;
 	gap: var(--base-gap)
 }
+.right-zoomer #passcode-info {
+	flex-flow: row-reverse;
+}
+.right-zoomer #passcode-columns {
+	display: flex;
+	flex-flow: row-reverse;
+}
+  
 
 /* prominent columns layout */
 .hidden-zoomer main {
-	grid-template-columns: 1fr;
+	grid-template-columns: 600px 1fr;
 	grid-template-areas:
-		"main-controls"
-		"columns"
-		"controls"
-		"zoomer"
+		"passcode-info passcode-columns"
+		"main-controls main-controls"
+		"columns columns"
+		"controls controls"
+		"zoomer zoomer"
 	;
 }
 .hidden-zoomer #zoomer {
