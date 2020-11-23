@@ -25,11 +25,13 @@ function updateMap(map, locationLines) {
 	map.eachLayer(function (layer) {
 		map.removeLayer(layer);
 	});
-	
-	// add
-	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-	// zoom the map to the polyline
-	map.fitBounds(polyline.getBounds());
+
+	if (latlngs.length) {
+		// add
+		var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+		// zoom the map to the polyline
+		map.fitBounds(polyline.getBounds());
+	}
 }
 
 /**
