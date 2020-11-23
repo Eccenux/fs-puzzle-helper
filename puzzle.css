@@ -27,15 +27,15 @@ main {
 	grid-template-columns: var(--zoomer-width) 1fr;
 	grid-template-rows: min-content min-content 1fr;
 	/* gap: var(--base-gap); */
+	/* "passcode-info passcode-columns" */
 	grid-template-areas:
-		"passcode-info passcode-columns"
 		"main-controls columns"
 		"zoomer columns"
 		"controls columns"
 	;
 }
-#passcode-info { grid-area: passcode-info; }
-#passcode-columns { grid-area: passcode-columns; }
+/* #passcode-info { grid-area: passcode-info; }
+#passcode-columns { grid-area: passcode-columns; } */
 #main-controls { grid-area: main-controls; }
 #zoomer { grid-area: zoomer; }
 #columns { grid-area: columns; }
@@ -44,22 +44,22 @@ main {
 /* right side zoomer layout */
 .right-zoomer main {
 	grid-template-columns: 1fr var(--zoomer-width);
+	/* "passcode-columns passcode-info" */
 	grid-template-areas:
-		"passcode-columns passcode-info"
 		"columns main-controls"
 		"columns zoomer"
 		"columns controls"
 	;
 	gap: var(--base-gap)
 }
-.right-zoomer #passcode-info {
+/* .right-zoomer #passcode-info {
 	flex-flow: row-reverse;
 }
 .right-zoomer #passcode-columns {
 	display: flex;
 	flex-flow: row-reverse;
-}
-  
+} */
+
 
 /* prominent columns layout */
 .hidden-zoomer main {
@@ -309,7 +309,7 @@ main {
 	padding: 0;
 }
 
-#passcode-info label {
+/* #passcode-info label {
 	min-width: 5em;
 }
 #passcode-info {
@@ -317,10 +317,26 @@ main {
 }
 #passcode-info .form {
 	flex: 1 1 auto;
-}
-  
+} */
+
 .char-map {
 	width:100px;
 	height:100px;
 	border: 1px solid black;
 }
+
+/* Google Sheet container */
+#passcode-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+#passcode-columns {
+	display: flex;
+}
+#passcode-container.gs-hide iframe {
+	display: none;
+}
+#passcode-container.gs-large iframe {
+	height: 400px;
+}
+

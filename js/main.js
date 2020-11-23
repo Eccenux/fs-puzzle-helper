@@ -20,35 +20,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.body.classList.toggle('view-all');
 	});
 
-	//
-	// quick passcode state
-	let storage = new StateStore('puzzle-chars-state');
-	let inputs = document.querySelectorAll('#passcode-columns .passcode-col-char input');
-	// load
-	let oldValues = storage.read();
-	if (oldValues && oldValues.length) {
-		console.log('oldValues:', oldValues);
-		oldValues.forEach((state)=>{
-			let column = state.col;
-			let value = state.val;
-			let input = document.querySelectorAll(`#passcode-columns .passcode-col-char [data-col='${column}']`);
-			input.value = value;
-			//console.log(input, state)
-		});
-	}
-	// save
-	inputs.forEach((input)=>{
-		input.addEventListener('change', function() {
-			let values = [...inputs].map(el=>{
-				return {
-					val:el.value,
-					col:el.getAttribute('data-col'),
-				};
-			});
-			console.log('storing:', values);
-			storage.write(values);
-		});
-	});
+	// experitmental
+	passcodeInit();
 
 	// load first cell
 	$('#cell_col_001_001').click();
@@ -61,3 +34,24 @@ const app = {
 	zoomerViewModel,
 };
 window.app = app;
+
+/**
+ * Quick passcode controls
+ * @deprecated
+ */
+function passcodeInit () {
+	const mainContainer = document.querySelector('#passcode-container');
+	const container = document.querySelector('#sheet-size-controls');
+	if (!container) {
+		return;
+	}
+	const resizers = container.querySelectorAll('.resize');
+	const classes = [...resizers].map(el=>el.getAttribute('data-class'));
+	resizers.forEach(button => {
+		button.addEventListener('click', ()=>{
+			let resizeClass = button.getAttribute('data-class');
+			mainContainer.classList.remove(...classes);
+			mainContainer.classList.add(resizeClass);
+		});
+	})
+}

@@ -1,6 +1,13 @@
 <?php
 	date_default_timezone_set('Europe/Warsaw');
 
+	// Google sheet URL
+	$gsUrl = !empty($_GET['gsurl']) ? $_GET['gsurl'] : "";
+	$gsId = "";
+	if (preg_match("#^https://docs.google.com/spreadsheets/(\w+/[^/?]+)/#", $gsUrl, $matches)) {
+		$gsId = $matches[1];
+	}
+
 	// params for testing
 	// e.g.: puzzle.php?dir=cells_&column=2
 	$dir = !empty($_GET['dir']) ? $_GET['dir'] : "cells";
@@ -44,7 +51,50 @@
 	<script src="js/main.js" type="module"></script>
 </head>
 <body>
+	<aside id="passcode-container">
+		<?php if (!empty($gsId)) { ?>
+			<section class="frame">
+				<iframe width='1000' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=1662443983'></iframe>
+			</section>
+			<section id="sheet-size-controls">
+				<button class="resize" data-class="gs-hide">Hide GS</button>
+				<button class="resize" data-class="gs-default">Default GS</button>
+				<button class="resize" data-class="gs-large">Large GS</button>
+			</section>
+		<?php } else { ?>
+			<section id="sheet-form">
+				<form action="">
+					<label title="Sheet URL">Google Sheet URL:</label>
+					<input name="gsurl" type="url" value="https://docs.google.com/spreadsheets/d/111gE09r7AqnhXfsuNouOssruunuRt3rTXw7Nt42zpVU/edit#gid=1662443983">
+					<input type="submit" value="submit">
+				</form>
+			</section>
+		<?php } ?>
+		<!-- passcode to columns (chars and graphs) -->
+		<section id="passcode-columns">
+			<table>
+				<tr>
+					<th>Column</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<th class="passcode-col-no"><?=$column?></td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<th>Map</th>
+					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+						<td class="passcode-col-map">
+							<button data-col="<?=$column?>" title="Show map for column">👁‍</button>
+						</td>
+					<?php } ?>
+				</tr>
+			</table>
+			<div class="map">
+				<div id="main-char-map" class="char-map"></div>
+			</div>
+		</section>
+	</aside>
 	<main>
+		<?php /*
 		<!-- passcode base info -->
 		<section id="passcode-info">
 			<div class="form">
@@ -70,7 +120,7 @@
 						<th class="passcode-col-no"><?=$column?></td>
 					<?php } ?>
 				</tr>
-				<tr style="display: none;">
+				<tr>
 					<th>Format</th>
 					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
 						<td class="passcode-col-format">
@@ -96,6 +146,7 @@
 				</tr>
 			</table>
 		</section>
+		*/?>
 
 		<section id="main-controls">
 			<button id="reset-all" title="toggle all columns state">reset all</button>
