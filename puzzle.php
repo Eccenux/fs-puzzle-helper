@@ -250,10 +250,13 @@
 	<script src="js/ColumnsMap.js"></script>
 
 	<!-- dumps -->
-	<aside style="padding:5px">
+	<div class="accordion">
+	<aside class="dump">
 		<h2>Portals dump</h2>
-		<button id="portallist-run">dump to list</button> (reverse order)
-		<div id="portallist-out"></div>
+		<div>
+			<button id="portallist-run">dump to list</button> (reverse order)
+			<div id="portallist-out"></div>
+		</div>
 		<script>
 			(function() {
 				let out = document.querySelector('#portallist-out');
@@ -301,10 +304,12 @@
 		</script>
 	</aside>
 
-	<aside style="padding:5px">
+	<aside class="dump">
 		<h2>Locations dump per column</h2>
-		<button id="locationslist-run">dump columns</button> (row order)
-		<div id="locationslist-out"></div>
+		<div>
+			<button id="locationslist-run">dump columns</button> (row order)
+			<div id="locationslist-out"></div>
+		</div>
 		<script>
 			(function() {
 				let out = document.querySelector('#locationslist-out');
@@ -370,10 +375,12 @@
 		</script>
 	</aside>
 
-	<aside style="padding:5px">
+	<aside class="dump">
 		<h2>Locations dump flat</h2>
-		<button id="locationslistflat-run">dump all</button> (row order)
-		<textarea id="locationslistflat-out" style="width: 100%; height:30vh;"></textarea>
+		<div>
+			<button id="locationslistflat-run">dump all</button> (row order)
+			<textarea id="locationslistflat-out" style="width: 100%; height:30vh;"></textarea>
+		</div>
 		<script>
 			(function() {
 				let out = document.querySelector('#locationslistflat-out');
@@ -418,6 +425,28 @@
 			})();
 		</script>
 	</aside>
+	</div>
 
+	<script>
+		$(".accordion")
+		.accordion({
+			header: "> aside > h2",
+			collapsible: true,
+			active: false, // collapsed
+			heightStyle: "content",
+		})
+		.sortable({
+			axis: "y",
+			handle: "h2",
+			stop: function( event, ui ) {
+				// IE doesn't register the blur when sorting
+				// so trigger focusout handlers to remove .ui-state-focus
+				ui.item.children( "h2" ).triggerHandler( "focusout" );
+		
+				// Refresh accordion to handle new order
+				$( this ).accordion( "refresh" );
+			}
+		});
+	</script>
 </body>
 </html>
