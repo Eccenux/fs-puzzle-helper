@@ -19,6 +19,20 @@ document.addEventListener("DOMContentLoaded", function() {
 	document.querySelector('#toggle-view-all').addEventListener('click', ()=>{
 		document.body.classList.toggle('view-all');
 	});
+	document.querySelector('#toggle-hide-done').addEventListener('click', ()=>{
+		document.body.classList.toggle('hide-done');
+	});
+	document.querySelector('#toggle-hide-passcode').addEventListener('click', ()=>{
+		document.body.classList.toggle('hide-passcode');
+	});
+
+	// show/hide buttons (generic widget)
+	document.querySelectorAll('.show-hide-button').forEach((el)=>{
+		el.addEventListener('click',()=>{
+			el.classList.toggle('shown');
+			el.classList.toggle('hidden');
+		});
+	});
 
 	// experitmental
 	passcodeInit();

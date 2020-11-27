@@ -161,10 +161,13 @@
 		<section id="main-controls">
 			<button id="reset-all" title="toggle all columns state">reset all</button>
 			&bull;
-			<button id="toggle-zoomer">toggle bottom zoomer</button>
-			<button id="toggle-right-zoomer">toggle right zoomer</button>
+			<button id="toggle-zoomer" title="toggle bottom/left zoomer">zoomer ↕️</button>
+			<button id="toggle-right-zoomer" title="toggle right/left zoomer">zoomer ↔️</button>
 			&bull;
 			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
+			<button id="toggle-hide-done" title="hide/show done columns" class="show-hide-button shown">done</button>
+			&bull;
+			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button shown">passcode</button>
 			&bull;
 			<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
 		</section>

@@ -239,6 +239,40 @@ main {
 	overflow: auto;
 }
 
+/* hide done columns */
+body.hide-done .column.done {
+	min-width: auto;
+	width: 0.1vw;
+}
+/* hide passcode controls etc */
+body.hide-passcode #passcode-container {
+	display: none;
+}
+/* show/hide buttons */
+.show-hide-button::after {
+	content:"";
+	background-repeat: no-repeat;
+	background-size: contain;
+	display: inline-block;
+	background-size: 1em;
+	width: 1em;
+	height: 1em;
+	background-position: 0 2px;
+	margin-left: .5em;
+}
+.show-hide-button.shown::after {
+	background-image: url(img/eye.svg);
+}
+.show-hide-button.hidden::after {
+	background-image: url(img/eye-no.svg);
+}
+.show-hide-button.hidden:hover::after {
+	background-image: url(img/eye.svg);
+}
+.show-hide-button.shown:hover::after {
+	background-image: url(img/eye-no.svg);
+}
+
 /* zoomer list related (multi-zoom) */
 .column img.zoomer-list {
 	border: 4px solid orange;
