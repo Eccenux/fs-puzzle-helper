@@ -41,6 +41,13 @@ class Cutter {
 	private $ih;
 
 	/**
+	 * Warning/error messages.
+	 *
+	 * @var array
+	 */
+	private $messages = array();
+
+	/**
 	 * Init.
 	 *
 	 * @param string $file Raw (un-cut) image path.
@@ -428,6 +435,11 @@ class Cutter {
 		$rowEnds = $this->rowEnds($column, $colh);
 		$meta->rowEnds = $rowEnds;
 		$logger->log(ob_get_clean());
+		// dump messages
+		if (!empty($this->messages)) {
+			echo "\n".implode("\n", $this->messages)."\n";
+			$this->messages = array();
+		}
 		/**
 		// fail override
 		if ($column==10) {
@@ -528,7 +540,9 @@ class Cutter {
 	private function rowEnds($column, $colh, $options = array())
 	{
 		$defaultOptions = array(
-			'minHeight' => 50,		// min row height (lower then smallest row)
+			'maxHeight' => $this->colw + ($this->gap * 2),		// max row height (higher then this will generate a warning)
+			//'dieOnOverflow' => true,		// die when high seems wrong
+			'minHeight' => 100,		// min row height (lower then smallest row)
 			'distance' => 10,		// acceptable distance for candidate search
 			'okAvg' => 2.5,			// acceptable AVG of RGB (checked when minOK is reached)
 			'minOk' => 4,			// minimum valid points (more will be checked if okAvg was not reached)
@@ -547,6 +561,7 @@ class Cutter {
 		$distance = $options['distance'];
 		$okAvg = $options['okAvg'];
 		$minOk = $options['minOk'];
+		$maxHeight = $options['maxHeight'];
 
 		$img = $this->img;
 
@@ -557,6 +572,7 @@ class Cutter {
 		$candidate = -1;
 		$candidateInfo = '';
 		$rowEnds = array();
+		$rowNum = 1;
 		$prevY = $this->top;
 		for ($y = $this->top; $y < $h; $y++) {
 			$reset = false;
@@ -617,12 +633,24 @@ class Cutter {
 
 					if (!$okX) {
 						echo "rejected over X: $candidate [okCount=$okCount]\n";
+					
+					// accepted
 					} else {
+						// final height check
+						$heightInfo = "";
+						if ($rowH > $maxHeight) {
+							$heightInfo = "[WARNING] Row height is too large: $rowH > $maxHeight (at y:$y; col: $column, row: $rowNum).";
+							$this->messages[] = $heightInfo;
+							$heightInfo .= "\n";
+						}
+
 						echo "\n.\n.\n";
 						echo $candidateInfo;
+						echo $heightInfo;
 						echo "accepted: $candidate\n.\n.\n";
 
 						$rowEnds[] = $candidate;
+						$rowNum++;
 						$prevY = $candidate;
 						$y += $this->gap;
 						$reset = true;
@@ -654,7 +682,7 @@ class Cutter {
 	 */
 	private function checkOverX($column, $startY, $height, $startX, $stepX)
 	{
-		$distanceX = 14;
+		$distanceX = 16;
 		$okAvgX = 10;
 
 		$img = $this->img;
