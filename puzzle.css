@@ -96,7 +96,10 @@ main {
 	display: none;
 } */
 
-/* extra controls */
+/* controls */
+#main-controls {
+	font-size: 7px;
+}
 #controls {
 	margin: var(--col-gap);
 }

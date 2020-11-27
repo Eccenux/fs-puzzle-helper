@@ -50,7 +50,7 @@
 
 	<script src="js/main.js" type="module"></script>
 </head>
-<body>
+<body class="hide-passcode">
 	<aside id="passcode-container">
 		<?php if (!empty($gsId)) { ?>
 			<section class="frame">
@@ -159,17 +159,14 @@
 		*/?>
 
 		<section id="main-controls">
-			<button id="reset-all" title="toggle all columns state">reset all</button>
+			<button id="reset-all" title="reset state of columns and portals">reset all</button>
 			&bull;
 			<button id="toggle-zoomer" title="toggle bottom/left zoomer">zoomer ↕️</button>
 			<button id="toggle-right-zoomer" title="toggle right/left zoomer">zoomer ↔️</button>
 			&bull;
 			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
 			<button id="toggle-hide-done" title="hide/show done columns" class="show-hide-button shown">done</button>
-			&bull;
-			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button shown">passcode</button>
-			&bull;
-			<a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
+			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button hidden">passcode</button>
 		</section>
 		<section id="zoomer" class="medium3">
 			<section class="main">
@@ -228,6 +225,9 @@
 			<p class="text">
 				<label>No. of portals (per column):</label>
 				<input type="text" value="<?=implode("\t", $rowCounts)?>"/>
+			</p>
+			<p>
+				&nbsp; <a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
 			</p>
 		</section>
 	</main>
