@@ -1,4 +1,4 @@
-<h2>Portals dump</h2>
+<h2>Latest portals dump</h2>
 <div>
 	<button id="portallist-run">dump to list</button> (reverse order)
 	<div id="portallist-out"></div>
