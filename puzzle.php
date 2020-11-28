@@ -72,92 +72,10 @@
 		<?php } ?>
 		<!-- passcode to columns (chars and graphs) -->
 		<section id="passcode-columns">
-			<table>
-				<tr>
-					<th>Column</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<th class="passcode-col-no"><?=$column?></td>
-					<?php } ?>
-				</tr>
-				<?php if (empty($gsId)) { ?>
-				<tr>
-					<th>Char</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-char">
-							<input data-col="<?=$column?>" name="char" type="text" value="">
-						</td>
-					<?php } ?>
-				</tr>
-				<?php } ?>
-				<tr>
-					<th>Map</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-map">
-							<button data-col="<?=$column?>" title="Show map for column">👁‍</button>
-						</td>
-					<?php } ?>
-				</tr>
-			</table>
-			<div class="map">
-				<div id="main-char-map" class="char-map"></div>
-			</div>
+			<?php include './inc/tpls/passcode.columns.php'; ?>
 		</section>
 	</aside>
 	<main>
-		<?php /*
-		<!-- passcode base info -->
-		<section id="passcode-info">
-			<div class="form">
-				<p class="text">
-					<label for="passcode_field_url" title="Puzzle image">Image:</label>
-					<input  id="passcode_field_url" name="url" type="url" value="">
-				</p>
-				<p class="text">
-					<label for="passcode_field_code">Code:</label>
-					<input  id="passcode_field_code" name="code" type="text" value="">
-				</p>
-			</div>
-			<div class="map">
-				<div id="main-char-map" class="char-map"></div>
-			</div>
-		</section>
-		<!-- passcode to columns (chars and graphs) -->
-		<section id="passcode-columns">
-			<table>
-				<tr>
-					<th>Column</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<th class="passcode-col-no"><?=$column?></td>
-					<?php } ?>
-				</tr>
-				<tr>
-					<th>Format</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-format">
-							<input data-col="<?=$column?>" name="char" type="text" value="">
-						</td>
-					<?php } ?>
-				</tr>
-				<tr>
-					<th>Char</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-char">
-							<input data-col="<?=$column?>" name="char" type="text" value="">
-						</td>
-					<?php } ?>
-				</tr>
-				<tr>
-					<th>Map</th>
-					<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
-						<td class="passcode-col-map">
-							<button data-col="<?=$column?>" title="Show map for column">👁‍</button>
-						</td>
-					<?php } ?>
-				</tr>
-			</table>
-		</section>
-		*/?>
-
 		<section id="main-controls">
 			<button id="reset-all" title="reset state of columns and portals">reset all</button>
 			&bull;
@@ -169,60 +87,10 @@
 			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button hidden">passcode</button>
 		</section>
 		<section id="zoomer" class="medium3">
-			<section class="main">
-				<button class="zoomer-hide" title="close zoomer">✕</button>
-				<figure>
-					<img src="img-auto-cut/cells/col_001_001.jpg" />
-					<figcaption></figcaption>
-				</figure>
-				<div id="cell-form" class="form" style="display: none;">
-					<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
-					<p class="text">
-						<label for="zoomer_field_puzzle" title="FS puzzle format">FS puzzle: 📋</label>
-						<input  id="zoomer_field_puzzle" name="puzzle" type="text" value="">
-					</p>
-					<p class="text">
-						<label for="zoomer_field_notes">Notes:</label>
-						<input  id="zoomer_field_notes" name="notes" type="text" value="">
-					</p>
-				</div>
-			</section>
-			<section id="zoomer-list-controls" style="display: none;">
-				<button class="resize" data-class="small">small (6)</button>
-				<button class="resize" data-class="medium5">5</button>
-				<button class="resize" data-class="medium4">4</button>
-				<button class="resize" data-class="medium3">3</button>
-				<button class="resize" data-class="medium2">2</button>
-				<button class="resize" data-class="big">big (1)</button>
-				&bull;
-				<button class="clear">clear</button>
-			</section>
-			<section id="zoomer-list">
-			</section>
+			<?php include './inc/tpls/zoomer.php'; ?>
 		</section>
 		<section id="columns">
-			<section>
-			<?php
-				for ($column=$startCol; $column <= $colCount; $column++) {
-					$files = $rowFiles[$column];
-					echo "
-					<section class='column' id='col_$column'>
-						<h2>$column</h2>
-						<input data-col='$column' name='col_notes' type='text' value=''>
-					";
-					foreach ($files as $file) {
-						$id = preg_replace('#\.\w+$#', '', basename($file));
-						if (preg_match('#.+?0*([0-9]+).+?0*([0-9]+).*#', $id, $matches)) {
-							$col = $matches[1];
-							$row = $matches[2];
-							$title = "col $col, row $row";
-							echo "<img src='$file' id='cell_{$id}' title='{$title}' data-col='$col' data-row='$row' />";
-						}
-					}
-					echo '</section>';
-				}
-			?>
-			</section>
+			<?php include './inc/tpls/columns.php'; ?>
 		</section>
 		<section id="controls">
 			<p class="text">
@@ -256,45 +124,7 @@
 	<script src="js/ColumnsMap.js"></script>
 
 	<!-- dumps -->
-	<div class="accordion">
-		<aside class="dump">
-			<?php include './inc/tpls/puzzle.dump.last-portals.php'; ?>
-		</aside>
-
-		<aside class="dump">
-			<?php include './inc/tpls/puzzle.dump.portal-columns.php'; ?>
-		</aside>
-
-		<aside class="dump">
-			<?php include './inc/tpls/puzzle.dump.ll-columns.php'; ?>
-		</aside>
-
-		<aside class="dump">
-			<?php include './inc/tpls/puzzle.dump.ll-blob.php'; ?>
-		</aside>
-	</div>
-
-	<script>
-		$(".accordion")
-		.accordion({
-			header: "> aside > h2",
-			collapsible: true,
-			active: false, // collapsed
-			heightStyle: "content",
-		})
-		.sortable({
-			axis: "y",
-			handle: "h2",
-			stop: function( event, ui ) {
-				// IE doesn't register the blur when sorting
-				// so trigger focusout handlers to remove .ui-state-focus
-				ui.item.children( "h2" ).triggerHandler( "focusout" );
-		
-				// Refresh accordion to handle new order
-				$( this ).accordion( "refresh" );
-			}
-		});
-	</script>
+	<?php include './inc/tpls/puzzle.dump.php'; ?>
 
 	<!-- browser detection for CSS (yes, I do need it 😢) -->
 	<script>
