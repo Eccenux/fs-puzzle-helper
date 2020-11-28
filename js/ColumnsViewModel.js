@@ -33,7 +33,7 @@ class ColumnsViewModel {
 				})
 				img.parentNode.classList.add('active');
 			});
-		});	
+		});
 	}
 
 	/**

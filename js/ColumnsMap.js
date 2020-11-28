@@ -79,9 +79,15 @@ var map = L.map('main-char-map', {
 
 let actions = document.querySelectorAll('#passcode-columns .passcode-col-map button');
 actions.forEach((button)=>{
-	button.onclick = function() {
+	button.addEventListener('click', () => {
 		let column = parseInt(button.getAttribute('data-col'));
 		let newdata = locationsColumnData(column);
 		updateMap(map, newdata);
-	};
+
+		// mark active (current)
+		document.querySelectorAll('.passcode-col-map.active').forEach((prev)=>{
+			prev.classList.remove('active');
+		})
+		button.parentNode.classList.add('active');
+	});
 });

@@ -212,6 +212,7 @@ main {
 	display: none;
 }
 
+.passcode-col-map.active button,
 .column.active h2 {
 	outline: 3px dotted var(--active-color);
 	outline-offset: -3px;
