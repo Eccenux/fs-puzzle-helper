@@ -385,8 +385,3 @@ body.hide-passcode #passcode-container {
 #passcode-container.gs-large iframe {
 	height: 400px;
 }
-
-/* dumps */
-.dump {
-	padding: 5px;
-}
