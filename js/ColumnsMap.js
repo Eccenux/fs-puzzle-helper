@@ -67,6 +67,18 @@ function locationsColumnData(column) {
 	return locations.join('\n');
 }
 
+/**
+ * Show location dialog.
+ */
+function showLocationDialog(column, locationLines) {
+	let dialog = document.querySelector('#locations-dialog');
+	dialog.title = `Locations list (${column})`;
+	dialog.querySelector('textarea').value = locationLines;
+	$(dialog).dialog({
+		title: dialog.title,
+	});
+}
+
 //
 // quick and dirty init
 //
@@ -77,8 +89,12 @@ var map = L.map('main-char-map', {
 	zoomControl: false,
 });
 
-let actions = document.querySelectorAll('#passcode-columns .passcode-col-map button');
-actions.forEach((button)=>{
+//
+// Map actions
+//
+document
+.querySelectorAll('#passcode-columns .passcode-col-map button')
+.forEach((button)=>{
 	button.addEventListener('click', () => {
 		let column = parseInt(button.getAttribute('data-col'));
 		let newdata = locationsColumnData(column);
@@ -89,5 +105,18 @@ actions.forEach((button)=>{
 			prev.classList.remove('active');
 		})
 		button.parentNode.classList.add('active');
+	});
+});
+
+//
+// Location view actions
+//
+document
+.querySelectorAll('#passcode-columns .passcode-col-ll button')
+.forEach((button)=>{
+	button.addEventListener('click', () => {
+		let column = parseInt(button.getAttribute('data-col'));
+		let newdata = locationsColumnData(column);
+		showLocationDialog(column, newdata);
 	});
 });

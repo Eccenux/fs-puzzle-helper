@@ -23,7 +23,29 @@
 			</td>
 		<?php } ?>
 	</tr>
+	<tr>
+		<th>Locations</th>
+		<?php for ($column=$startCol; $column <= $colCount; $column++) { ?>
+			<td class="passcode-col-ll">
+				<button data-col="<?=$column?>" title="View locations list">📝</button>
+			</td>
+		<?php } ?>
+	</tr>
 </table>
 <div class="map">
 	<div id="main-char-map" class="char-map"></div>
 </div>
+
+<div id="locations-dialog" title="Locations list">
+	<textarea></textarea>
+</div>
+
+<style>
+#locations-dialog {
+	display: none;
+}
+#locations-dialog textarea {
+	width: 100%;
+	height: 9.5em;
+}
+</style>

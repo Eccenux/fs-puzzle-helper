@@ -390,3 +390,6 @@ body.hide-passcode #passcode-container {
 body .ui-widget-content {
 	background: #ccc;
 }
+.ui-widget.ui-widget-content {
+	border: 1px solid #777;
+}
