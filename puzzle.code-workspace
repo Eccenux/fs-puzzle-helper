@@ -16,6 +16,7 @@
 			"**/_legacy": true,
 			"**/img-auto-cut": true,
 			"**/logs": true,
+			"**/leaflet": true,
 		}
 	}
 }
