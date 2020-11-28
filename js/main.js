@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	// load first cell
 	$('#cell_col_001_001').click();
+	
+	// @deprecated
+	// hide passcode if no fields were field
+	let codeFields = [...document.querySelectorAll('.passcode-col-char input')].filter(el=>el.value.length);
+	if (codeFields.length < 1) {
+		$('#toggle-hide-passcode').click();
+	}
 });
 
 // expose app

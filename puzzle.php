@@ -50,7 +50,7 @@
 
 	<script src="js/main.js" type="module"></script>
 </head>
-<body class="hide-passcode">
+<body>
 	<aside id="passcode-container">
 		<?php if (!empty($gsId)) { ?>
 			<section class="frame">
@@ -84,7 +84,7 @@
 			&bull;
 			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
 			<button id="toggle-hide-done" title="hide/show done columns" class="show-hide-button shown">done</button>
-			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button hidden">passcode</button>
+			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button shown">passcode</button>
 		</section>
 		<section id="zoomer" class="medium3">
 			<?php include './inc/tpls/zoomer.php'; ?>
