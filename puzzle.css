@@ -225,12 +225,17 @@ main {
 	outline: 4px solid green;
 	outline-offset: -4px;
 	*/
-	outline: 200px solid rgba(0,255,0,0.3);
-	outline-offset: -200px;
+	outline: 300px solid rgba(0,255,0,0.3);
+	outline-offset: -300px;
 	border: 4px solid darkgreen;
 	box-sizing: border-box;
 	border-radius: 5px;
 	width: 33%;
+}
+.is-chrome .column img.done-cell {
+	outline: none;
+	border: 4px solid green;
+	filter: sepia(.8) hue-rotate(55deg) saturate(2.4) contrast(0.8);
 }
 
 /* view all mode (temporary reset of done state) */

@@ -451,5 +451,17 @@
 			}
 		});
 	</script>
+
+	<!-- browser detection for CSS (yes, I do need it 😢) -->
+	<script>
+		(function(){
+			var isFox = navigator.userAgent.indexOf("Firefox") != -1;
+			var isChrome = !!window.chrome;
+			if (isChrome && !isFox) {
+				console.log('is chrome', {isChrome, isFox});
+				document.body.classList.add('is-chrome');
+			}
+		})();
+	</script>
 </body>
 </html>
