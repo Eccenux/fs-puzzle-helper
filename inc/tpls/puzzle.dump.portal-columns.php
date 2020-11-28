@@ -1,13 +1,13 @@
-<h2>Locations dump per column</h2>
+<h2>Portals per column</h2>
 <div>
-	<button id="locationslist-run">dump columns</button> (row order)
-	<div id="locationslist-out"></div>
+	<button id="portaldump-colums--run">dump columns</button> (row order)
+	<div id="portaldump-colums--out"></div>
 </div>
 
 <script>
 	(function() {
-		let out = document.querySelector('#locationslist-out');
-		let dump = document.querySelector('#locationslist-run');
+		let out = document.querySelector('#portaldump-colums--out');
+		let dump = document.querySelector('#portaldump-colums--run');
 		dump.onclick = function() {
 			// prepare container / header
 			let container = document.createElement('table');
@@ -15,7 +15,7 @@
 			container.innerHTML = `<thead>
 				<tr>
 					<th style="width:3em">Column</th>
-					<th>Locations</th>
+					<th>Portals</th>
 				</tr>
 			</thead><tbody></tbody>`;
 			let containerBody = container.querySelector('tbody');
@@ -30,7 +30,7 @@
 					return {
 						col: p.col,
 						row: p.row,
-						ll: p.getLatLon(),
+						data: p.puzzleData(),
 					}
 				})
 				// sort by col, row (col 1 first)
@@ -41,17 +41,16 @@
 					if (!(p.col in cols)) {
 						cols[p.col] = [];
 					}
-					cols[p.col].push(p.ll);
+					cols[p.col][p.row] = p.data;	// use row number to introduce gaps
 				})
 			;
 			console.log(cols);
 
 			// create rows
 			cols
-				.forEach((ll, col) => {
+				.forEach((list, col) => {
 					let nel = document.createElement('tr');
-					//nel.className = 'text';
-					let data = ll.join('\n');
+					let data = list.join('\n');
 					nel.innerHTML = `
 						<tr>
 							<td>${col}</td>

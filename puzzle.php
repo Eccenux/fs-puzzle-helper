@@ -262,6 +262,10 @@
 		</aside>
 
 		<aside class="dump">
+			<?php include './inc/tpls/puzzle.dump.portal-columns.php'; ?>
+		</aside>
+
+		<aside class="dump">
 			<?php include './inc/tpls/puzzle.dump.ll-columns.php'; ?>
 		</aside>
 

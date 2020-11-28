@@ -385,3 +385,8 @@ body.hide-passcode #passcode-container {
 #passcode-container.gs-large iframe {
 	height: 400px;
 }
+
+/* jUi tweaks */
+body .ui-widget-content {
+	background: #ccc;
+}
