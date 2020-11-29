@@ -226,6 +226,23 @@ class ZoomerViewModel {
 	}
 
 	/**
+	 * Remove image from zoomer list.
+	 * @private
+	 * @param {Element} img Column image.
+	 * @param {String} img Column image id.
+	 */
+	cellRemove(img, id) {
+		this.idList.delete(id);
+		let el = this.listContainer.querySelector(`.list.${id}`);
+		if (el) {
+			this.listContainer.removeChild(el);
+		} else {
+			console.warn(`Zoomer list element not found ${id}`);
+		}
+		img.classList.remove('zoomer-list');
+	}
+
+	/**
 	 * Append or remove image from zoomer list.
 	 * @private
 	 * @param {Element} img Column image.
@@ -233,30 +250,31 @@ class ZoomerViewModel {
 	cellToggle(img) {
 		const id = img.id;
 		if (this.idList.has(id)) {
-			this.idList.delete(id);
-			let el = this.listContainer.querySelector(`.list.${id}`);
-			if (el) {
-				this.listContainer.removeChild(el);
-			} else {
-				console.warn(`Zoomer list element not found ${id}`);
-			}
-			img.classList.remove('zoomer-list');
+			this.cellRemove(img, id);
 		} else {
 			img.classList.add('zoomer-list');
 			this.idList.add(id);
 			let nel = document.createElement('figure');
-			nel.innerHTML = `<img src='${img.src}'><figcaption>${img.title}</figcaption>`;
+			nel.innerHTML = `
+				<button class="figure-close" title="remove from list">✕</button>
+				<img src='${img.src}'>
+				<figcaption>${img.title}</figcaption>
+			`;
 			nel.className = `list ${id}`;
 			if (img.classList.contains('done-cell')) {
 				nel.classList.add('done-cell');
 			}
 			this.listContainer.appendChild(nel);
 
+			// close (remove from list)
+			let close = nel.querySelector('.figure-close');
+			close.addEventListener('click', () => {
+				this.cellRemove(img, id);
+			});
+
 			// allow zoom-in from list
-			nel.setAttribute('data-id', id);
-			EventsHelper.clickDraggable(nel, () => {
-				let id = nel.getAttribute('data-id');
-				let img = document.getElementById(id);
+			let listImage = nel.querySelector('img');
+			EventsHelper.clickDraggable(listImage, () => {
 				this.cellLoad(img);
 			});
 		}

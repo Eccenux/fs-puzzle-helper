@@ -115,6 +115,10 @@ main {
 #zoomer .main {
 	position: relative;
 }
+#zoomer-list figure {
+	position: relative;
+}
+#zoomer .figure-close,
 #zoomer .zoomer-hide {
 	position: absolute;
 	right: 0;
@@ -125,13 +129,16 @@ main {
 	background: transparent;
 	text-shadow: #FFF 0 0 5px,#FFF 0 0 15px,#FFF 0 0 15px;
 }
+#zoomer .figure-close:hover,
 #zoomer .zoomer-hide:hover {
 	background: rgba(255,255,255,0.4);
 	box-shadow: #000 2px 2px 3px;
 }
+
 #cell-form > p:first-child {
 	margin-top: 0;
 }
+
 /* forms */
 .form {
 	margin: 0 var(--col-gap);
