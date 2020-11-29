@@ -229,6 +229,7 @@ main {
 	outline-offset: -3px;
 }
 
+figure.done-cell img,
 .column img.done-cell {
 	/*
 	opacity: .8;
@@ -243,6 +244,7 @@ main {
 	border-radius: 5px;
 	width: 33%;
 }
+.is-chrome figure.done-cell img,
 .is-chrome .column img.done-cell {
 	outline: none;
 	border: 4px solid green;

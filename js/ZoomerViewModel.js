@@ -108,6 +108,7 @@ class ZoomerViewModel {
 			if (this.mainForm._zoomerImg instanceof Element) {
 				let done = this.mainFields.done.checked;
 				this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, done);
+				this.updateListCell(this.mainForm._zoomerImg.id, done);
 			}
 		});
 		this.mainFields.notes.addEventListener('change', ()=>{
@@ -135,6 +136,7 @@ class ZoomerViewModel {
 						this.updateDoneField(portal.done);
 					}
 				}
+				this.updateListCell(portal.id, portal.done);
 			}
 		});
 		
@@ -145,6 +147,23 @@ class ZoomerViewModel {
 				console.log('copied');
 			})
 		;
+	}
+
+	/**
+	 * Update state of cell in zoomer list.
+	 * 
+	 * @param {String} id Cell's id (same as image id).
+	 * @param {boolean} done 
+	 */
+	updateListCell(id, done) {
+		let el = this.listContainer.querySelector(`.list.${id}`);
+		if (el) {
+			if (done) {
+				el.classList.add('done-cell');
+			} else {
+				el.classList.remove('done-cell');
+			}
+		}
 	}
 
 	/**
@@ -228,6 +247,9 @@ class ZoomerViewModel {
 			let nel = document.createElement('figure');
 			nel.innerHTML = `<img src='${img.src}'><figcaption>${img.title}</figcaption>`;
 			nel.className = `list ${id}`;
+			if (img.classList.contains('done-cell')) {
+				nel.classList.add('done-cell');
+			}
 			this.listContainer.appendChild(nel);
 
 			// allow zoom-in from list
