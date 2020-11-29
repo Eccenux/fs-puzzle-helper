@@ -413,3 +413,6 @@ body .ui-widget-content {
 body .ui-widget.ui-widget-content {
 	border: 1px solid #777;
 }
+[role="dialog"] { /* initial state, role added manually */
+	display: none;
+}

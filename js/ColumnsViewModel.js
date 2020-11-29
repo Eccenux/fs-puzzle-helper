@@ -12,7 +12,6 @@ class ColumnsViewModel {
 	}
 	/**
 	 * Init interactions.
-	 * @param {String} columnsSelector CSS selector for all columns.
 	 */
 	init() {
 		this.state.init('.column');

@@ -4,17 +4,19 @@
 import {ColumnsViewModel} from './ColumnsViewModel.js';
 import {PortalsViewModel} from './PortalsViewModel.js';
 import {ZoomerViewModel} from './ZoomerViewModel.js';
-import {StateStore} from './StateStore.js';
+import {ColumnsMapViewModel} from './ColumnsMap.js';
 
 const columnsViewModel = new ColumnsViewModel();
 const portalsViewModel = new PortalsViewModel();
 const zoomerViewModel = new ZoomerViewModel();
+const columnsMapViewModel = new ColumnsMapViewModel();
 
 // init on load
 document.addEventListener("DOMContentLoaded", function() {
 	columnsViewModel.init();
 	portalsViewModel.init();
 	zoomerViewModel.init(portalsViewModel);
+	columnsMapViewModel.init();
 
 	document.querySelector('#toggle-view-all').addEventListener('click', ()=>{
 		document.body.classList.toggle('view-all');
@@ -53,6 +55,7 @@ const app = {
 	columnsViewModel,
 	portalsViewModel,
 	zoomerViewModel,
+	columnsMapViewModel,
 };
 window.app = app;
 

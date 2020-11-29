@@ -47,6 +47,10 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<!-- leaflet as es5 -->
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+	<script src="leaflet/leaflet.js"></script>
 
 	<script src="js/main.js" type="module"></script>
 </head>
@@ -117,11 +121,6 @@
 	</script>
 
 	<!-- experimental/prototypes -->
-
-	<!-- leaflet as es5 -->
-	<link rel="stylesheet" href="leaflet/leaflet.css" />
-	<script src="leaflet/leaflet.js"></script>
-	<script src="js/ColumnsMap.js"></script>
 
 	<!-- dumps -->
 	<?php include './inc/tpls/puzzle.dump.php'; ?>
