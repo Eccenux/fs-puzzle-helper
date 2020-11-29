@@ -79,6 +79,34 @@ function showLocationDialog(column, locationLines) {
 	});
 }
 
+let dialogMap = null;
+
+/**
+ * Show map dialog.
+ */
+function showMapDialog(column, locationLines) {
+	let dialog = document.querySelector('#column-map-dialog');
+	dialog.title = `Map (${column})`;
+	$(dialog).dialog({
+		title: dialog.title,
+		width: 120,
+		height: 150,
+		position: { my: "right bottom", at: "right bottom" },
+	});
+	// prepare map
+	if (dialogMap == null) {
+		let mapEl = dialog.querySelector('.char-map');
+		dialogMap = L.map(mapEl, {
+			center: [0, 0],
+			zoom: 13,
+			attributionControl: false,
+			zoomControl: false,
+		});
+	}
+	// show char
+	updateMap(dialogMap, locationLines);
+}
+
 //
 // quick and dirty init
 //
@@ -118,5 +146,18 @@ document
 		let column = parseInt(button.getAttribute('data-col'));
 		let newdata = locationsColumnData(column);
 		showLocationDialog(column, newdata);
+	});
+});
+
+//
+// Map actions in a dialog
+//
+document
+.querySelectorAll('button.map-popup')
+.forEach((button)=>{
+	button.addEventListener('click', () => {
+		let column = parseInt(button.getAttribute('data-col'));
+		let newdata = locationsColumnData(column);
+		showMapDialog(column, newdata);
 	});
 });

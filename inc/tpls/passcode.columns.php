@@ -39,7 +39,6 @@
 <div id="locations-dialog" title="Locations list">
 	<textarea></textarea>
 </div>
-
 <style>
 #locations-dialog {
 	display: none;
@@ -49,3 +48,7 @@
 	height: 9.5em;
 }
 </style>
+
+<div id="column-map-dialog" title="Map">
+	<div class="char-map"></div>
+</div>

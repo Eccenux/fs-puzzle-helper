@@ -10,6 +10,7 @@
 				<span class='passcode-col-ll'>
 					<button data-col='$column' title='View locations list'>📝</button>
 				</span>
+				<button data-col='$column' class='map-popup' title='Show map for column'>👁‍</button>
 			</div>
 		";
 		foreach ($files as $file) {
