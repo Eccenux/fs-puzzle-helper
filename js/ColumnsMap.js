@@ -112,7 +112,7 @@ document
 // Location view actions
 //
 document
-.querySelectorAll('#passcode-columns .passcode-col-ll button')
+.querySelectorAll('.passcode-col-ll button')
 .forEach((button)=>{
 	button.addEventListener('click', () => {
 		let column = parseInt(button.getAttribute('data-col'));

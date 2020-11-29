@@ -5,7 +5,12 @@
 		echo "
 		<section class='column' id='col_$column'>
 			<h2>$column</h2>
-			<input data-col='$column' name='col_notes' type='text' value=''>
+			<div class='group'>
+				<input data-col='$column' name='col_notes' type='text' value=''>
+				<span class='passcode-col-ll'>
+					<button data-col='$column' title='View locations list'>📝</button>
+				</span>
+			</div>
 		";
 		foreach ($files as $file) {
 			$id = preg_replace('#\.\w+$#', '', basename($file));

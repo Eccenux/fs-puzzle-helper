@@ -168,6 +168,11 @@ main {
 	*/
 	width: 100%;
 }
+.column .group {
+	display: grid;
+	width: 100%;
+	grid-template-columns: 1fr min-content;
+}
 .column input {
 	width: 100%;
 }
@@ -212,6 +217,9 @@ main {
 	font-size: small;
 }
 .column.done h2 em {
+	display: none;
+}
+.column.done button {
 	display: none;
 }
 
