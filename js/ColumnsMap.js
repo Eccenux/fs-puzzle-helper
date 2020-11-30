@@ -14,17 +14,61 @@ class ColumnsMapViewModel {
 	}
 
 	/**
-	 * Locations separated by new line to array.
-	 * Removes spaces around new lines.
+	 * Prepare locations separated by new line for drawing.
 	 * @private
 	 */
 	locationLinesToPoly(locationLines) {
-		let latlngs = locationLines
-		.trim()
-		.split('\n')
-		.map(l=>l.trim())
-		.filter(l=>l.length)
-		.map(l=>l.split(','))
+		console.log('locationLinesToPoly', {locationLines});
+		let latlngs = {
+			points: [],		// all points
+			missing: [],	// missing sections
+			paths: [],		// continious paths
+		};
+
+		// parse to array of arrays
+		let sections = locationLines
+			.trim()
+			.split('\n\n')
+			.filter(l=>l.length)
+			.map(sub=>{
+				return sub
+					.split('\n')
+					.map(l=>l.trim())
+					.filter(l=>l.length)
+					.map(l=>l.split(','))
+				;
+			})
+		;
+
+		// empty
+		if (!sections.length) {
+			return latlngs;
+		}
+
+		console.log(sections);
+
+		// fill latlngs arrays
+		let prev = null;
+		for (let index = 0; index < sections.length; index++) {
+			const section = sections[index];
+			// all points
+			latlngs.points = latlngs.points.concat(section);
+
+			// missing sections
+			if (prev) {
+				latlngs.missing.push([prev[prev.length-1], section[0]]);
+			}
+			
+			// continious paths
+			if (section.length > 1) {
+				latlngs.paths.push(section);
+			}
+
+			prev = section;
+		}
+
+		console.log(latlngs);
+
 		return latlngs;
 	}
 
@@ -41,18 +85,29 @@ class ColumnsMapViewModel {
 			map.removeLayer(layer);
 		});
 
-		if (latlngs.length > 1) {
-			// add layers
-			let polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-			let radius = 5;
-			let first = latlngs.shift();
-			L.circleMarker(first, {color: 'green', radius}).addTo(map);
-			latlngs.forEach((latLng)=>{
+		if (latlngs.points.length > 1) {
+			let pointsPoly = L.polyline(latlngs.points);
+
+			// continious paths
+			for (let i = 0; i < latlngs.paths.length; i++) {
+				const points = latlngs.paths[i];
+				L.polyline(points, {color: '#880394'}).addTo(map);
+			}
+			// missing sections
+			for (let i = 0; i < latlngs.missing.length; i++) {
+				const points = latlngs.missing[i];
+				L.polyline(points, {color: 'red', dashArray:'2 4'}).addTo(map);
+			}
+			// points
+			let radius = 3;
+			let first = latlngs.points.shift();
+			L.circleMarker(first, {color: 'green', radius: radius + 2}).addTo(map);
+			latlngs.points.forEach((latLng)=>{
 				L.circleMarker(latLng, {color: 'black', radius}).addTo(map);
 			});
 
 			// zoom the map to the polyline
-			map.fitBounds(polyline.getBounds());
+			map.fitBounds(pointsPoly.getBounds());
 		}
 	}
 
@@ -76,7 +131,7 @@ class ColumnsMapViewModel {
 				(a,b)=> a.col == b.col ? a.row - b.row : a.col - b.col
 			)
 			.forEach(p=>{
-				locations.push(p.ll);
+				locations[p.row] = p.ll;
 			})
 		;
 		//console.log(locations);
