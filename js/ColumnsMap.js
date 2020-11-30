@@ -86,7 +86,7 @@ class ColumnsMapViewModel {
 		});
 
 		if (latlngs.points.length > 1) {
-			let pointsPoly = L.polyline(latlngs.points);
+			let bounds = L.latLngBounds(latlngs.points);
 
 			// continious paths
 			for (let i = 0; i < latlngs.paths.length; i++) {
@@ -106,8 +106,8 @@ class ColumnsMapViewModel {
 				L.circleMarker(latLng, {color: 'black', radius}).addTo(map);
 			});
 
-			// zoom the map to the polyline
-			map.fitBounds(pointsPoly.getBounds());
+			// zoom the map to show everything
+			map.fitBounds(bounds);
 		}
 	}
 
