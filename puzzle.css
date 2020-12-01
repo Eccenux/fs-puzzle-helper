@@ -152,7 +152,13 @@ main {
 .text label {
 	padding: .4em;
 }
-  
+.flex-group {
+	display: flex;
+	gap: var(--base-gap);
+}
+.flex-group .display {
+	padding: .4em 0;
+}
 
 /* columns */
 #columns {

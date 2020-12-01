@@ -5,7 +5,10 @@
 		<figcaption></figcaption>
 	</figure>
 	<div id="cell-form" class="form" style="display: none;">
-		<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
+		<div class="flex-group">
+			<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
+			<p class="title display"></p>
+		</div>
 		<p class="text">
 			<label for="zoomer_field_puzzle" title="FS puzzle format">FS puzzle: 📋</label>
 			<input  id="zoomer_field_puzzle" name="puzzle" type="text" value="">

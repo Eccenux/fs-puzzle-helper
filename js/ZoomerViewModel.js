@@ -101,6 +101,7 @@ class ZoomerViewModel {
 			done: this.mainForm.querySelector('[name="done"]'),
 			puzzle: this.mainForm.querySelector('[name="puzzle"]'),
 			notes: this.mainForm.querySelector('[name="notes"]'),
+			titleDisplay: this.mainForm.querySelector('.title'),
 		}
 
 		// changes
@@ -135,6 +136,7 @@ class ZoomerViewModel {
 						this.portalsViewModel.changeDoneState(this.mainForm._zoomerImg, portal.done, true);
 						this.updateDoneField(portal.done);
 					}
+					this.updateDisplay(portal);
 				}
 				this.updateListCell(portal.id, portal.done);
 			}
@@ -183,6 +185,22 @@ class ZoomerViewModel {
 		this.mainFields.puzzle.setCustomValidity('');
 		this.mainFields.puzzle.reportValidity();
 	}
+	/**
+	 * Update display fields/rendering for CURRENT portal.
+	 * @param {Portal} portal.
+	 */
+	updateDisplay(portal) {
+		let html = '';
+		if (portal.title.length) {
+			let url = portal.getUrl();
+			if (url.length) {
+				html = `<a href="${url}" target="_blank" rel="noopener">${portal.title}</a>`;
+			} else {
+				html = `<a href="#">${portal.title}</a>`;
+			}
+		}
+		this.mainFields.titleDisplay.innerHTML = html;
+	}
 
 	/**
 	 * Load cell image to main view.
@@ -204,6 +222,7 @@ class ZoomerViewModel {
 		// init fields
 		this.updateDoneField(portal.done);
 		this.updatePuzzleField(portal);
+		this.updateDisplay(portal);
 		this.mainFields.notes.value = portal.notes;
 	}
 
