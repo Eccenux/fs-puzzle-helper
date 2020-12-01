@@ -143,10 +143,16 @@ class ZoomerViewModel {
 		});
 		
 		// extras
-		this.mainForm.querySelector('[for="zoomer_field_puzzle"')
+		this.mainForm.querySelector('[for="zoomer_field_puzzle"]')
 			.addEventListener('click', ()=>{
 				ClipboardHelper.copyTextField(this.mainFields.puzzle);
-				console.log('copied');
+				//console.log('copied puzzle field');
+			})
+		;
+		this.mainForm.querySelector('.title-copy')
+			.addEventListener('click', ()=>{
+				ClipboardHelper.copyHtml(this.mainFields.titleDisplay);
+				//console.log('copied title');
 			})
 		;
 	}

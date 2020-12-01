@@ -7,7 +7,7 @@
 	<div id="cell-form" class="form" style="display: none;">
 		<div class="flex-group">
 			<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
-			<p class="title display"></p>
+			<p class="display"><span class="title"></span> <button class="title-copy">📋 copy</button></p>
 		</div>
 		<p class="text">
 			<label for="zoomer_field_puzzle" title="FS puzzle format">FS puzzle: 📋</label>
