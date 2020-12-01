@@ -47,7 +47,7 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
+
 	<!-- leaflet as es5 -->
 	<link rel="stylesheet" href="leaflet/leaflet.css" />
 	<script src="leaflet/leaflet.js"></script>
@@ -58,7 +58,7 @@
 	<aside id="passcode-container">
 		<?php if (!empty($gsId)) { ?>
 			<section class="frame">
-				<iframe width='1000' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=1662443983'></iframe>
+				<iframe width='100%' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=1662443983'></iframe>
 			</section>
 			<section id="sheet-size-controls">
 				<button class="resize" data-class="gs-hide">Hide GS</button>

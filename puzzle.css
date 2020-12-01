@@ -394,7 +394,7 @@ body.hide-passcode #passcode-container {
 /* Google Sheet container */
 #passcode-container {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr max-content;
 }
 #passcode-columns {
 	display: flex;
