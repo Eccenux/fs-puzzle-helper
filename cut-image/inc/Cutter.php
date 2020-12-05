@@ -83,6 +83,11 @@ class Cutter {
 			return false;
 		}
 
+		// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
+		// uneven for 2020-11/2020-12
+		//$uneven = true;
+		$uneven = false;
+
 		$cutMeta = new CutMeta();
 		$cutMeta->gap = $this->gap;
 
@@ -90,7 +95,18 @@ class Cutter {
 		$cutMeta->top = $this->top = $this->findTop();
 
 		// find column width; usually 300 or 500
-		$cutMeta->colWidth = $this->colw = $this->findColW();
+		$colEnds = $this->findColW(90, $uneven);
+		if (!$uneven) {
+			$cutMeta->colWidth = $this->colw = $colEnds;
+			$this->colEnds = array($this->colw);
+		} else {
+			$cutMeta->colWidth = $this->colw = $colEnds[0];
+			$this->colEnds = $colEnds;
+		}
+		if ($uneven) {
+			echo "colEnds: ".implode(', ', $colEnds);
+			//die();
+		}
 		// exit (tests)
 		if ($column === -1) {
 			return false;
@@ -104,6 +120,31 @@ class Cutter {
 
 		// find number of columns
 		$cutMeta->colCount = $this->cols = $this->findColNo();
+
+		// check widths
+		$colEndsCount = count($this->colEnds);
+		if ($uneven && ($colEndsCount < $this->cols)) {
+			echo "[WARNING] colEndsCount ($colEndsCount) < cols ($this->cols)";
+			die();
+		}
+
+		// only crop images to column
+		if ($uneven) {
+			$startY = 100;
+			$startX = 0;
+			foreach ($this->colEnds as $cutNum => $colEnd) {
+				$imgW = $colEnd - $startX;
+				$imgH = $this->h - $startY;
+				$output = $this->outCol . sprintf("/col_%d.jpg", $cutNum+1);
+				$this->crop($output, 100, array(
+					'x'=>$startX, 'y'=>$startY,
+					'width'=>$imgW, 'height'=>$imgH,
+				));
+				$startX = $colEnd;
+			}
+			// cell cut not supported...yet
+			return true;
+		}
 
 		// cut columns loop
 		$maxh = 0;
@@ -186,11 +227,11 @@ class Cutter {
 	 * note $imgw = $colw - $gap;
 	 * 
 	 * @param integer $startX StartX, should start with < min cell-img.w
-	 * @return integer 1st column width
+	 * @return integer|array 1st column width or array of column ends for uneven
 	 * For now only return first column width.
 	 * The algorithm can however be used to calculate all widths.
 	 */
-	private function findColW($startX = 90)
+	private function findColW($startX = 90, $uneven = false)
 	{
 		$img = $this->img;
 
@@ -258,7 +299,7 @@ class Cutter {
 					}
 
 					// end early (only check 2 cols)
-					if (count($candidates) > 1) {
+					if (!$uneven && count($candidates) > 1) {
 						break;
 					}
 				}
@@ -273,13 +314,17 @@ class Cutter {
 		$logger->log(ob_get_clean());
 
 		// verify candidates
-		if (count($candidates) > 1) {
-			if ($candidates[0] * 2 != $candidates[1]) {
-				die ("\n[ERROR] Column width candidates do not match! Try manualy setting `colw` (instead of calling `findColW`)\n");
+		if (!$uneven) {
+			if (count($candidates) > 1) {
+				if ($candidates[0] * 2 != $candidates[1]) {
+					die ("\n[ERROR] Column width candidates do not match! Try manualy setting `colw` (instead of calling `findColW`)\n");
+				}
+				return $candidates[0];
 			}
-			return $candidates[0];
+			die ("\n[ERROR] Unable to calculate column width! Try manualy setting `colw` (instead of calling `findColW`)\n");
+		} else {
+			return $candidates;
 		}
-		die ("\n[ERROR] Unable to calculate column width! Try manualy setting `colw` (instead of calling `findColW`)\n");
 	}
 
 	/**
