@@ -4,8 +4,12 @@
 	// Google sheet URL
 	$gsUrl = !empty($_GET['gsurl']) ? $_GET['gsurl'] : "";
 	$gsId = "";
+	$gsSheetId = "1662443983";	// default gid from template
 	if (preg_match("#^https://docs.google.com/spreadsheets/(\w+/[^/?]+)/#", $gsUrl, $matches)) {
 		$gsId = $matches[1];
+	}
+	if (!empty($gsId) && preg_match("@/spreadsheets/.+[#?]gid=([0-9a-f]+)@", $gsUrl, $matches)) {
+		$gsSheetId = $matches[1];
 	}
 
 	// params for testing
@@ -58,7 +62,7 @@
 	<aside id="passcode-container">
 		<?php if (!empty($gsId)) { ?>
 			<section class="frame">
-				<iframe width='100%' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=1662443983'></iframe>
+				<iframe width='100%' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=<?=$gsSheetId?>'></iframe>
 			</section>
 			<section id="sheet-size-controls">
 				<button class="resize" data-class="gs-hide">Hide GS</button>
