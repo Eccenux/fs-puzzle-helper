@@ -96,6 +96,7 @@ class Cutter {
 
 		// find column width; usually 300 or 500
 		$colEnds = $this->findColW(90, $uneven);
+		//$colEnds = 300;
 		if (!$uneven) {
 			$cutMeta->colWidth = $this->colw = $colEnds;
 			$this->colEnds = array($this->colw);
