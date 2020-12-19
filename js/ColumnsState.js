@@ -62,7 +62,7 @@ class ColumnsState {
 		const zoomTrigger = 7;
 		if (shown < zoomTrigger) {
 			let winWidth = window.outerWidth;
-			let zoomerLimit = winWidth * 0.4;
+			let zoomerLimit = winWidth * 0.3;
 			let newWidth = this.zoomerBaseWidth + (zoomTrigger - shown) * 100;
 			if (newWidth > zoomerLimit) {
 				newWidth = zoomerLimit;

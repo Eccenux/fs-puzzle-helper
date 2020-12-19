@@ -217,7 +217,8 @@ class ZoomerViewModel {
 		
 		// fill display data
 		this.mainImg.src = img.src;
-		this.mainCaption.textContent = img.title;
+		//this.mainCaption.textContent = img.title;
+		this.mainCaption.innerHTML = `<a href="${img.src}" target="_blank">${img.title}</a>`;
 		this.mainSection.style.display = '';
 		this.mainForm.style.display = '';
 
