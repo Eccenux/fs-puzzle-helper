@@ -1,0 +1,39 @@
+cut halfs?
+
+dla col5+ (najlepiej na kopii)
+glob 
+nparz - góra
+parz - dół
+
+góra = 0, max height
+dół = min height, height
+
+based on height I could decide to even take half of the image
+depends on (max height / height) ratio
+if (max height / height) = 1 / 2 => dwa obrazki w pionie
+
+
+CSS clip-path?
+-----------------
+
+Quick solution: clip-path
+
+/* top */
+.halfs img:nth-of-type(2n+1) {
+	clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 60%)
+}
+/* bottom */
+.halfs img:nth-of-type(2n) {
+	clip-path: polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);
+}
+/* last */
+.halfs img:nth-of-type(2n+1):last-of-type {
+	clip-path: none;
+}
+
+CSS with overflow
+--------------------
+
+Use span/div and cut out halfs.
+
+BTW. Re-write done-overlay to a proper overlay...

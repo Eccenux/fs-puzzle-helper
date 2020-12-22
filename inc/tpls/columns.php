@@ -2,8 +2,12 @@
 <?php
 	for ($column=$startCol; $column <= $colCount; $column++) {
 		$files = $rowFiles[$column];
+		$classes = "column";
+		if ($column >= 5) {
+			$classes .= " halfs";
+		}
 		echo "
-		<section class='column' id='col_$column'>
+		<section class='$classes' id='col_$column'>
 			<h2>$column</h2>
 			<div class='group'>
 				<input data-col='$column' name='col_notes' type='text' value=''>

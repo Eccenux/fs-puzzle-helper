@@ -422,3 +422,16 @@ body .ui-widget.ui-widget-content {
 [role="dialog"] { /* initial state, role added manually */
 	display: none;
 }
+
+/* top */
+.halfs img:nth-of-type(2n+1) {
+	clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 60%)
+}
+/* bottom */
+.halfs img:nth-of-type(2n) {
+	clip-path: polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);
+}
+/* last */
+.halfs img:nth-of-type(2n+1):last-of-type {
+	clip-path: none;
+}
