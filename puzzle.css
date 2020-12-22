@@ -423,15 +423,17 @@ body .ui-widget.ui-widget-content {
 	display: none;
 }
 
-/* top */
-.halfs img:nth-of-type(2n+1) {
-	clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 60%)
+/* top/common */
+.halfs img {
+	background-size: cover;
+	background-repeat: no-repeat;
 }
+/* .halfs img:nth-of-type(2n+1) {} */
 /* bottom */
 .halfs img:nth-of-type(2n) {
-	clip-path: polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);
+	background-position-y: bottom;
 }
-/* last */
+/* last, without pair */
 .halfs img:nth-of-type(2n+1):last-of-type {
-	clip-path: none;
+	background-size: contain;
 }

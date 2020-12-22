@@ -23,6 +23,20 @@ class PortalCell {
 		cell.row = img.getAttribute('data-row');
 		return cell;
 	}
+
+	/**
+	 * Get cell url.
+	 * @param {Element} img Cell image.
+	 */
+	static readUrl(img) {
+		// data-url for transformed images
+		let url = img.getAttribute('data-url');
+		if (typeof url === 'string' && url.length) {
+			return url;
+		}
+		// fallback
+		return img.src;
+	}
 }
 
 export { PortalCell };

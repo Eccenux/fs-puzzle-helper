@@ -1,9 +1,17 @@
 <section>
 <?php
+	@include('./img-auto-cut/cut-config.php');
+	$halfsStart = -1;
+	if (defined('HALFS_COLUMN_START')) {
+		$halfsStart = HALFS_COLUMN_START;
+	}
+
 	for ($column=$startCol; $column <= $colCount; $column++) {
 		$files = $rowFiles[$column];
 		$classes = "column";
-		if ($column >= 5) {
+		$halfs = false;
+		if ($halfsStart >= 0 && $column >= $halfsStart) {
+			$halfs = true;
 			$classes .= " halfs";
 		}
 		echo "
@@ -23,7 +31,13 @@
 				$col = $matches[1];
 				$row = $matches[2];
 				$title = "col $col, row $row";
-				echo "<img src='$file' id='cell_{$id}' title='{$title}' data-col='$col' data-row='$row' />";
+				if (!$halfs) {
+					echo "<img src='$file' data-url='$file' id='cell_{$id}' title='{$title}' data-col='$col' data-row='$row' />";
+				} else {
+					echo "<img src='./img/empty.png'
+						style='background-image: url($file);'
+						data-url='$file' id='cell_{$id}' title='{$title}' data-col='$col' data-row='$row' />";
+				}
 			}
 		}
 		echo '</section>';

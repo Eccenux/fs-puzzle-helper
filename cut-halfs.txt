@@ -37,3 +37,44 @@ CSS with overflow
 Use span/div and cut out halfs.
 
 BTW. Re-write done-overlay to a proper overlay...
+
+-> meh... Nie da się na szybko...
+Musiałbym przerobić sporo (jest założenie, że kolumny zawierają obrazki; jako done oznaczam obrazek i ogólnie operuję na obrazku).
+
+Angular components
+--------------------
+
+Trzeba to chyba w końcu przepisać na komponenty... Może Angulara _nowego_ ogarnąć?
+
+Mógłbym nowy projekt zrobić.
+Z php generować JSON z jakąś mapą PortalCell. Przy czym bez id tylko wiersz, kolumn, url.
+Na początek mogę ręcznie JSON zrobić (potem się zastanowić na docelowym formatem).
+Wrzucić sobie pliki obrazków i ten JSON w jakiś ignorowany folder.
+Mógłbym od razu założyć, że każda zagadka ma swój folder.
+Info o bieżącej zagadce to osobna informacja. Na początek to by była nazwa folderu w jakimś ogólnym konfigu.
+
+CSS background to cell
+----------------------------------------
+
+1. Zmiana img -> ./img/empty.png
+
+2. PoC CSS:
+top:
+#cell_col_008_003 {
+  background-image: url(./img-auto-cut/cells//col_008_003.jpg);
+  clip-path: none;
+  background-size: cover;
+}
+bottom:
+#cell_col_008_004 {
+  background-image: url(./img-auto-cut/cells//col_008_003.jpg);
+  clip-path: none;
+  background-size: cover;
+  background-position-y: bottom;
+}
+
+3. Add orignal URL as separate attr of img (PHP? JS?).
+4. Read url via model, not directly.
+
+5. Change URL of img to empty and add background (PHP? JS?).
+6. Add common CSS.

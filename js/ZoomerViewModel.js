@@ -1,5 +1,6 @@
 import {EventsHelper} from './EventsHelper.js';
 import { Portal } from './Portal.js';
+import { PortalCell } from './PortalCell.js';
 import { PortalsViewModel } from './PortalsViewModel.js';
 import { ClipboardHelper } from './ClipboardHelper.js';
 
@@ -215,10 +216,11 @@ class ZoomerViewModel {
 	cellLoad(img) {
 		let portal = this.portalsViewModel.getPortal(img);
 		
+		const url = PortalCell.readUrl(img);
 		// fill display data
-		this.mainImg.src = img.src;
+		this.mainImg.src = url;
 		//this.mainCaption.textContent = img.title;
-		this.mainCaption.innerHTML = `<a href="${img.src}" target="_blank">${img.title}</a>`;
+		this.mainCaption.innerHTML = `<a href="${url}" target="_blank">${img.title}</a>`;
 		this.mainSection.style.display = '';
 		this.mainForm.style.display = '';
 
@@ -278,12 +280,13 @@ class ZoomerViewModel {
 		if (this.idList.has(id)) {
 			this.cellRemove(img, id);
 		} else {
+			const url = PortalCell.readUrl(img);
 			img.classList.add('zoomer-list');
 			this.idList.add(id);
 			let nel = document.createElement('figure');
 			nel.innerHTML = `
 				<button class="figure-close" title="remove from list">✕</button>
-				<img src='${img.src}'>
+				<img src='${url}'>
 				<figcaption>${img.title}</figcaption>
 			`;
 			nel.className = `list ${id}`;
