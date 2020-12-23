@@ -85,8 +85,8 @@ class Cutter {
 
 		// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
 		// uneven for 2020-11/2020-12
-		$uneven = true;
-		//$uneven = false;
+		//$uneven = true;
+		$uneven = false;
 
 		$cutMeta = new CutMeta();
 		$cutMeta->gap = $this->gap;
