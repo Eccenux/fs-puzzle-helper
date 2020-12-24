@@ -70,6 +70,32 @@ class Cutter {
 	}
 
 	/**
+	 * Cut uneven column
+	 *
+	 * @return void
+	 */
+	public function cutUneven($column, $colCount) {
+		if (!$this->init(true)) {
+			return false;
+		}
+		$startX = 0;
+		$startY = 0;
+		$imgW = $this->w;
+		$imgH = ceil($this->h / $colCount * 3);
+		$stepY = ceil($this->h / $colCount / 2);
+		for ($r=1; $r <= $colCount; $r++) { 
+			$output = $this->out . sprintf("/col_%03d_%03d.jpg", $column, $r);
+			$this->crop($output, 100, array(
+				'x'=>$startX, 'y'=>$startY,
+				'width'=>$imgW, 'height'=>$imgH,
+			));
+			// next
+			$startY += $stepY;
+			$imgH += $stepY*2;
+		}
+	}
+
+	/**
 	 * Cut raw jpg file.
 	 * 
 	 * @param int $column Column number or...
@@ -582,6 +608,9 @@ class Cutter {
 	 * @return boolean false upon failure.
 	 */
 	private function crop($outFile, $quality, $rect, $scaledWidth=false) {
+		if ($rect['height'] > $this->h - $rect['y']) {
+			$rect['height'] = $this->h - $rect['y'];
+		}
 		$cropped = imagecrop($this->img, $rect);
 		if ($cropped !== false) {
 			if ($scaledWidth === false) {
@@ -776,7 +805,7 @@ class Cutter {
 	 *
 	 * @return false on failure.
 	 */
-	private function init()
+	private function init($columnImage = false)
 	{
 		// prepare input
 		$file = $this->file;
@@ -795,22 +824,38 @@ class Cutter {
 			mkdir($this->outCol, 0777, true);
 		}
 
-		// clear dir
-		$files = glob($this->out . '/*.jpg');
-		foreach($files as $file) {
-			if(is_file($file))
-				unlink($file);
-		}
-		// column dir
-		$files = glob($this->outCol . '/*.jpg');
-		foreach($files as $file) {
-			if(is_file($file))
-				unlink($file);
+		// clear dirs
+		if (!$columnImage) {
+			$this->clearCells();
+			$this->clearColumns();
 		}
 
 		// base props
 		$this->w = imagesx($img);
 		$this->h = imagesy($img);
 		return true;
+	}
+
+	/**
+	 * Clear cells dir.
+	 */
+	public function clearCells()
+	{
+		$files = glob($this->out . '/*.jpg');
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
+		}
+	}
+	/**
+	 * Clear columns dir.
+	 */
+	public function clearColumns()
+	{
+		$files = glob($this->outCol . '/*.jpg');
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
+		}
 	}
 }
