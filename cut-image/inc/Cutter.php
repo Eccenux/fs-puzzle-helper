@@ -125,8 +125,8 @@ class Cutter {
 		// check widths
 		$colEndsCount = count($this->colEnds);
 		if ($uneven && ($colEndsCount < $this->cols)) {
-			echo "[WARNING] colEndsCount ($colEndsCount) < cols ($this->cols)";
-			die();
+			echo "\n[WARNING] colEndsCount ($colEndsCount) < cols ($this->cols)";
+			//die();
 		}
 
 		// only crop images to column
@@ -135,8 +135,14 @@ class Cutter {
 			$startX = 0;
 			foreach ($this->colEnds as $cutNum => $colEnd) {
 				$imgW = $colEnd - $startX;
-				$imgH = $this->h - $startY;
-				$output = $this->outCol . sprintf("/col_%d.jpg", $cutNum+1);
+
+				// get height
+				$probeX = $startX + ceil($imgW / 2);
+				$colh = $this->findBottom($probeX);
+				//$imgH = $this->h - $startY;
+				$imgH = $colh - $startY;
+
+				$output = $this->outCol . sprintf("/col_%03d.jpg", $cutNum+1);
 				$this->crop($output, 100, array(
 					'x'=>$startX, 'y'=>$startY,
 					'width'=>$imgW, 'height'=>$imgH,
@@ -421,18 +427,36 @@ class Cutter {
 	 */
 	private function findColHeight($column)
 	{
+		// main probing point
+		$probeX = $this->getProbeX($column);
+
+		$curTime = microtime(true);
+		$colh = $this->findBottom($probeX);
+		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
+		echo "[column=$column] colh = $colh (x=$probeX); dt=$timeConsumed\n";
+
+		return $colh;
+	}
+	/**
+	 * Find bottom / column height.
+	 * 
+	 * @param int $probeX Probing point on X (constant).
+	 * @param int $startY Probing point on Y (starter, going up). Defaults to image height.
+	 * @return int height (last Y that is still a background)
+	 */
+	private function findBottom($probeX, $startY = -1)
+	{
 		$h = $this->h;
 		$img = $this->img;
 
-		// main probing point
-		$probeX = $this->getProbeX($column);
 		if ($probeX >= $this->w) {
 			return $h;
 		}
 
 		$distance = 2;		// acceptable color distance
-		$curTime = microtime(true);
-		$startY = $h - 1;
+		if ($startY <= 0) {
+			$startY = $h - 1;
+		}
 		$minY = $this->top;
 		for ($step = 200; $step > 1;) {
 			$colh = $this->ih->findBoundBottom($img, $probeX, $startY, $minY, $distance, $step);
@@ -443,8 +467,6 @@ class Cutter {
 			$startY = $colh;
 			$step = ceil($step/2);
 		}
-		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
-		echo "[column=$column] colh = $colh (x=$probeX); dt=$timeConsumed\n";
 		return $colh;
 	}
 
