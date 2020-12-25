@@ -13,7 +13,7 @@ class Cutter {
 
 	// top boundary; top bar height (usually 15 or 100)
 	// (will be re-calculated)
-	public $top = 100;
+	public $top = 0;
 
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
@@ -23,6 +23,9 @@ class Cutter {
 	// number of columns
 	// (will be re-calculated)
 	public $cols = 50;
+
+	// set to true for single column processing
+	public $singleColumn = false;
 
 	// output path
 	public $out = './';
@@ -54,10 +57,11 @@ class Cutter {
 	 * @param string $out Cell output (HiFi).
 	 * @param string $outCol Columns output (for xls, LowFi).
 	 */
-	public function __construct($file, $out, $outCol) {
+	public function __construct($file, $out, $outCol, $singleColumn = false) {
 		$this->file = $file;
 		$this->out = $out;
 		$this->outCol = $outCol;
+		$this->singleColumn = $singleColumn;
 
 		$this->outLogCurrent = date("Y-m-d\TH.i.s") . '--' . basename($file);
 
@@ -93,6 +97,23 @@ class Cutter {
 			$startY += $stepY;
 			$imgH += $stepY*2;
 		}
+	}
+
+	/**
+	 * Cut column file (single column).
+	 * 
+	 * NOTE! DOES NOT WORK YET :-/
+	 * Too many assumptions on that there are many columns, that there is still top etc...
+	 * 
+	 * @param int $column Column number (for stats and file names).
+	 * @return false on failure.
+	 */
+	public function cutColumn($column) {
+		if (!$this->init(true)) {
+			return false;
+		}
+		$this->cutCol($column);
+		return true;
 	}
 
 	/**
@@ -206,6 +227,9 @@ class Cutter {
 	 * @return int
 	 */
 	private function getProbeX($column) {
+		if ($this->singleColumn) {
+			return floor($this->w / 2);
+		}
 		return $this->getStartX($column) + 10;
 	}
 	private function getStartX($column) {
@@ -483,6 +507,9 @@ class Cutter {
 			$colh = $this->ih->findBoundBottom($img, $probeX, $startY, $minY, $distance, $step);
 			if (is_null($colh)) {
 				$colh = $h;
+				break;
+			}
+			if ($startY < $colh) {
 				break;
 			}
 			$startY = $colh;
@@ -780,7 +807,7 @@ class Cutter {
 		$img = $this->img;
 		$endY = $startY + $height;
 		for ($probeY = $startY; $probeY <= $endY; $probeY++) {
-			$colEnd = $this->getStartX($column+1) - $this->gap;
+			$colEnd = ($this->singleColumn) ? $this->w : $this->getStartX($column+1) - $this->gap;
 			for ($x = $startX; $x < $colEnd; $x+=$stepX) {
 				$ok = $this->ih->checkBackDistance($img, $x, $probeY, $distanceX);
 				$diff = $this->ih->getBackDistance($img, $x, $probeY);

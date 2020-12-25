@@ -69,6 +69,26 @@ foreach ($files as $file) {
 	$cutter = new Cutter($file, $baseDir."cells/", $baseDir."");
 	$cutter->cutUneven($column, $colCount);
 }
+
+/**
+// NOTE! DOES NOT WORK YET :-/
+
+// cut columns one-by-one
+$baseDir = '../img-auto-cut/';
+$dir = $baseDir.'col_*.jpg';
+$files = glob($dir);
+if (empty($files)) {
+	die('[ERROR] No files in input dir.');
+}
+$cutter = new Cutter($files[0], $baseDir."cells/", $baseDir."", true);
+$cutter->clearCells();
+foreach ($files as $file) {
+	$fileName = basename($file);
+	$column = intval(preg_replace('#[^0-9]+#', '', $fileName));
+	echo "\n[INFO] file: $fileName";
+	$cutter = new Cutter($file, $baseDir."cells/", $baseDir."", true);
+	$cutter->cutColumn($column);
+}
 /**/
 
 echo "\nDone\n";
