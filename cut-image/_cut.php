@@ -23,7 +23,13 @@ if (!$testing) {
 	echo "Cutting: $newest_file\n";
 
 	$cutter = new Cutter($newest_file, "../img-auto-cut/cells/", "../img-auto-cut/");
-	$cutter->cut();
+
+	// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
+	// uneven for 2020-11/2020-12
+	$uneven = false;
+	//$uneven = true;
+
+	$cutter->cut(null, $uneven);
 
 } else {
 	// testing

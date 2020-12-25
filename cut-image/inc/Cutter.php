@@ -104,15 +104,10 @@ class Cutter {
 	 * 	>0 => cut only one column (1st => 1)
 	 * @return false on failure.
 	 */
-	public function cut($column = null) {
+	public function cut($column = null, $uneven = false) {
 		if (!$this->init()) {
 			return false;
 		}
-
-		// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
-		// uneven for 2020-11/2020-12
-		//$uneven = true;
-		$uneven = false;
 
 		$cutMeta = new CutMeta();
 		$cutMeta->gap = $this->gap;
