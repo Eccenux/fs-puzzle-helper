@@ -60,24 +60,7 @@
 </head>
 <body>
 	<aside id="passcode-container">
-		<?php if (!empty($gsId)) { ?>
-			<section class="frame">
-				<iframe width='100%' height='200' frameborder='0' src='https://docs.google.com/spreadsheets/<?=$gsId?>/edit?rm=minimal#gid=<?=$gsSheetId?>'></iframe>
-			</section>
-			<section id="sheet-size-controls">
-				<button class="resize" data-class="gs-hide">Hide GS</button>
-				<button class="resize" data-class="gs-default">Default GS</button>
-				<button class="resize" data-class="gs-large">Large GS</button>
-			</section>
-		<?php } else { ?>
-			<section id="sheet-form">
-				<form action="">
-					<label title="Sheet URL">Google Sheet URL:</label>
-					<input name="gsurl" type="url" value="https://docs.google.com/spreadsheets/d/111gE09r7AqnhXfsuNouOssruunuRt3rTXw7Nt42zpVU/edit#gid=1662443983">
-					<input type="submit" value="submit">
-				</form>
-			</section>
-		<?php } ?>
+		<?php include './inc/tpls/passcode.sheet.php'; ?>
 		<!-- passcode to columns (chars and graphs) -->
 		<section id="passcode-columns">
 			<?php include './inc/tpls/passcode.columns.php'; ?>
@@ -85,14 +68,7 @@
 	</aside>
 	<main>
 		<section id="main-controls">
-			<button id="reset-all" title="reset state of columns and portals">reset all</button>
-			&bull;
-			<button id="toggle-zoomer" title="toggle bottom/left zoomer">zoomer ↕️</button>
-			<button id="toggle-right-zoomer" title="toggle right/left zoomer">zoomer ↔️</button>
-			&bull;
-			<button id="toggle-view-all" title="toggle temporary reset of done state">view all</button>
-			<button id="toggle-hide-done" title="hide/show done columns" class="show-hide-button shown">done</button>
-			<button id="toggle-hide-passcode" title="hide/show passcode" class="show-hide-button shown">passcode</button>
+			<?php include './inc/tpls/controls.main.php'; ?>
 		</section>
 		<section id="zoomer" class="medium3">
 			<?php include './inc/tpls/zoomer.php'; ?>
@@ -101,13 +77,7 @@
 			<?php include './inc/tpls/columns.php'; ?>
 		</section>
 		<section id="controls">
-			<p class="text">
-				<label>No. of portals (per column):</label>
-				<input type="text" value="<?=implode("\t", $rowCounts)?>"/>
-			</p>
-			<p>
-				&nbsp; <a href="img-auto-cut/all.jpg" target="_blank">all.jpg</a>
-			</p>
+			<?php include './inc/tpls/controls.extras.php'; ?>
 		</section>
 	</main>
 
