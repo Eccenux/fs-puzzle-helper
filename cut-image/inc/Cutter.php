@@ -63,12 +63,26 @@ class Cutter {
 		$this->outCol = $outCol;
 		$this->singleColumn = $singleColumn;
 
-		$this->outLogCurrent = date("Y-m-d\TH.i.s") . '--' . basename($file);
+		$this->setLogPath(time(), $file);
 
 		$r = $g = $b = 50;	// expected background
 		$this->ih = new ImageHelper($r, $g, $b);
 	}
 
+	/**
+	 * Set path for internal logs.
+	 * 
+	 * @param int $time Unix timestamp (e.g. from `time()`).
+	 * @param string $file Original file name or a file info.
+	 * @return void
+	 */
+	public function setLogPath($time, $file='') {
+		if (empty($file)) {
+			$file = 'cut';
+		}
+		$fileInfo = basename($file);
+		$this->outLogCurrent = date("Y-m-d\TH.i.s", $time) . '--' . $fileInfo;
+	}
 	private function getLogPath() {
 		return $this->outLogBase . $this->outLogCurrent . '/';
 	}
@@ -97,23 +111,6 @@ class Cutter {
 			$startY += $stepY;
 			$imgH += $stepY*2;
 		}
-	}
-
-	/**
-	 * Cut column file (single column).
-	 * 
-	 * NOTE! DOES NOT WORK YET :-/
-	 * Too many assumptions on that there are many columns, that there is still top etc...
-	 * 
-	 * @param int $column Column number (for stats and file names).
-	 * @return false on failure.
-	 */
-	public function cutColumn($column) {
-		if (!$this->init(true)) {
-			return false;
-		}
-		$this->cutCol($column);
-		return true;
 	}
 
 	/**
@@ -618,6 +615,55 @@ class Cutter {
 		), 200);
 
 		return $meta;
+	}
+
+	/**
+	 * Cut column file (single column).
+	 * 
+	 * @param int $column Column number (for stats and file names).
+	 * @return false on failure.
+	 */
+	public function cutColumn($column) {
+		if (!$this->init(true)) {
+			return false;
+		}
+		$logger = new Logger($this->getLogPath(), sprintf("col_cut_%03d", $column));
+
+		// we assume column is already cut to size
+		$colh = $this->h;
+
+		// find rows
+		ob_start();
+		echo "\n[rowEnds]";
+		$rowEnds = $this->rowEnds($column, $colh);
+
+		// log cut info
+		$logger->log(ob_get_clean());
+		
+		// dump messages
+		if (!empty($this->messages)) {
+			echo "\n".implode("\n", $this->messages)."\n";
+			$this->messages = array();
+		}
+
+		// crop images to cells
+		$rowEnds[] = $colh;
+		$startY = 0;
+		$startX = 0;
+		$imgW = $this->w;
+		for ($r=1; $r <= count($rowEnds); $r++) { 
+			$endY = $rowEnds[$r-1];
+			$imgH = $endY - $startY + 2;
+			$output = $this->out . sprintf("/col_%03d_%03d.jpg", $column, $r);
+			$this->crop($output, 100, array(
+				'x'=>$startX, 'y'=>$startY,
+				'width'=>$imgW, 'height'=>$imgH,
+			));
+			// next
+			$startY = $endY + $this->gap - 1;
+		}
+
+		return true;
 	}
 
 	/**

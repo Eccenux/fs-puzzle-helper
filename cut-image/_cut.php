@@ -10,7 +10,12 @@ ini_set("memory_limit", "2048M");
 require_once "./inc/Cutter.php";
 require_once "./inc/FileHelper.php";
 
-/**/
+// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
+// uneven for 2020-11/2020-12
+$uneven = false;
+$uneven = true;
+
+/**
 $testing = false;
 // $testing = true;
 if (!$testing) {
@@ -23,11 +28,6 @@ if (!$testing) {
 	echo "Cutting: $newest_file\n";
 
 	$cutter = new Cutter($newest_file, "../img-auto-cut/cells/", "../img-auto-cut/");
-
-	// @todo move column cutting to separate function? Could first cut columns and when columns are fine cut cells. And also don't always need cells.
-	// uneven for 2020-11/2020-12
-	$uneven = false;
-	//$uneven = true;
 
 	$cutter->cut(null, $uneven);
 
@@ -70,9 +70,7 @@ foreach ($files as $file) {
 	$cutter->cutUneven($column, $colCount);
 }
 
-/**
-// NOTE! DOES NOT WORK YET :-/
-
+/**/
 // cut columns one-by-one
 $baseDir = '../img-auto-cut/';
 $dir = $baseDir.'col_*.jpg';
@@ -80,13 +78,16 @@ $files = glob($dir);
 if (empty($files)) {
 	die('[ERROR] No files in input dir.');
 }
+$cutTime = time();
 $cutter = new Cutter($files[0], $baseDir."cells/", $baseDir."", true);
+$cutter->setLogPath($cutTime);
 $cutter->clearCells();
 foreach ($files as $file) {
 	$fileName = basename($file);
 	$column = intval(preg_replace('#[^0-9]+#', '', $fileName));
 	echo "\n[INFO] file: $fileName";
 	$cutter = new Cutter($file, $baseDir."cells/", $baseDir."", true);
+	$cutter->setLogPath($cutTime);
 	$cutter->cutColumn($column);
 }
 /**/
