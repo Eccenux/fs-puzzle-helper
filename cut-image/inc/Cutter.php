@@ -144,7 +144,7 @@ class Cutter {
 			$this->colEnds = $colEnds;
 		}
 		if ($uneven) {
-			echo "colEnds: ".implode(', ', $colEnds);
+			echo "\ncolEnds: ".implode(', ', $colEnds);
 			//die();
 		}
 		// exit (tests)
@@ -247,6 +247,9 @@ class Cutter {
 		$h = $this->h;
 		$img = $this->img;
 
+		// normally top shouldn't exceed this value
+		$maxTop = 200;
+
 		// main probing point
 		// that doesn't work when images are centered within column
 		//$probeX = $this->gap + 1;
@@ -267,6 +270,12 @@ class Cutter {
 		$timeConsumed = round(microtime(true) - $curTime,3)*1000;
 		echo "top = $top (x=$probeX); dt=$timeConsumed\n.\n";
 		$logger->log(ob_get_clean());
+
+		// validation
+		if ($top > $maxTop) {
+			$topInfo = "[WARNING] Top seem too large: $top > $maxTop (at x:$probeX). Try to add white dot at x:$probeX.";
+			echo "\n$topInfo\n";
+		}
 		return $top;
 	}
 
