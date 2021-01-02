@@ -239,7 +239,7 @@ class Cutter {
 	 * 
 	 * @return int position of image from top.
 	 */
-	private function findTop()
+	private function findTop($probeX = 90)
 	{
 		$logger = new Logger($this->getLogPath(), 'top');
 		ob_start();
@@ -248,7 +248,8 @@ class Cutter {
 		$img = $this->img;
 
 		// main probing point
-		$probeX = $this->gap + 1;
+		// that doesn't work when images are centered within column
+		//$probeX = $this->gap + 1;
 
 		$distance = 2;		// acceptable color distance
 		$curTime = microtime(true);
