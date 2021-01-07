@@ -14,6 +14,7 @@ require_once "./inc/FileHelper.php";
 // uneven for 2020-11/2020-12
 $uneven = false;
 $uneven = true;
+$baseDir = "../img-auto-cut/";
 
 /**/
 $testing = false;
@@ -27,7 +28,7 @@ if (!$testing) {
 	$newest_file = array_pop($files);
 	echo "Cutting: $newest_file\n";
 
-	$cutter = new Cutter($newest_file, "../img-auto-cut/cells/", "../img-auto-cut/");
+	$cutter = new Cutter($newest_file, "{$baseDir}cells/", "{$baseDir}");
 
 	$cutter->cut(null, $uneven);
 
@@ -35,14 +36,14 @@ if (!$testing) {
 	// testing
 	echo "\nWARNING! Running in test mode!\n";
 
-	// $cutter = new Cutter("raw.jpg", "../img-auto-cut/cells_/", "../img-auto-cut/");
+	// $cutter = new Cutter("raw.jpg", "{$baseDir}cells_/", "{$baseDir}");
 	// // $cutter->cut(2);
 	// $cutter->cut();
 
 	$files = glob("*.jpg");
 	foreach ($files as $file) {
 		echo "\n.\n.\n[TEST] file: $file\n";
-		$cutter = new Cutter($file, "../img-auto-cut/cells_/", "../img-auto-cut/");
+		$cutter = new Cutter($file, "{$baseDir}cells_/", "{$baseDir}");
 		$cutter->cut(-1);
 	}
 	
@@ -52,7 +53,7 @@ if (!$testing) {
 /**
 
 // pseudo cut uneven columns
-$baseDir = '../img-auto-cut/';
+$baseDir = '{$baseDir}';
 $dir = $baseDir.'col_*.jpg';
 $files = glob($dir);
 $colCounts = (require($baseDir."cut-data.php"));
@@ -72,7 +73,7 @@ foreach ($files as $file) {
 
 /**/
 // cut columns one-by-one
-$baseDir = '../img-auto-cut/';
+//$baseDir = '{$baseDir}';
 $dir = $baseDir.'col_*.jpg';
 $files = glob($dir);
 if (empty($files)) {
