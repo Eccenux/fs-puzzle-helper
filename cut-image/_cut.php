@@ -14,7 +14,8 @@ require_once "./inc/FileHelper.php";
 // uneven for 2020-11/2020-12
 $uneven = false;
 $uneven = true;
-$baseDir = "../img-auto-cut/";
+$day = date("d");
+$baseDir = "../img-auto-cut-$day/";
 
 /**/
 $testing = false;

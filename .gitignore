@@ -1,6 +1,7 @@
 /_bkp
 /temp_*
 /img-auto-cut
+/img-auto-cut-*
 *.lnk
 /cut-image/logs
 /cut-image/input
