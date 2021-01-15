@@ -116,6 +116,8 @@ class Cutter {
 	/**
 	 * Cut raw jpg file.
 	 * 
+	 * @deprecated Use cutToColumns with cutColumn instead.
+	 * 
 	 * @param int $column Column number or...
 	 * 	null (default) => cut all
 	 * 	-1 => just calculate top and width and exit
@@ -213,6 +215,70 @@ class Cutter {
 		$logger = new Logger($this->getLogPath(), '_summary');
 		$logger->log($fullSummary);
 		echo $cutMeta->summary();
+
+		return true;
+	}
+
+	/**
+	 * Cut raw jpg file to columns.
+	 * 
+	 * @param int $column Column number or...
+	 * 	null (default) => cut all
+	 * 	-1 => just calculate top and width and exit
+	 * 	>0 => cut only one column (1st => 1)
+	 * @return false on failure.
+	 */
+	public function cutToColumns() {
+		if (!$this->init()) {
+			return false;
+		}
+
+		$cutMeta = new CutMeta();
+		$cutMeta->gap = $this->gap;
+
+		// find top boundary; top bar height (usually 15 or 100)
+		$cutMeta->top = $this->top = $this->findTop();
+
+		// find column width; usually 300 or 500
+		$colEnds = $this->findColW(90, true);
+		$cutMeta->colWidth = $this->colw = $colEnds[0];
+		$this->colEnds = $colEnds;
+		echo "\ncolEnds: ".implode(', ', $colEnds);
+
+		// find number of columns
+		$cutMeta->colCount = $this->cols = $this->findColNo();
+
+		// check widths
+		$colEndsCount = count($this->colEnds);
+		if ($colEndsCount < $this->cols) {
+			echo "\n[NOTICE] colEndsCount ($colEndsCount) < cols ($this->cols). This is fine most of the time, but check that all columns are there.\n";
+		}
+
+		// only crop images to column
+		$startY = 100;
+		$startX = 0;
+		foreach ($this->colEnds as $cutNum => $colEnd) {
+			$imgW = $colEnd - $startX;
+
+			// get height
+			$probeX = $startX + ceil($imgW / 2);
+			$colh = $this->findBottom($probeX);
+			//$imgH = $this->h - $startY;
+			$imgH = $colh - $startY;
+
+			$output = $this->outCol . sprintf("/col_%03d.jpg", $cutNum+1);
+			$this->crop($output, 100, array(
+				'x'=>$startX, 'y'=>$startY,
+				'width'=>$imgW, 'height'=>$imgH,
+			));
+			$startX = $colEnd;
+		}
+
+		// cut info
+		$fullSummary = $cutMeta->summary(true);
+		$logger = new Logger($this->getLogPath(), '_summary');
+		$logger->log($fullSummary);
+		echo "\nSummary:\n". $cutMeta->summary();
 
 		return true;
 	}

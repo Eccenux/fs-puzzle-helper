@@ -34,7 +34,8 @@ $columnsDir = "{$baseDir}cols/";
 
 	$cutter = new Cutter($newestFile, $cellsDir, $columnsDir);
 
-	$cutter->cut(null, $uneven);
+	//$cutter->cut(null, $uneven);
+	$cutter->cutToColumns();
 
 /**/
 //

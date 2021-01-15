@@ -9,6 +9,7 @@ class CutMeta {
 	public $gap = -1;
 	public $colWidth = -1;
 	public $colCount = -1;
+	/** column cut info (array of ColumnMeta) */
 	private $columns = array();
 
 	public function add(ColumnMeta $columnMeta) {
