@@ -1,14 +1,10 @@
 <section class="main">
-	<button class="zoomer-hide" title="close zoomer">✕</button>
 	<figure>
+		<button class="zoomer-hide" title="close zoomer">✕</button>
 		<img src="img-auto-cut/cells/col_001_001.jpg" />
 		<figcaption></figcaption>
 	</figure>
 	<div id="cell-form" class="form" style="display: none;">
-		<div class="flex-group">
-			<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
-			<p class="display"><span class="title"></span> <button class="title-copy">📋 copy</button></p>
-		</div>
 		<p class="text">
 			<label for="zoomer_field_puzzle" title="FS puzzle format">FS puzzle: 📋</label>
 			<input  id="zoomer_field_puzzle" name="puzzle" type="text" value="">
@@ -17,6 +13,10 @@
 			<label for="zoomer_field_notes">Notes:</label>
 			<input  id="zoomer_field_notes" name="notes" type="text" value="">
 		</p>
+		<div class="flex-group">
+			<p class="checkbox"><label>Done <input type="checkbox" name="done"></label></p>
+			<p class="display"><span class="title"></span> <button class="title-copy">📋 copy</button></p>
+		</div>
 	</div>
 </section>
 <section id="zoomer-list-controls" style="display: none;">

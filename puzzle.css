@@ -61,40 +61,37 @@ main {
 } */
 
 
-/* prominent columns layout */
+/* prominent columns layout (bottom zoomer ~= hidden) */
 .hidden-zoomer main {
 	grid-template-columns: 600px 1fr;
 	grid-template-areas:
 		"passcode-info passcode-columns"
 		"main-controls main-controls"
 		"columns columns"
-		"controls controls"
 		"zoomer zoomer"
+		"controls controls"
 	;
 }
 .hidden-zoomer #zoomer {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: min-content 1fr;
+	grid-template-areas:
+		"main list-controls"
+		"main list"
+	;
 }
-.hidden-zoomer #zoomer-list-controls {
-	order: -1;
-	flex: 1 1 100%;
-	display: flex;
-	justify-content: end;
-	line-height: 2em;
-	gap: 5px;
+.hidden-zoomer #zoomer .main { grid-area: main; }
+.hidden-zoomer #zoomer #zoomer-list-controls { grid-area: list-controls; }
+.hidden-zoomer #zoomer #zoomer-list { grid-area: list; }
+.hidden-zoomer #zoomer #zoomer-list {
+	align-self: start;
 }
-.hidden-zoomer #zoomer .main {
-	flex: 1 1 50%;
-	padding: var(--col-gap);
-}
-#zoomer-list {
-	flex: 1 1 50%;
-}
-/* .hidden-zoomer #zoomer {
-	display: none;
-} */
+
+.hidden-zoomer #zoomer .main figure {
+	width: 60%;
+	float: left;
+}  
 
 /* controls */
 #main-controls {
@@ -112,9 +109,7 @@ main {
 #zoomer img {
 	width: 100%;
 }
-#zoomer .main {
-	position: relative;
-}
+#zoomer .main figure,
 #zoomer-list figure {
 	position: relative;
 }
@@ -151,6 +146,9 @@ main {
 }
 .text label {
 	padding: .4em;
+}
+.checkbox label {
+	margin: .4em;
 }
 .flex-group {
 	display: flex;
