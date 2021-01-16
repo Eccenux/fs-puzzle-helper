@@ -48,4 +48,6 @@
 
 <div id="column-map-dialog" role="dialog" title="Map">
 	<div class="char-map"></div>
+	<label class="locations-copy" title="Copy locations">Locations 📋</label>
+	<textarea class="locations-field micro-field"></textarea>
 </div>

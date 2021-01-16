@@ -158,6 +158,14 @@ main {
 	padding: .4em 0;
 }
 
+/* micro field (used e.g. only for copy&paste) */
+.micro-field {
+	width: 2em;
+	height: 1.5em;
+	padding: 0;
+	display: inline;
+}
+
 /* columns */
 #columns {
 	display: flex;

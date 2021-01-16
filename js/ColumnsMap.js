@@ -1,3 +1,5 @@
+import { ClipboardHelper } from './ClipboardHelper.js';
+
 /**
  * Column's map.
  * 
@@ -159,11 +161,15 @@ class ColumnsMapViewModel {
 	 */
 	showMapDialog(column, locationLines) {
 		let dialog = document.querySelector('#column-map-dialog');
+		let locationsField = document.querySelector('#column-map-dialog .locations-field');
+		// update locations
+		locationsField.value = locationLines;
+
 		dialog.title = `Map (${column})`;
 		$(dialog).dialog({
 			title: dialog.title,
 			width: 120,
-			height: 150,
+			height: 165,
 			position: { my: "right bottom", at: "right bottom" },
 		});
 		// prepare map
@@ -241,6 +247,14 @@ class ColumnsMapViewModel {
 				this.showMapDialog(column, newdata);
 			});
 		});
+
+		let locationsField = document.querySelector('#column-map-dialog .locations-field');
+		document
+			.querySelector('#column-map-dialog .locations-copy')
+			.addEventListener('click', ()=>{
+				ClipboardHelper.copyTextField(locationsField);
+			})
+		;
 	}
 }
 
