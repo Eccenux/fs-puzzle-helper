@@ -42,6 +42,9 @@ $columnsDir = "{$baseDir}cols/";
 	if (!copy($fileName, $baseDir.$fileName)) {
 		echo "\n[WARNING] Failed to copy $fileName...";
 	}
+	if (!copy($newestFile, $baseDir.basename($newestFile))) {
+		echo "\n[WARNING] Failed to copy $newestFile...";
+	}
 
 /**/
 //
