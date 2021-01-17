@@ -43,10 +43,13 @@
 		:root {
 			--col-count: <?=$colCount?>;
 		}
+		/* base */
 		body {
 			padding: 0;
 			margin: 0;
+			font-family: sans-serif;
 		}
+		/* columns check */
 		.cols {
 			display: grid;
 			grid-template-columns: repeat(var(--col-count), 1fr);
@@ -61,9 +64,45 @@
 		.copy img {
 			width: 55%;
 		}
+
+		/* cells check */
+		h2 {
+			font-size: 100%;
+			text-align: center;
+			padding: 0;
+			margin: 0;
+		}
+
+		.cells {
+			float: right;
+			width: 50%;
+
+			display: grid;
+			grid-template-columns: repeat(var(--col-count), 1fr);
+		}
+		.cells img {
+			width: 90%;
+			margin: auto;
+			display: block;
+		}
+		.cells img+img {
+			margin: 0.5vw auto;
+		}
 	</style>
 </head>
 <body>
+
+<div class="cells">
+	<?php foreach($rowFiles as $column => $colRowFiles) { ?>
+		<section>
+			<h2><?=$column?></h2>
+			<?php foreach($colRowFiles as $img) { ?>
+				<?php $fileName = basename($img); ?>
+				<img src="<?=$img?>" title="<?=$fileName?>">
+			<?php } ?>
+		</section>
+	<?php } ?>
+</div>
 
 <div class="cols">
 	<?php foreach($colFiles as $img) { ?>
@@ -82,4 +121,3 @@
 
 </body>
 </html>
-
