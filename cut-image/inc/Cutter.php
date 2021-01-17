@@ -246,13 +246,7 @@ class Cutter {
 		echo "\ncolEnds: ".implode(', ', $colEnds);
 
 		// find number of columns
-		$cutMeta->colCount = $this->cols = $this->findColNo();
-
-		// check widths
-		$colEndsCount = count($this->colEnds);
-		if ($colEndsCount < $this->cols) {
-			echo "\n[NOTICE] colEndsCount ($colEndsCount) < cols ($this->cols). This is fine most of the time, but check that all columns are there.\n";
-		}
+		$cutMeta->colCount = $this->cols = count($this->colEnds);
 
 		// only crop images to column
 		$startY = 100;
@@ -261,8 +255,7 @@ class Cutter {
 			$imgW = $colEnd - $startX;
 
 			// get height
-			$probeX = $startX + ceil($imgW / 2);
-			$colh = $this->findBottom($probeX);
+			$colh = $this->findColumnHeight($startX, $imgW);
 			//$imgH = $this->h - $startY;
 			$imgH = $colh - $startY;
 
@@ -286,6 +279,8 @@ class Cutter {
 	/**
 	 * Main probing point (X).
 	 *
+	 * @deprecated don't really work for uneven cols.
+	 * 
 	 * @param int $column
 	 * @return int
 	 */
@@ -346,15 +341,42 @@ class Cutter {
 	}
 
 	/**
+	 * Find column height for given range.
+	 * 
+	 * @param integer $startX Column start.
+	 * @param integer $width Column width.
+	 * @return integer Column height.
+	 */
+	private function findColumnHeight($startX, $width)
+	{
+		// need to check few points mainly because of thin images
+		// and also because those thin images can be aligned right or left
+		$probes = array(
+			$startX + ceil($width * 0.15),
+			$startX + ceil($width * 0.3),
+			$startX + ceil($width * 0.5),
+			$startX + ceil($width * 0.6),
+			$startX + ceil($width * 0.85),
+		);
+
+		$heights = array();
+		foreach ($probes as $probeX) {
+			$heights[] = $this->findBottom($probeX);
+		}
+
+		$height = max($heights);
+
+		return $height;
+	}
+
+	/**
 	 * Find columns width.
 	 * 
 	 * usually 300 or 500
 	 * note $imgw = $colw - $gap;
 	 * 
 	 * @param integer $startX StartX, should start with < min cell-img.w
-	 * @return integer|array 1st column width or array of column ends for uneven
-	 * For now only return first column width.
-	 * The algorithm can however be used to calculate all widths.
+	 * @return integer|array 1st column width or array of column ends for uneven.
 	 */
 	private function findColW($startX = 90, $uneven = false)
 	{
@@ -539,6 +561,8 @@ class Cutter {
 
 	/**
 	 * Find column height.
+	 * 
+	 * @deprecated don't work for uneven cols.
 	 * 
 	 * @param int $column
 	 * @return int height
