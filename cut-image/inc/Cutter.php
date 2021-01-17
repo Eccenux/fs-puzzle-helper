@@ -249,13 +249,15 @@ class Cutter {
 		$cutMeta->colCount = $this->cols = count($this->colEnds);
 
 		// only crop images to column
-		$startY = 100;
+		$startY = $this->top;
 		$startX = 0;
+		$colHeights = array();
 		foreach ($this->colEnds as $cutNum => $colEnd) {
 			$imgW = $colEnd - $startX;
 
 			// get height
 			$colh = $this->findColumnHeight($startX, $imgW);
+			$colHeights[] = $colh;
 			//$imgH = $this->h - $startY;
 			$imgH = $colh - $startY;
 
@@ -266,6 +268,28 @@ class Cutter {
 			));
 			$startX = $colEnd;
 		}
+
+		// all.jpg
+		$output = $this->outCol . "../all.jpg";
+		$startY = $this->top;
+		$startX = 0;
+		$imgW = max($colEnds);
+		$imgH = max($colHeights);
+		$this->crop($output, 100, array(
+			'x'=>$startX, 'y'=>$startY,
+			'width'=>$imgW, 'height'=>$imgH,
+		));
+
+		// ~copy (all with a margin)
+		$output = $this->outCol . "../copy.jpg";
+		$startY = 0;
+		$startX = 0;
+		$imgW = min(max($colEnds) * 1.1, $this->w);
+		$imgH = min(max($colHeights) * 1.1, $this->h);
+		$this->crop($output, 100, array(
+			'x'=>$startX, 'y'=>$startY,
+			'width'=>$imgW, 'height'=>$imgH,
+		));
 
 		// cut info
 		$fullSummary = $cutMeta->summary(true);

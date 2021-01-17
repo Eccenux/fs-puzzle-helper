@@ -27,7 +27,7 @@ $columnsDir = "{$baseDir}cols/";
 	$dir = './input/*.jpg';
 	$files = FileHelper::filesByTime($dir);
 	if (empty($files)) {
-		die('[ERROR] No files in input dir.');
+		die('\n[ERROR] No files in input dir.');
 	}
 	$newestFile = array_pop($files);
 	echo "Cutting: $newestFile\n";
@@ -37,6 +37,12 @@ $columnsDir = "{$baseDir}cols/";
 	//$cutter->cut(null, $uneven);
 	$cutter->cutToColumns();
 
+	// copy test view
+	$fileName = 'test-view.php';
+	if (!copy($fileName, $baseDir.$fileName)) {
+		echo "\n[WARNING] Failed to copy $fileName...";
+	}
+
 /**/
 //
 // cut columns one-by-one
@@ -44,7 +50,7 @@ $columnsDir = "{$baseDir}cols/";
 $dir = $columnsDir.'col_*.jpg';
 $files = glob($dir);
 if (empty($files)) {
-	die('[ERROR] No files in input dir.');
+	die('\n[ERROR] No files in input dir.');
 }
 $cutTime = time();
 $cutter = new Cutter($files[0], $cellsDir, $columnsDir, true);
