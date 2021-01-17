@@ -359,12 +359,23 @@ class Cutter {
 			$startX + ceil($width * 0.85),
 		);
 
+		$totalHeight = $this->h;
 		$heights = array();
 		foreach ($probes as $probeX) {
-			$heights[] = $this->findBottom($probeX);
+			$bottom = $this->findBottom($probeX);
+			// for all-vertical images the probe might miss all images, skip that probe
+			if ($bottom < $totalHeight) {
+				$heights[] = $bottom;
+			}
 		}
 
-		$height = max($heights);
+		$height = empty($heights) ? $totalHeight : max($heights);
+
+		// this might happen e.g. when there is an extra master-passcode image on the bottom
+		// it could be fine if there was no empty space left
+		if ($height >= $totalHeight - 100) {
+			echo "\n[WARNING] column height ($height) ~= image height ($totalHeight). At X: $startX.\nMaybe cut out master code image from bottom (but leave some empty space).";
+		}
 
 		return $height;
 	}
