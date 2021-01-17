@@ -16,7 +16,8 @@ require_once "./inc/FileHelper.php";
 $uneven = true;
 
 $day = date("d");
-$baseDir = "../img-auto-cut-{$day}/";
+$cutDir = "img-auto-cut-{$day}";
+$baseDir = "../{$cutDir}/";
 $cellsDir = "{$baseDir}cells/";
 $columnsDir = "{$baseDir}cols/";
 
@@ -68,5 +69,8 @@ foreach ($files as $file) {
 	$cutter->cutColumn($column);
 }
 /**/
+echo "\n";
+sleep(1);	// makes VSC cut log ¯\_(ツ)_/¯
+echo "\nPreview: http://puzzle.nux/{$cutDir}/test-view.php";
 
 echo "\nDone\n";
