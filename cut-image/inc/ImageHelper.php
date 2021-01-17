@@ -97,6 +97,7 @@ class ImageHelper {
 	 * @param int $probeX Probing point.
 	 * @param int $startY Starting point.
 	 * @return candidate boundary (you might want to use lower step to recalculate with greater accuracy)
+	 * 	or null when all tested pixels were background pixels.
 	 */
 	public function findBoundBottom($img, $probeX, $startY, $minY, $distance, $step)
 	{

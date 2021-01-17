@@ -239,7 +239,7 @@ class Cutter {
 		// find top boundary; top bar height (usually 15 or 100)
 		$cutMeta->top = $this->top = $this->findTop();
 
-		// find column width; usually 300 or 500
+		// find column widths (ends)
 		$colEnds = $this->findColW(90, true);
 		$cutMeta->colWidth = $this->colw = $colEnds[0];
 		$this->colEnds = $colEnds;
@@ -359,6 +359,8 @@ class Cutter {
 			$startX + ceil($width * 0.85),
 		);
 
+		$curTime = microtime(true);
+
 		$totalHeight = $this->h;
 		$heights = array();
 		foreach ($probes as $probeX) {
@@ -376,6 +378,9 @@ class Cutter {
 		if ($height >= $totalHeight - 100) {
 			echo "\n[WARNING] column height ($height) ~= image height ($totalHeight). At X: $startX.\nMaybe cut out master code image from bottom (but leave some empty space).";
 		}
+
+		// $timeConsumed = round(microtime(true) - $curTime,3)*1000;
+		// echo "\ncolumn height = $height (start=$startX; width=$width); dt=$timeConsumed[ms]";
 
 		return $height;
 	}
@@ -613,14 +618,23 @@ class Cutter {
 		$minY = $this->top;
 		for ($step = 200; $step > 1;) {
 			$colh = $this->ih->findBoundBottom($img, $probeX, $startY, $minY, $distance, $step);
+			// all pixels were background pixels...
 			if (is_null($colh)) {
 				$colh = $h;
-				break;
+				// ...that might still be a fluke for big steps, so we brake for small steps only
+				if ($step < 10) {
+					break;
+				}
 			}
+			// this means we made no progress...
 			if ($startY < $colh) {
-				break;
+				// ...but we might still make some progress at smaller steps, so we brake for small steps only
+				if ($step < 10) {
+					break;
+				}
+			} else {
+				$startY = $colh;
 			}
-			$startY = $colh;
 			$step = ceil($step/2);
 		}
 		return $colh;
