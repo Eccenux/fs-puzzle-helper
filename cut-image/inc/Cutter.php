@@ -286,7 +286,7 @@ class Cutter {
 	 */
 	private function getProbeX($column) {
 		if ($this->singleColumn) {
-			return floor($this->w / 2);
+			return floor($this->w * 0.36);
 		}
 		return $this->getStartX($column) + 10;
 	}
