@@ -3,6 +3,7 @@ require_once './inc/ImageHelper.php';
 require_once './inc/Logger.php';
 require_once './inc/ColumnMeta.php';
 require_once './inc/CutMeta.php';
+require_once './inc/model/MetaColumns.php';
 
 /**
  * FS puzzle image cutter.
@@ -18,10 +19,12 @@ class Cutter {
 	// column width; usually 300 or 500
 	// note $imgw = $colw - $gap;
 	// (will be re-calculated down)
+	/** @deprecated 2021-01-17 */
 	public $colw = 1000;
 
 	// number of columns
 	// (will be re-calculated)
+	/** @deprecated 2021-01-17 */
 	public $cols = 50;
 
 	// set to true for single column processing
@@ -35,6 +38,18 @@ class Cutter {
 	public $outLogBase = './logs/';
 	// sub dir
 	private $outLogCurrent = '';
+
+	/**
+	 * Main image resource.
+	 * @var resource
+	 */
+	private $img = null;
+	/** main image width */
+	private $w = 0;
+	/** main image height */
+	private $h = 0;
+	/** @deprecated 2021-01-17 */
+	private $colEnds = array();
 
 	/**
 	 * Helper for background/color operations.
@@ -235,30 +250,27 @@ class Cutter {
 			return false;
 		}
 
-		$cutMeta = new CutMeta();
-		$cutMeta->gap = $this->gap;
+		$meta = new MetaColumns();
+		$meta->gap = $this->gap;
 
 		// find top boundary; top bar height (usually 15 or 100)
-		$cutMeta->top = $this->top = $this->findTop();
+		$meta->top = $this->findTop();
+		$this->top = $meta->top;	// backward compat
 
 		// find column widths (ends)
 		$colEnds = $this->findColW(90, true);
-		$cutMeta->colWidth = $this->colw = $colEnds[0];
-		$this->colEnds = $colEnds;
+		$meta->setEnds($colEnds);
 		echo "\ncolEnds: ".implode(', ', $colEnds);
 
-		// find number of columns
-		$cutMeta->colCount = $this->cols = count($this->colEnds);
-
 		// only crop images to column
-		$startY = $this->top;
+		$startY = $meta->top;
 		$startX = 0;
 		$colHeights = array();
-		foreach ($this->colEnds as $cutNum => $colEnd) {
+		foreach ($colEnds as $cutNum => $colEnd) {
 			$imgW = $colEnd - $startX;
 
 			// get height
-			$colh = $this->findColumnHeight($startX, $imgW);
+			$colh = $this->findColumnHeight($startX, $imgW, $meta->top);
 			$colHeights[] = $colh;
 			//$imgH = $this->h - $startY;
 			$imgH = $colh - $startY;
@@ -273,7 +285,7 @@ class Cutter {
 
 		// all.jpg
 		$output = $this->outCol . "../all.jpg";
-		$startY = $this->top;
+		$startY = $meta->top;
 		$startX = 0;
 		$imgW = max($colEnds) - $startX;
 		$imgH = max($colHeights) - $startY;
@@ -294,10 +306,10 @@ class Cutter {
 		));
 
 		// cut info
-		$fullSummary = $cutMeta->summary(true);
+		$fullSummary = $meta->summary(true);
 		$logger = new Logger($this->getLogPath(), '_summary');
 		$logger->log($fullSummary);
-		echo "\nSummary:\n". $cutMeta->summary();
+		echo "\n\nSummary:". $meta->summary();
 
 		return true;
 	}
@@ -375,9 +387,10 @@ class Cutter {
 	 * 
 	 * @param integer $startX Column start.
 	 * @param integer $width Column width.
+	 * @param integer $top Column top (min Y).
 	 * @return integer Column height (column bottom to be more exact; actual height should have top removed).
 	 */
-	private function findColumnHeight($startX, $width)
+	private function findColumnHeight($startX, $width, $top = 0)
 	{
 		// need to check few points mainly because of thin images
 		// and also because those thin images can be aligned right or left
@@ -394,7 +407,7 @@ class Cutter {
 		$totalHeight = $this->h;
 		$heights = array();
 		foreach ($probes as $probeX) {
-			$bottom = $this->findBottom($probeX);
+			$bottom = $this->findBottom($probeX, $top);
 			// for all-vertical images the probe might miss all images, skip that probe
 			if ($bottom < $totalHeight) {
 				$heights[] = $bottom;
@@ -631,10 +644,10 @@ class Cutter {
 	 * Find bottom / column height.
 	 * 
 	 * @param int $probeX Probing point on X (constant).
-	 * @param int $startY Probing point on Y (starter, going up). Defaults to image height.
+	 * @param int $top Column top (min Y).
 	 * @return int height (last Y that is still a background)
 	 */
-	private function findBottom($probeX, $startY = -1)
+	private function findBottom($probeX, $top = 0)
 	{
 		$h = $this->h;
 		$img = $this->img;
@@ -644,10 +657,8 @@ class Cutter {
 		}
 
 		$distance = 2;		// acceptable color distance
-		if ($startY <= 0) {
-			$startY = $h - 1;
-		}
-		$minY = $this->top;
+		$startY = $h - 1;
+		$minY = $top;
 		for ($step = 200; $step > 1;) {
 			$colh = $this->ih->findBoundBottom($img, $probeX, $startY, $minY, $distance, $step);
 			// all pixels were background pixels...
