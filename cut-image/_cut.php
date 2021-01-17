@@ -36,7 +36,11 @@ $columnsDir = "{$baseDir}cols/";
 	$cutter = new Cutter($newestFile, $cellsDir, $columnsDir);
 
 	//$cutter->cut(null, $uneven);
-	$cutter->cutToColumns();
+	$meta = $cutter->cutToColumns();
+	if ($meta instanceof MetaColumns) {
+		$json = $meta->toJson();
+		file_put_contents($baseDir."columns.json", $json);
+	}
 
 	// copy test view
 	$fileName = 'test-view.php';

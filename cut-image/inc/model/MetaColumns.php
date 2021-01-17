@@ -32,4 +32,14 @@ class MetaColumns {
 		$text .= "columnEnds = ".implode(',', $this->columnEnds)."\n";
 		return $text;
 	}
+
+	public function toJson() {
+		$text = json_encode(array(
+			'top' => $this->top,
+			'gap' => $this->gap,
+			'columnCount' => $this->columnCount,
+			'columnEnds' => $this->columnEnds,
+		), JSON_PRETTY_PRINT);
+		return $text;
+	}
 }

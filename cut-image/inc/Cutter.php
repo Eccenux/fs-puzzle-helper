@@ -243,7 +243,7 @@ class Cutter {
 	 * 	null (default) => cut all
 	 * 	-1 => just calculate top and width and exit
 	 * 	>0 => cut only one column (1st => 1)
-	 * @return false on failure.
+	 * @return false on failure | MetaColumns on success.
 	 */
 	public function cutToColumns() {
 		if (!$this->init()) {
@@ -311,7 +311,7 @@ class Cutter {
 		$logger->log($fullSummary);
 		echo "\n\nSummary:". $meta->summary();
 
-		return true;
+		return $meta;
 	}
 
 	/**
