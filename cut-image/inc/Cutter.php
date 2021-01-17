@@ -27,9 +27,9 @@ class Cutter {
 	// set to true for single column processing
 	public $singleColumn = false;
 
-	// output path
+	// cells output path
 	public $out = './';
-	// column images
+	// columns output path
 	public $outCol = './';
 	// base logs path
 	public $outLogBase = './logs/';
@@ -88,8 +88,10 @@ class Cutter {
 	}
 
 	/**
-	 * Cut uneven column
+	 * Pseudo cut uneven column (guess ranges)
 	 *
+	 * @deprecated 2021-01-17
+	 * 
 	 * @return void
 	 */
 	public function cutUneven($column, $colCount) {
@@ -314,6 +316,10 @@ class Cutter {
 		}
 		return $this->getStartX($column) + 10;
 	}
+	/**
+	 * Column starting point (X).
+	 * @deprecated don't really work for uneven cols.
+	 */
 	private function getStartX($column) {
 		$x = ($column - 1) * $this->colw;
 		return $x;
@@ -410,7 +416,7 @@ class Cutter {
 	}
 
 	/**
-	 * Find columns width.
+	 * Find widths of columns.
 	 * 
 	 * usually 300 or 500
 	 * note $imgw = $colw - $gap;
@@ -541,6 +547,8 @@ class Cutter {
 	/**
 	 * Find number of columns.
 	 * 
+	 * @deprecated 2021-01-17
+	 * 
 	 * @return int number of columns.
 	 */
 	private function findColNo()
@@ -667,6 +675,8 @@ class Cutter {
 	/**
 	 * Cut column to images.
 	 *
+	 * @deprecated 2021-01-17
+	 * 
 	 * @param int $column
 	 * @return ColumnMeta Column meta (height 0 if empty).
 	 */

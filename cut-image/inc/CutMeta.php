@@ -3,6 +3,7 @@ require_once './inc/ColumnMeta.php';
 
 /**
  * Cut meta-data.
+ * @deprecated 2021-01-17
  */
 class CutMeta {
 	public $top = -1;
