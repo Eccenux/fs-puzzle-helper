@@ -273,8 +273,8 @@ class Cutter {
 		$output = $this->outCol . "../all.jpg";
 		$startY = $this->top;
 		$startX = 0;
-		$imgW = max($colEnds);
-		$imgH = max($colHeights);
+		$imgW = max($colEnds) - $startX;
+		$imgH = max($colHeights) - $startY;
 		$this->crop($output, 100, array(
 			'x'=>$startX, 'y'=>$startY,
 			'width'=>$imgW, 'height'=>$imgH,
@@ -365,11 +365,11 @@ class Cutter {
 	}
 
 	/**
-	 * Find column height for given range.
+	 * Find column height/bottom for given column range.
 	 * 
 	 * @param integer $startX Column start.
 	 * @param integer $width Column width.
-	 * @return integer Column height.
+	 * @return integer Column height (column bottom to be more exact; actual height should have top removed).
 	 */
 	private function findColumnHeight($startX, $width)
 	{
