@@ -265,15 +265,15 @@ class Cutter {
 		// only crop images to column
 		$startY = $meta->top;
 		$startX = 0;
-		$colHeights = array();
+		$columnBottoms = array();
 		foreach ($colEnds as $cutNum => $colEnd) {
 			$imgW = $colEnd - $startX;
 
 			// get height
-			$colh = $this->findColumnHeight($startX, $imgW, $meta->top);
-			$colHeights[] = $colh;
+			$bottom = $this->findColumnHeight($startX, $imgW, $meta->top);
+			$columnBottoms[] = $bottom;
 			//$imgH = $this->h - $startY;
-			$imgH = $colh - $startY;
+			$imgH = $bottom - $startY;
 
 			$output = $this->outCol . sprintf("/col_%03d.jpg", $cutNum+1);
 			$this->crop($output, 100, array(
@@ -282,13 +282,14 @@ class Cutter {
 			));
 			$startX = $colEnd;
 		}
+		$meta->columnBottoms = $columnBottoms;
 
 		// all.jpg
 		$output = $this->outCol . "../all.jpg";
 		$startY = $meta->top;
 		$startX = 0;
 		$imgW = max($colEnds) - $startX;
-		$imgH = max($colHeights) - $startY;
+		$imgH = max($columnBottoms) - $startY;
 		$this->crop($output, 100, array(
 			'x'=>$startX, 'y'=>$startY,
 			'width'=>$imgW, 'height'=>$imgH,
@@ -299,7 +300,7 @@ class Cutter {
 		$startY = 0;
 		$startX = 0;
 		$imgW = min(max($colEnds) * 1.1, $this->w);
-		$imgH = min(max($colHeights) * 1.1, $this->h);
+		$imgH = min(max($columnBottoms) * 1.1, $this->h);
 		$this->crop($output, 100, array(
 			'x'=>$startX, 'y'=>$startY,
 			'width'=>$imgW, 'height'=>$imgH,

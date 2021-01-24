@@ -9,9 +9,15 @@ class MetaColumns {
 	public $top = -1;
 	/** Gap between columns (and rows) */
 	public $gap = -1;
-	/** Position of column ends (boundaries) */
+	/** Position of column ends (X boundaries) */
 	private $columnEnds = array();
 	private $columnCount = 0;
+	/**
+	 * Column bottoms (Y boundaries).
+	 * 
+	 * Note that height of a column would be $bottom - $top;
+	 */
+	public $columnBottoms = array();
 
 	/**
 	 * Set column ends/widths.
@@ -49,6 +55,7 @@ class MetaColumns {
 			'gap' => $this->gap,
 			'columnCount' => $this->columnCount,
 			'columnEnds' => $this->columnEnds,
+			'columnBottoms' => $this->columnBottoms,
 		), JSON_PRETTY_PRINT);
 		return $text;
 	}
