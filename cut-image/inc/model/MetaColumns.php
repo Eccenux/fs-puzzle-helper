@@ -5,7 +5,9 @@
  * Meta-data for columns cut.
  */
 class MetaColumns {
+	/** Top bar height (usually 100 or 15) */
 	public $top = -1;
+	/** Gap between columns (and rows) */
 	public $gap = -1;
 	/** Position of column ends (boundaries) */
 	private $columnEnds = array();
@@ -23,6 +25,9 @@ class MetaColumns {
 	public function getEnds() {
 		return $this->columnEnds;
 	}
+	public function isEmpty() {
+		return $this->columnCount < 1;
+	}
 
 	public function summary() {
 		$text = "\n";
@@ -33,6 +38,11 @@ class MetaColumns {
 		return $text;
 	}
 
+	/**
+	 * Dump to JSON.
+	 *
+	 * @return string JSON encoded data.
+	 */
 	public function toJson() {
 		$text = json_encode(array(
 			'top' => $this->top,
