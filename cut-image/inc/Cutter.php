@@ -792,7 +792,7 @@ class Cutter {
 	 * Cut column file (single column).
 	 * 
 	 * @param int $column Column number (for stats and file names).
-	 * @return false on failure.
+	 * @return boolean|array false on failure or $rowEnds.
 	 */
 	public function cutColumn($column) {
 		if (!$this->init(true)) {
@@ -834,7 +834,7 @@ class Cutter {
 			$startY = $endY + $this->gap - 1;
 		}
 
-		return true;
+		return $rowEnds;
 	}
 
 	/**

@@ -2,7 +2,7 @@
 // require_once './inc/ColumnMeta.php';
 
 /**
- * Meta-data for columns cut.
+ * Meta-data for cutting to columns.
  */
 class MetaColumns {
 	/** Top bar height (usually 100 or 15) */

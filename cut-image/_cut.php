@@ -9,6 +9,7 @@ ini_set("memory_limit", "2048M");
 
 require_once "./inc/Cutter.php";
 require_once "./inc/FileHelper.php";
+require_once './inc/model/MetaCut.php';
 
 // uneven required for 2020-11/2020-12
 //$uneven = false;
@@ -64,14 +65,24 @@ $cutTime = time();
 $cutter = new Cutter($files[0], $cellsDir, $columnsDir, true);
 $cutter->setLogPath($cutTime);
 $cutter->clearCells();
+echo "\n[INFO] Cuting columns...";
+$start = true;
+$metaCut = new MetaCut();
 foreach ($files as $file) {
 	$fileName = basename($file);
 	$column = intval(preg_replace('#[^0-9]+#', '', $fileName));
-	echo "\n[INFO] file: $fileName";
+	if (!$start) {
+		echo ",";
+	}
+	echo " $column";
 	$cutter = new Cutter($file, $cellsDir, $columnsDir, true);
 	$cutter->setLogPath($cutTime);
-	$cutter->cutColumn($column);
+	$rowEnds = $cutter->cutColumn($column);
+	$metaCut->append($fileName, $rowEnds);
+	$start = false;
 }
+$json = $metaCut->toJson();
+file_put_contents($baseDir."rows.json", $json);
 /**/
 echo "\n";
 sleep(1);	// makes VSC cut log ¯\_(ツ)_/¯
