@@ -12,6 +12,8 @@
 		<form action="">
 			<label title="Sheet URL">Google Sheet URL:</label>
 			<input name="gsurl" type="url" value="https://docs.google.com/spreadsheets/d/111gE09r7AqnhXfsuNouOssruunuRt3rTXw7Nt42zpVU/edit#gid=1662443983">
+			<label title="Sheet URL">Subdir:</label>
+			<input name="dir" type="text" value="<?=$dir?>">
 			<input type="submit" value="submit">
 		</form>
 	</section>
