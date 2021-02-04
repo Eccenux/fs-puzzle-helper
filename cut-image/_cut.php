@@ -17,7 +17,8 @@ require_once './inc/model/MetaCut.php';
 $uneven = true;
 
 $day = date("d");
-$cutDir = "img-auto-cut-{$day}";
+//$cutDir = "img-auto-cut-{$day}";
+$cutDir = "img-auto-cut-svg";
 $baseDir = "../{$cutDir}/";
 $cellsDir = "{$baseDir}cells/";
 $columnsDir = "{$baseDir}cols/";
