@@ -46,7 +46,7 @@ main {
 	grid-template-columns: 1fr var(--zoomer-width);
 	/* "passcode-columns passcode-info" */
 	grid-template-areas:
-		"columns main-controls"
+		"main-controls main-controls"
 		"columns zoomer"
 		"columns controls"
 	;

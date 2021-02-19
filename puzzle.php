@@ -42,7 +42,7 @@
 
 	<meta name="copyright" content="Maciej Jaros">
 
-	<link rel="stylesheet" type="text/css" href="puzzle.css">
+	<link rel="stylesheet" type="text/css" href="puzzle.css?1434">
 	<link rel="icon" href="img/icon.svg" sizes="any" type="image/svg+xml">
 	<link rel="shortcut icon" href="img/icon.svg" sizes="any" type="image/svg+xml">
 
