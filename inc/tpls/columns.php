@@ -19,7 +19,7 @@
 			<h2>$column</h2>
 			<div class='group'>
 				<input data-col='$column' name='col_notes' type='text' value=''>
-				<button data-col='$column' class='map-popup' title='Show map for column'>👁‍</button>
+				<button data-col='$column' class='map-popup' tabindex='-1' title='Show map for column'>👁‍</button>
 			</div>
 		";
 		foreach ($files as $file) {
