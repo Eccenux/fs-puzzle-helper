@@ -283,6 +283,7 @@ class ZoomerViewModel {
 			const url = PortalCell.readUrl(img);
 			img.classList.add('zoomer-list');
 			this.idList.add(id);
+			// prepare node
 			let nel = document.createElement('figure');
 			nel.innerHTML = `
 				<button class="figure-close" title="remove from list">✕</button>
@@ -293,7 +294,12 @@ class ZoomerViewModel {
 			if (img.classList.contains('done-cell')) {
 				nel.classList.add('done-cell');
 			}
-			this.listContainer.appendChild(nel);
+			// prepend
+			if (this.listContainer.firstChild instanceof Node) {
+				this.listContainer.insertBefore(nel, this.listContainer.firstChild);
+			} else {
+				this.listContainer.appendChild(nel);
+			}
 
 			// close (remove from list)
 			let close = nel.querySelector('.figure-close');
