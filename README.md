@@ -1,5 +1,31 @@
 FS Puzzle Helper is a single-user solver for FS Puzzles. It is also a cutter for the puzzle images.
 
+## How it looks like
+
+<table>
+<tr>
+  <th valign="top">Puzzle form</th>
+  <td> <img alt="screen" src="https://user-images.githubusercontent.com/1045235/109427708-ed4a1080-79f3-11eb-9e2d-1e61f89e8df6.png"/></td>
+  <td>In FS puzzle filed you copy stuff you woul put in normal sheet. So title, nickname, url.<br><br>
+
+To quickly copy data from IITC use [iitc-plugin-fs-puzzle-helper](https://github.com/Eccenux/iitc-plugin-fs-puzzle-helper).
+
+Same thing for Ingress Mission editor: [ingress-mission-fs-puzzle-helper](https://github.com/Eccenux/ingress-mission-fs-puzzle-helper).
+</td>
+</tr>
+<tr>
+  <th valign="top">Character map</th>
+  <td> <img alt="screen" src="https://user-images.githubusercontent.com/1045235/109428082-a6f5b100-79f5-11eb-83e6-59b873e8ecbf.png"/></td>
+  <td>Green dot-marker indicates a starting point (first portal you found in the column). Red, dotted line is shown when you have a missing portal. Purple, solid line is when you have two adjected portals.<br><br>
+    
+Fun fact: this is an actual map. You can zoom in and out, but it's a side effect, not a feature really 🙂.
+   </td>
+</tr>
+</table>
+
+Whole page looks like on the below image. Columns 1 through 11 are collapsed. You can collapse columns by clicking on the column number (header). Green portals are those that are done. They are marked as done automatically (when you fill the FS puzzle field).
+![screen](https://user-images.githubusercontent.com/1045235/109427993-33ec3a80-79f5-11eb-9eb7-f199588d91b8.png)
+
 ## Requirements
 
 You will need a server with PHP. You can use Apache HTTPD distributed with you Linux or use some installer like the one from Apache Lounge (and PHP from php.net). Or you can use a bundle like XAMPP.
