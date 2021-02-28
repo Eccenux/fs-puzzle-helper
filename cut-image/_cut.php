@@ -16,9 +16,15 @@ require_once './inc/model/MetaCut.php';
 // Note! This also allows cutting to columns.
 $uneven = true;
 
-$day = date("d");
+//$day = date("d");
 //$cutDir = "img-auto-cut-{$day}";
-$cutDir = "img-auto-cut-svg";
+$cutDir = "img-auto-cut";
+
+// optional (user) config
+if (file_exists('./config.php')) {
+	include './config.php';
+}
+
 $baseDir = "../{$cutDir}/";
 $cellsDir = "{$baseDir}cells/";
 $columnsDir = "{$baseDir}cols/";
@@ -87,6 +93,8 @@ file_put_contents($baseDir."rows.json", $json);
 /**/
 echo "\n";
 sleep(1);	// makes VSC cut log ¯\_(ツ)_/¯
-echo "\nPreview: http://puzzle.nux/{$cutDir}/test-view.php";
+if (isset($puzzleUrlBase)) {
+	echo "\nPreview: $puzzleUrlBase/{$cutDir}/test-view.php";
+}
 
 echo "\nDone\n";
