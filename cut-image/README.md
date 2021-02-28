@@ -1,11 +1,24 @@
-# Usage
+# Cutting notes
+
+Cutting the puzzle used to be much simpler when all columns were all of the same width. Later puzzle come with all sorts for width. Also internal alignment of images changed over time.
+
+Note that you can use this cutter for puzzles at least since June 2020. At a very least you will be able to cut to columns.
 
 ## Auto-cut image
 
-1. Put `raw.jpg` in the folder.
-2. Just run `php ./_cut.php` (PHP 5.5 or higher).
+Main script is `_cut.php`. It takes latest JPEG image from  `./input` folder and cuts it.
 
 The script should calculate everything (column count, widhts etc). It will create cells, columns, and `all.jpg`.
+
+Problems:
+1. If the input image has too low quality some cells will not be cut correctly.
+2. If there is master-code image below input image then remove it before cutting.
+3. If there is no gap between images then only cutting to columns will work.
+
+The cutter generates some JSON files that are compatible with this SVG editor:
+https://github.com/Eccenux/MosaicSvgEditor
+
+SVG editor can cut any puzzle image. Even worst quality JPEG.
 
 ## Alternative cut (ps)
 
@@ -33,19 +46,19 @@ You can also provide number of columns in a parameter:
 
 Also note that you can run the script from any path. It always uses absolute paths anyway.
 
-# Cutting notes
+## Dimensions notes
 
 Notes on typical image size and column dimensions.
 
-## top bar
+### top bar
 * height: 100px
 * total: 10k x 5k
 
-## 1st col
+### 1st col
 0px - 490px
 
-## gap
+### gap
 10 px
 
-## 2nd col
-500px + 490px
+### 2nd col
+500px + 490px (when width is constant)
