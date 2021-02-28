@@ -6,9 +6,9 @@ FS Puzzle Helper is a single-user solver for FS Puzzles. It is also a cutter for
 <tr>
   <th valign="top">Puzzle form</th>
   <td> <img alt="screen" src="https://user-images.githubusercontent.com/1045235/109427708-ed4a1080-79f3-11eb-9e2d-1e61f89e8df6.png"/></td>
-  <td>In FS puzzle filed you copy stuff you woul put in normal sheet. So title, nickname, url.<br><br>
+  <td>In the "FS puzzle" field you copy stuff you would put in normal sheet. So title, nickname, url (separated by tabs).<br><br>
 
-To quickly copy data from IITC use [iitc-plugin-fs-puzzle-helper](https://github.com/Eccenux/iitc-plugin-fs-puzzle-helper).
+To quickly copy data straight from IITC use [iitc-plugin-fs-puzzle-helper](https://github.com/Eccenux/iitc-plugin-fs-puzzle-helper).
 
 Same thing for Ingress Mission editor: [ingress-mission-fs-puzzle-helper](https://github.com/Eccenux/ingress-mission-fs-puzzle-helper).
 </td>
@@ -23,7 +23,7 @@ Fun fact: this is an actual map. You can zoom in and out, but it's a side effect
 </tr>
 </table>
 
-Whole page looks like on the below image. Columns 1 through 11 are collapsed. You can collapse columns by clicking on the column number (header). Green portals are those that are done. They are marked as done automatically (when you fill the FS puzzle field).
+Whole page looks like in the below image. Columns 1 through 11 are collapsed. You can collapse columns by clicking on the column number (header). Green portals are those that are done. They are marked as done automatically (when you fill the FS puzzle field).
 ![screen](https://user-images.githubusercontent.com/1045235/109427993-33ec3a80-79f5-11eb-9eb7-f199588d91b8.png)
 
 ## Requirements
