@@ -28,9 +28,9 @@ Whole page looks like in the below image. Columns 1 through 11 are collapsed. Yo
 
 ## Requirements
 
-You will need a server with PHP. You can use Apache HTTPD distributed with you Linux or use some installer like the one from Apache Lounge (and PHP from php.net). Or you can use a bundle like XAMPP.
+You will need a server with PHP. You can use Apache HTTPD distributed with your Linux or use some installer like the one from Apache Lounge (and PHP from php.net). Or you can use a bundle like XAMPP.
 
-You will need PHP 5.5+. Any version of Apache server should be fine (must only be able to run your PHP).
+You will need PHP 5.5+. Any version of Apache server should be fine (must only be able to run your PHP). Note that for cutting alone you just need PHP.
 
 ## Multi-user usage
 
@@ -46,11 +46,11 @@ If you have a server with PHP you can probably use it. Do note that you still ne
 
 1. Install the server (and PHP).
 2. Download fs-puzzle-helper package from Github (you can download a zip).
-3. On your server, in `htdocs` folder, unzip the downloaded package. I re
+3. On your server, in `htdocs` folder, unzip the downloaded package.
 4. Edit `cut-image\__settings.bat` and enter your PHP path (if on Windows).
 5. Edit `php.ini` (to open php.ini with Xampp panel you can use Config button for Apache).
-6. In `php.ini` find `;extension=gd`. Remove `;` before `extension=gd`. Save changes.
-7. Start your Apache server (if you haven't already).
+6. In `php.ini` find `;extension=gd2`. Remove `;` before `extension=gd2`. Save changes.
+7. Start your Apache server (or restart if it was running already).
 
 Now to make sure cutting works:
 
@@ -68,10 +68,6 @@ If you see errors then either your PHP is too old or you didn't enable gd extens
 3. Open your puzzle site: http://localhost/fs-puzzle-helper/puzzle.php
 
 I recommend using my Google Sheet for saving solutions: [Micro-Puzzle #TPL](https://docs.google.com/spreadsheets/d/111gE09r7AqnhXfsuNouOssruunuRt3rTXw7Nt42zpVU/edit#gid=1662443983) (you will need to copy it). But it is not required -- you can just use the puzzle site.
-
-You can check if the cut was accurate by comparing raw with images in:
-http://localhost/ingress/puzzle-day/puzzle.php
-
 
 ## Tips and tricks
 
